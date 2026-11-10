@@ -2,6 +2,15 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] — 2026-11-10
+
+### Added
+- Updates from the Plugins and Updates screens. The plugin header's `Update URI` points to wpff.kiberberik.link, and the updater reads `update.json` from the latest GitHub release, then installs that release's zip like any other update. The "View details" window shows the release's changelog. Filters: `wpff/updates/enabled`, `wpff/updates/manifest_url`.
+- Website with documentation in English and Russian: https://wpff.kiberberik.link (`Plugin URI` header, links in the READMEs).
+
+### Changed
+- Releases attach `update.json` next to the zip (`bin/build-update-manifest.sh`).
+
 ## [1.2.2] — 2026-11-10
 
 ### Added
