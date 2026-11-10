@@ -299,6 +299,7 @@ if ( blocksApi.registerBlockBindingsSource ) {
 			return ( cfg.bindings || [] )
 				.filter(
 					( field ) =>
+						'' !== field.object ||
 						! field.postTypes.length ||
 						! postType ||
 						field.postTypes.includes( postType )
@@ -306,7 +307,9 @@ if ( blocksApi.registerBlockBindingsSource ) {
 				.map( ( field ) => ( {
 					label: field.label,
 					type: 'string',
-					args: { key: field.key },
+					args: field.object
+						? { key: field.key, object: field.object }
+						: { key: field.key },
 				} ) );
 		},
 		canUserEditValue: () => false,

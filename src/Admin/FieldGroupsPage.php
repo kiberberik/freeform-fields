@@ -95,6 +95,9 @@ final class FieldGroupsPage {
 		foreach ( OptionsPageStore::CORE_PARENTS as $slug ) {
 			$parents[ $slug ] = self::core_menu_title( $slug );
 		}
+		foreach ( OptionsPageStore::post_type_parents() as $slug => $label ) {
+			$parents[ $slug ] = $label;
+		}
 		foreach ( $this->plugin->options_pages()->all( true ) as $slug => $page ) {
 			if ( '' === $page['parent_slug'] ) {
 				/* translators: %s: options page title. */
@@ -121,9 +124,11 @@ final class FieldGroupsPage {
 	 */
 	private function content_builder_data( string $page ): array {
 		$post_types = array();
+		$menu_names = array();
 		foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $type ) {
 			if ( ! str_starts_with( $type->name, 'wpff-' ) && ! in_array( $type->name, array( 'wp_block', 'wp_navigation', 'attachment' ), true ) ) {
 				$post_types[ $type->name ] = $type->labels->singular_name;
+				$menu_names[ $type->name ] = $type->labels->menu_name;
 			}
 		}
 		$taxonomies = array();
@@ -139,6 +144,7 @@ final class FieldGroupsPage {
 			'item'       => $item,
 			'listUrl'    => admin_url( 'admin.php?page=' . ( self::TAX_SLUG === $page ? self::TAX_SLUG : self::TYPES_SLUG ) ),
 			'postTypes'  => $post_types,
+			'menuNames'  => $menu_names,
 			'taxonomies' => $taxonomies,
 			'supports'   => array(
 				'title'           => __( 'Title', 'freeform-fields' ),

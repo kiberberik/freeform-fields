@@ -118,6 +118,16 @@ final class OptionsScreen {
 	}
 
 	/**
+	 * Admin URL of an options page, for redirects. menu_page_url() escapes it for HTML, which
+	 * turns `&` into `&#038;` and breaks pages under a post type menu (`edit.php?post_type=…&page=…`).
+	 *
+	 * @param string $slug Menu slug.
+	 */
+	public static function page_url( string $slug ): string {
+		return html_entity_decode( menu_page_url( $slug, false ), ENT_QUOTES | ENT_HTML5 );
+	}
+
+	/**
 	 * Saves submitted values, then redirects back (post/redirect/get).
 	 *
 	 * @param string $slug Page slug.
@@ -142,7 +152,7 @@ final class OptionsScreen {
 		if ( array() !== $errors ) {
 			set_transient( FormSupport::errors_transient( 'options_' . $slug ), $errors, MINUTE_IN_SECONDS * 5 );
 		}
-		wp_safe_redirect( add_query_arg( 'wpff-updated', array() === $errors ? '1' : '0', menu_page_url( $slug, false ) ) );
+		wp_safe_redirect( add_query_arg( 'wpff-updated', array() === $errors ? '1' : '0', self::page_url( $slug ) ) );
 		exit;
 	}
 

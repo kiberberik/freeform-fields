@@ -68,6 +68,7 @@ export function FieldList( { fields, path, depth = 0 } ) {
 					index={ i }
 					listPath={ path }
 					siblingsCount={ fields.length }
+					previous={ fields[ i - 1 ] }
 					depth={ depth }
 				/>,
 			] ) }
@@ -89,7 +90,14 @@ export function FieldList( { fields, path, depth = 0 } ) {
 	);
 }
 
-function FieldNode( { field, index, listPath, siblingsCount, depth } ) {
+function FieldNode( {
+	field,
+	index,
+	listPath,
+	siblingsCount,
+	previous,
+	depth,
+} ) {
 	const ctx = useContext( TreeContext );
 	const path = `${ listPath }.${ index }`;
 	const type = typeOf( field.type );
@@ -99,6 +107,13 @@ function FieldNode( { field, index, listPath, siblingsCount, depth } ) {
 	);
 	const collapsed = ctx.collapsed.includes( field.key );
 	const lists = childLists( field, path );
+	// Moving into the field above (its sub fields or a layout) without dragging.
+	const intoPrevious = previous
+		? childLists( previous, `${ listPath }.${ index - 1 }` )
+		: [];
+	const previousName =
+		( previous && ( previous.label || previous.name ) ) ||
+		__( '(no label)', 'freeform-fields' );
 
 	const drag = useDraggable( {
 		id: `field:${ field.key }`,
@@ -291,6 +306,39 @@ function FieldNode( { field, index, listPath, siblingsCount, depth } ) {
 												'freeform-fields'
 											) }
 										</MenuItem>
+										{ intoPrevious.map( ( list ) => (
+											<MenuItem
+												key={ list.path }
+												onClick={ () => {
+													ctx.move(
+														field.key,
+														list.path,
+														list.fields.length
+													);
+													onClose();
+												} }
+											>
+												{ list.layout
+													? sprintf(
+															/* translators: 1: field label, 2: layout label. */
+															__(
+																'Move into “%1$s” › %2$s',
+																'freeform-fields'
+															),
+															previousName,
+															list.layout.label ||
+																list.layout.name
+														)
+													: sprintf(
+															/* translators: %s: field label. */
+															__(
+																'Move into “%s”',
+																'freeform-fields'
+															),
+															previousName
+														) }
+											</MenuItem>
+										) ) }
 										{ depth > 0 && (
 											<MenuItem
 												onClick={ () => {
