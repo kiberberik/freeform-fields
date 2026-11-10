@@ -145,7 +145,7 @@ final class GroupStore {
 		 */
 		do_action( 'wpff/save_field_group', $group );
 
-		return $this->registry->get_group( $group['key'] ) ?? $group;
+		return $this->registry->get_group_definition( $group['key'] ) ?? $group;
 	}
 
 	/**
@@ -185,7 +185,7 @@ final class GroupStore {
 		$ok = (bool) wp_untrash_post( $post->ID );
 		remove_filter( 'wp_untrash_post_status', 'wp_untrash_post_set_previous_status', 10 );
 		$this->registry->flush();
-		$group = $this->registry->get_group( $key );
+		$group = $this->registry->get_group_definition( $key );
 		if ( $ok && $group ) {
 			do_action( 'wpff/save_field_group', $group );
 		}
@@ -254,7 +254,7 @@ final class GroupStore {
 	 * @return array<string, mixed>|\WP_Error New group.
 	 */
 	public function duplicate( string $key ) {
-		$group = $this->registry->get_group( $key );
+		$group = $this->registry->get_group_definition( $key );
 		if ( ! $group ) {
 			return new \WP_Error( 'wpff_not_found', __( 'Field group not found.', 'freeform-fields' ), array( 'status' => 404 ) );
 		}

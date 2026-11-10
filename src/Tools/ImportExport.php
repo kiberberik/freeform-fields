@@ -30,7 +30,7 @@ final class ImportExport {
 	 */
 	public function export( array $keys = array() ): array {
 		$out = array();
-		foreach ( $this->plugin->fields()->get_all_groups() as $key => $group ) {
+		foreach ( $this->plugin->fields()->get_all_group_definitions() as $key => $group ) {
 			if ( array() === $keys || in_array( $key, $keys, true ) ) {
 				$out[] = LocalJson::export_shape( $group );
 			}

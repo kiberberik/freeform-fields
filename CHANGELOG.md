@@ -2,6 +2,24 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.2.2] — 2026-11-10
+
+### Added
+- Block Bindings: `args.object` reads other objects — `term` for the term of a taxonomy archive, or an options page's storage key (`options` or the page's `post_id`). Outside a post, a taxonomy archive template reads its term by default. Such fields are offered in the Attributes panel too.
+- Options pages can be placed under the menu of a custom post type (`edit.php?post_type=…`).
+- Field group editor: "Move into “…”" in a field's menu moves it into the repeater, group or flexible layout above it, without dragging.
+- Menu icon picker for post types and options pages: search the Dashicons library and pick an icon, or type a `dashicons-*` class (options pages also take an image URL).
+
+### Changed
+- Post type, taxonomy and options page screens are reorganised into titled sections (Names, Admin menu, Behavior, Supports…) with switches as rows, checkbox tiles, and a side panel with the status and a preview of the admin menu item.
+
+### Fixed
+- Clone fields were expanded when the field group editor loaded a group, so saving it again replaced the clone with copies of the cloned fields. Duplicate, JSON/PHP export and Local JSON had the same problem. They now keep the clone field (`get_group_definition()` / `get_all_group_definitions()`).
+- The "Add term" form kept the previous term's field values (image, color, choices) after a term was added over AJAX.
+- Searchable selects in the field group editor: Enter right after typing did nothing until the highlight caught up; it now picks the first match.
+- Saving an options page placed under a post type menu redirected to the post list: the return URL had `&#038;` instead of `&`.
+- Field group editor: before the page was scrolled, the bottom of the settings panel (for example the last field types of the palette) was cut off by the window. The panel now fits the window from where it is.
+
 ## [1.2.1] — 2026-11-10
 
 ### Added

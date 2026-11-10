@@ -2344,7 +2344,39 @@
 	 * Boot
 	 * ================================================================== */
 
+	/**
+	 * The "Add term" form stays on the page after a term is added over AJAX. Core clears its
+	 * own inputs; the fields are put back to their initial state here, as in a fresh form,
+	 * so the next term does not inherit the previous term's image, color or choices.
+	 */
+	function initTermAddReset() {
+		const box = document.querySelector( '#addtag .wpff-term-fields' );
+		if ( ! box ) {
+			return;
+		}
+		const initial = box.innerHTML;
+		$( document ).ajaxSuccess( ( event, xhr, settings ) => {
+			const data = String(
+				settings && settings.data ? settings.data : ''
+			);
+			const text = String(
+				xhr && xhr.responseText ? xhr.responseText : ''
+			);
+			if (
+				! /(^|&)action=add-tag(&|$)/.test( data ) ||
+				text.includes( '<wp_error' )
+			) {
+				return;
+			}
+			removeEditors( box );
+			box.innerHTML = initial;
+			initFieldsIn( box );
+		} );
+	}
+
 	$( function () {
+		// Before the fields are initialized: the reset puts back this untouched markup.
+		initTermAddReset();
 		const containers = document.querySelectorAll(
 			'.wpff-fields, .wpff-group'
 		);
