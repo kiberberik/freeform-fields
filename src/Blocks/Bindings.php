@@ -80,6 +80,22 @@ final class Bindings {
 	}
 
 	/**
+	 * Rich text attributes sit inside a `<p>` or heading already, so the paragraphs of a WYSIWYG
+	 * value would nest and the browser would break them apart. Paragraphs become line breaks.
+	 *
+	 * @param string $html Formatted HTML.
+	 */
+	public static function unwrap_paragraphs( string $html ): string {
+		$html = trim( $html );
+		if ( ! preg_match( '/^<p[\s>]/i', $html ) ) {
+			return $html;
+		}
+		$html = preg_replace( '/^<p[^>]*>|<\/p>$/i', '', $html );
+		$html = preg_replace( '/<\/p>\s*<p[^>]*>/i', '<br><br>', (string) $html );
+		return trim( (string) $html );
+	}
+
+	/**
 	 * Picks a string for the attribute from a formatted value.
 	 *
 	 * @param mixed  $value     Formatted value.
@@ -111,6 +127,12 @@ final class Bindings {
 			return null;
 		}
 		$value = (string) $value;
-		return $is_url ? esc_url_raw( $value ) : wp_kses_post( $value );
+		if ( $is_url ) {
+			return esc_url_raw( $value );
+		}
+		if ( 'content' === $attribute ) {
+			$value = self::unwrap_paragraphs( $value );
+		}
+		return wp_kses_post( $value );
 	}
 }

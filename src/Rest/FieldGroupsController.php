@@ -19,7 +19,8 @@ defined( 'ABSPATH' ) || exit;
  *  POST   /field-groups                 create
  *  GET    /field-groups/{key}           read
  *  PUT    /field-groups/{key}           update
- *  DELETE /field-groups/{key}           move to trash
+ *  DELETE /field-groups/{key}           move to trash (`force=1`: delete a trashed group for good)
+ *  GET    /field-groups/trash           groups in the trash
  *  POST   /field-groups/{key}/duplicate copy into a new database group
  *  POST   /field-groups/{key}/restore   restore from trash
  *  GET    /builder                      field types and location rule catalog
@@ -49,6 +50,16 @@ final class FieldGroupsController {
 					'callback'            => array( $this, 'create_group' ),
 					'permission_callback' => $permission,
 				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/field-groups/trash',
+			array(
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'list_trash' ),
+				'permission_callback' => $permission,
 			)
 		);
 
@@ -119,6 +130,10 @@ final class FieldGroupsController {
 		return current_user_can( Plugin::admin_capability() );
 	}
 
+	public function list_trash(): \WP_REST_Response {
+		return rest_ensure_response( $this->plugin->groups()->trashed() );
+	}
+
 	public function list_groups(): \WP_REST_Response {
 		return rest_ensure_response( ( new BuilderData( $this->plugin ) )->group_summaries() );
 	}
@@ -179,6 +194,17 @@ final class FieldGroupsController {
 		$key = (string) $request['key'];
 		if ( $this->plugin->fields()->is_local( $key ) ) {
 			return $this->local_error();
+		}
+		if ( rest_sanitize_boolean( $request['force'] ?? false ) ) {
+			if ( ! $this->plugin->groups()->delete( $key ) ) {
+				return $this->not_found();
+			}
+			return rest_ensure_response(
+				array(
+					'key'     => $key,
+					'deleted' => true,
+				)
+			);
 		}
 		if ( ! $this->plugin->groups()->trash( $key ) ) {
 			return $this->not_found();

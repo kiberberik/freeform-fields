@@ -18,6 +18,7 @@ import {
 	pencil,
 	plus,
 	trash,
+	backup as restoreIcon,
 	update as syncIcon,
 	listView,
 	search as searchIcon,
@@ -26,6 +27,8 @@ import {
 	listGroups,
 	trashGroup,
 	restoreGroup,
+	listTrash,
+	deleteGroup,
 	duplicateGroup,
 	syncGroup,
 } from './api';
@@ -35,14 +38,21 @@ import { EmptyState, PageHeader, Pill } from './ui';
 export default function GroupList() {
 	const cfg = window.wpffBuilder;
 	const [ groups, setGroups ] = useState( null );
+	const [ trashed, setTrashed ] = useState( [] );
 	const [ notice, setNotice ] = useState( null );
 	const [ busy, setBusy ] = useState( '' );
 	const [ filter, setFilter ] = useState( 'all' );
 	const [ search, setSearch ] = useState( '' );
 
 	const load = () =>
-		listGroups()
-			.then( setGroups )
+		Promise.all( [ listGroups(), listTrash() ] )
+			.then( ( [ list, inTrash ] ) => {
+				setGroups( list );
+				setTrashed( inTrash );
+				if ( ! inTrash.length ) {
+					setFilter( ( f ) => ( 'trash' === f ? 'all' : f ) );
+				}
+			} )
 			.catch( ( e ) =>
 				setNotice( { status: 'error', text: e.message } )
 			);
@@ -93,6 +103,41 @@ export default function GroupList() {
 			} ) ),
 	};
 
+	const trashActions = {
+		restore: ( group ) =>
+			run( group.key, restoreGroup, () => ( {
+				status: 'success',
+				text: sprintf(
+					/* translators: %s: field group title. */
+					__( '“%s” restored.', 'freeform-fields' ),
+					group.title
+				),
+			} ) ),
+		remove: ( group ) => {
+			// eslint-disable-next-line no-alert
+			const sure = window.confirm(
+				sprintf(
+					/* translators: %s: field group title. */
+					__(
+						'Delete “%s” permanently? This cannot be undone. Values saved in posts are kept.',
+						'freeform-fields'
+					),
+					group.title
+				)
+			);
+			if ( sure ) {
+				run( group.key, deleteGroup, () => ( {
+					status: 'success',
+					text: sprintf(
+						/* translators: %s: field group title. */
+						__( '“%s” deleted permanently.', 'freeform-fields' ),
+						group.title
+					),
+				} ) );
+			}
+		},
+	};
+
 	const onUndo = ( key ) =>
 		run( key, restoreGroup, () => ( {
 			status: 'success',
@@ -117,6 +162,7 @@ export default function GroupList() {
 					__( 'Sync available', 'freeform-fields' ),
 					groups.filter( ( g ) => g.sync ).length,
 				],
+				[ 'trash', __( 'Trash', 'freeform-fields' ), trashed.length ],
 			].filter( ( [ id, , count ] ) => 'all' === id || count > 0 )
 		: [];
 
@@ -185,7 +231,7 @@ export default function GroupList() {
 				</div>
 			) }
 
-			{ groups && 0 === groups.length && (
+			{ groups && 0 === groups.length && 0 === trashed.length && (
 				<div className="wpff-panel">
 					<EmptyState
 						icon={ listView }
@@ -209,7 +255,7 @@ export default function GroupList() {
 				</div>
 			) }
 
-			{ groups && groups.length > 0 && (
+			{ groups && ( groups.length > 0 || trashed.length > 0 ) && (
 				<div className="wpff-panel">
 					<div className="wpff-toolbar">
 						<div
@@ -250,7 +296,19 @@ export default function GroupList() {
 						/>
 					</div>
 
-					{ 0 === visible.length ? (
+					{ 'trash' === filter && (
+						<TrashTable
+							items={ trashed.filter(
+								( g ) =>
+									! query ||
+									g.title.toLowerCase().includes( query ) ||
+									g.key.includes( query )
+							) }
+							busy={ busy }
+							actions={ trashActions }
+						/>
+					) }
+					{ 'trash' !== filter && 0 === visible.length && (
 						<EmptyState
 							icon={ searchIcon }
 							title={ __( 'Nothing found', 'freeform-fields' ) }
@@ -259,7 +317,8 @@ export default function GroupList() {
 								'freeform-fields'
 							) }
 						/>
-					) : (
+					) }
+					{ 'trash' !== filter && visible.length > 0 && (
 						<table className="wpff-table">
 							<thead>
 								<tr>
@@ -303,6 +362,92 @@ export default function GroupList() {
 				</div>
 			) }
 		</div>
+	);
+}
+
+/**
+ * Trashed groups with Restore and Delete permanently.
+ *
+ * @param {Object} props
+ * @param {Array}  props.items   Trashed groups: key, title, trashed (timestamp).
+ * @param {string} props.busy    Key of the group being changed.
+ * @param {Object} props.actions restore( group ), remove( group ).
+ */
+function TrashTable( { items, busy, actions } ) {
+	if ( ! items.length ) {
+		return (
+			<EmptyState
+				icon={ searchIcon }
+				title={ __( 'Nothing found', 'freeform-fields' ) }
+				text={ __(
+					'Try another search or filter.',
+					'freeform-fields'
+				) }
+			/>
+		);
+	}
+	return (
+		<table className="wpff-table">
+			<thead>
+				<tr>
+					<th>{ __( 'Field group', 'freeform-fields' ) }</th>
+					<th>{ __( 'Moved to Trash', 'freeform-fields' ) }</th>
+					<th>
+						<span className="screen-reader-text">
+							{ __( 'Actions', 'freeform-fields' ) }
+						</span>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{ items.map( ( group ) => (
+					<tr
+						key={ group.key }
+						className={ busy === group.key ? 'is-busy' : '' }
+					>
+						<td className="wpff-table__primary">
+							<div className="wpff-group-title">
+								<strong>{ group.title }</strong>
+							</div>
+							<code className="wpff-group-key">
+								{ group.key }
+							</code>
+						</td>
+						<td>
+							{ group.trashed
+								? new Date(
+										Number( group.trashed ) * 1000
+									).toLocaleString()
+								: '—' }
+						</td>
+						<td className="wpff-table__actions">
+							<Button
+								icon={ restoreIcon }
+								size="compact"
+								variant="tertiary"
+								disabled={ busy === group.key }
+								onClick={ () => actions.restore( group ) }
+							>
+								{ __( 'Restore', 'freeform-fields' ) }
+							</Button>
+							<Button
+								icon={ trash }
+								size="compact"
+								variant="tertiary"
+								isDestructive
+								disabled={ busy === group.key }
+								onClick={ () => actions.remove( group ) }
+							>
+								{ __(
+									'Delete permanently',
+									'freeform-fields'
+								) }
+							</Button>
+						</td>
+					</tr>
+				) ) }
+			</tbody>
+		</table>
 	);
 }
 
