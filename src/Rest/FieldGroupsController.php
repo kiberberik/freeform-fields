@@ -144,7 +144,7 @@ final class FieldGroupsController {
 	 */
 	public function get_group( \WP_REST_Request $request ) {
 		$key   = (string) $request['key'];
-		$group = $this->plugin->fields()->get_group( $key );
+		$group = $this->plugin->fields()->get_group_definition( $key );
 		if ( ! $group ) {
 			return $this->not_found();
 		}
@@ -240,7 +240,7 @@ final class FieldGroupsController {
 		if ( ! $this->plugin->groups()->restore( $key ) ) {
 			return $this->not_found();
 		}
-		$group = $this->plugin->fields()->get_group( $key );
+		$group = $this->plugin->fields()->get_group_definition( $key );
 		return $group ? rest_ensure_response( $this->prepare( $group ) ) : $this->not_found();
 	}
 

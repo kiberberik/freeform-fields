@@ -37,6 +37,22 @@ final class OptionsPageStore {
 	public function __construct( private OptionsPages $pages ) {}
 
 	/**
+	 * Menus of other post types (registered in code or in the admin), as parent choices.
+	 *
+	 * @return array<string, string> Parent slug => menu label.
+	 */
+	public static function post_type_parents(): array {
+		$parents = array();
+		foreach ( get_post_types( array( 'show_ui' => true ), 'objects' ) as $type ) {
+			if ( in_array( $type->name, array( 'post', 'page', 'attachment', 'wp_block', 'wp_navigation' ), true ) || true !== $type->show_in_menu || \FreeformFields\Plugin::GROUP_POST_TYPE === $type->name ) {
+				continue;
+			}
+			$parents[ 'edit.php?post_type=' . $type->name ] = (string) $type->labels->menu_name;
+		}
+		return $parents;
+	}
+
+	/**
 	 * Cleans a page submitted from the builder.
 	 *
 	 * @param array<string, mixed> $input Raw page.
@@ -64,7 +80,7 @@ final class OptionsPageStore {
 		}
 
 		$parent = (string) ( $input['parent_slug'] ?? '' );
-		if ( '' !== $parent && ! in_array( $parent, self::CORE_PARENTS, true ) ) {
+		if ( '' !== $parent && ! in_array( $parent, self::CORE_PARENTS, true ) && ! preg_match( '/^edit\.php\?post_type=[a-z0-9_-]+$/', $parent ) ) {
 			$parent = sanitize_title( $parent );
 			if ( $parent === $slug ) {
 				$errors[] = array(

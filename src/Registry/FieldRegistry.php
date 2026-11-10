@@ -34,6 +34,14 @@ final class FieldRegistry {
 	private ?array $groups = null;
 
 	/**
+	 * The same groups as defined, before clones are expanded: what the builder edits and
+	 * exports write. Null until built.
+	 *
+	 * @var array<string, array<string, mixed>>|null
+	 */
+	private ?array $definitions = null;
+
+	/**
 	 * Normalized fields, keyed by field key.
 	 *
 	 * @var array<string, array<string, mixed>>
@@ -96,7 +104,8 @@ final class FieldRegistry {
 	 * Drops cached groups so the next read rebuilds them (e.g. after a DB group is saved).
 	 */
 	public function flush(): void {
-		$this->groups = null;
+		$this->groups      = null;
+		$this->definitions = null;
 	}
 
 	/**
@@ -128,6 +137,28 @@ final class FieldRegistry {
 	public function get_group( string $key ): ?array {
 		$this->build();
 		return $this->groups[ $key ] ?? null;
+	}
+
+	/**
+	 * One group as defined, with clone fields kept as clone fields (not expanded).
+	 * Use it to edit, copy or export a group; use get_group() to read or render fields.
+	 *
+	 * @param string $key Group key.
+	 * @return array<string, mixed>|null
+	 */
+	public function get_group_definition( string $key ): ?array {
+		$this->build();
+		return $this->definitions[ $key ] ?? null;
+	}
+
+	/**
+	 * All groups as defined (clones not expanded), sorted by menu_order.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function get_all_group_definitions(): array {
+		$this->build();
+		return $this->definitions;
 	}
 
 	/**
@@ -200,13 +231,15 @@ final class FieldRegistry {
 			$this->groups[ $group['key'] ] = $group;
 		}
 		// Clones need every group normalized first, so they are expanded in a second pass.
-		$normalized = $this->groups;
+		$normalized        = $this->groups;
+		$this->definitions = $normalized;
 		foreach ( $this->groups as $key => $group ) {
 			$this->groups[ $key ]['fields'] = $this->expand_clones( $group['fields'], $normalized, array( $key => true ), 0 );
 			$this->index_fields( $this->groups[ $key ]['fields'] );
 		}
 
 		uasort( $this->groups, static fn( $a, $b ) => $a['menu_order'] <=> $b['menu_order'] );
+		uasort( $this->definitions, static fn( $a, $b ) => $a['menu_order'] <=> $b['menu_order'] );
 	}
 
 	/**

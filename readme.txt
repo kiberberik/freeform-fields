@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,12 @@ Yes. Values are read from the same meta keys, and the functions return the same 
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.2.2 =
+* Clone fields stay clone fields when a group is saved again, duplicated or exported (they were replaced by copies of the cloned fields).
+* Block Bindings: fields of the archive's term and of options pages can be shown in templates.
+* Options pages can go under the menu of a custom post type.
+* The "Add term" form is cleared after a term is added; "Move into" in the field menu; Enter picks the first match in searchable selects.
 
 = 1.2.1 =
 * Block editor: values rejected by validation (for example an invalid email) are no longer dropped without a message; saving waits until they are fixed.

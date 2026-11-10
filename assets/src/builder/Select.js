@@ -178,7 +178,12 @@ export default function Select( {
 				break;
 			case 'Enter':
 				e.preventDefault();
-				pick( visible[ active ] );
+				// Typing and pressing Enter at once can beat the highlight update: take the first match.
+				pick(
+					visible[ active ] && ! visible[ active ].disabled
+						? visible[ active ]
+						: visible.find( ( o ) => ! o.disabled )
+				);
 				break;
 			case 'Escape':
 				e.preventDefault();
