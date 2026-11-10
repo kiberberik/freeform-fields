@@ -14,6 +14,7 @@ All notable changes to this project are listed here. The format follows [Keep a 
 - The "Add term" form kept the previous term's field values (image, color, choices) after a term was added over AJAX.
 - Searchable selects in the field group editor: Enter right after typing did nothing until the highlight caught up; it now picks the first match.
 - Saving an options page placed under a post type menu redirected to the post list: the return URL had `&#038;` instead of `&`.
+- Field group editor: before the page was scrolled, the bottom of the settings panel (for example the last field types of the palette) was cut off by the window. The panel now fits the window from where it is.
 
 ## [1.2.1] — 2026-11-10
 
