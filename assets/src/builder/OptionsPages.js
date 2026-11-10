@@ -17,6 +17,14 @@ import { EmptyState, PageHeader, Pill } from './ui';
 import { errorsFromResponse } from './api';
 import { NumberInput } from './fieldsShared';
 import Select from './Select';
+import {
+	IconPicker,
+	MenuPreview,
+	SettingsGrid,
+	SettingsSection,
+	SideCard,
+	ToggleRows,
+} from './settings';
 
 const base = () => `${ window.wpffBuilder.restPath }/options-pages`;
 
@@ -437,171 +445,72 @@ export function OptionsPageEditor( { slug } ) {
 				</Notice>
 			) }
 			<fieldset disabled={ readOnly } className="wpff-editor__body">
-				<div className="wpff-panel">
-					<div className="wpff-panel__body">
-						<div className="wpff-field-settings__grid">
-							<TextControl
-								label={ __( 'Page Title', 'freeform-fields' ) }
-								value={ page.page_title }
-								onChange={ ( title ) =>
-									set(
-										slugTouched
-											? { page_title: title }
-											: {
-													page_title: title,
-													menu_slug: slugify( title ),
-												}
-									)
-								}
-								help={ errors.page_title }
-								className={
-									errors.page_title ? 'has-error' : ''
-								}
-								__next40pxDefaultSize
-								__nextHasNoMarginBottom
-							/>
-							{ text(
-								__( 'Menu Title', 'freeform-fields' ),
-								'menu_title',
-								__(
-									'Defaults to the page title.',
-									'freeform-fields'
-								)
+				<div className="wpff-settings">
+					<div className="wpff-settings__main">
+						<SettingsSection
+							title={ __( 'Page', 'freeform-fields' ) }
+							description={ __(
+								'The title of the page and its address in the admin.',
+								'freeform-fields'
 							) }
-							<TextControl
-								label={ __( 'Menu Slug', 'freeform-fields' ) }
-								value={ page.menu_slug }
-								onChange={ ( value ) => {
-									setSlugTouched( true );
-									set( { menu_slug: slugify( value ) } );
-								} }
-								help={
-									errors.menu_slug ||
-									__(
-										'Used in the admin URL and in the "Options Page" location rule.',
-										'freeform-fields'
-									)
-								}
-								className={
-									errors.menu_slug ? 'has-error' : ''
-								}
-								__next40pxDefaultSize
-								__nextHasNoMarginBottom
-							/>
-							<Select
-								label={ __( 'Parent Menu', 'freeform-fields' ) }
-								value={ page.parent_slug }
-								options={ Object.entries( cfg.options.parents )
-									.filter(
-										( [ value ] ) => value !== currentSlug
-									)
-									.map( ( [ value, label ] ) => ( {
-										value,
-										label,
-									} ) ) }
-								onChange={ ( parent ) =>
-									set( { parent_slug: parent } )
-								}
-								help={ errors.parent_slug }
-								__next40pxDefaultSize
-								__nextHasNoMarginBottom
-							/>
-							<Select
-								label={ __(
-									'Who can edit',
-									'freeform-fields'
-								) }
-								value={ page.capability }
-								options={ Object.entries(
-									cfg.options.capabilities
-								).map( ( [ value, label ] ) => ( {
-									value,
-									label,
-								} ) ) }
-								onChange={ ( capability ) =>
-									set( { capability } )
-								}
-								__next40pxDefaultSize
-								__nextHasNoMarginBottom
-							/>
-							{ text(
-								__(
-									'Storage key (post_id)',
-									'freeform-fields'
-								),
-								'post_id',
-								__(
-									'Values are read with get_field( name, this key ). Default: options.',
-									'freeform-fields'
-								)
-							) }
-							{ ! page.parent_slug &&
-								text(
-									__( 'Menu Icon', 'freeform-fields' ),
-									'icon_url',
-									__(
-										'A dashicons class (dashicons-admin-generic) or an image URL.',
-										'freeform-fields'
-									)
-								) }
-							<NumberInput
-								label={ __(
-									'Menu Position',
-									'freeform-fields'
-								) }
-								value={ page.position }
-								onChange={ ( position ) => set( { position } ) }
-								__next40pxDefaultSize
-							/>
-							{ text(
-								__( 'Update Button Label', 'freeform-fields' ),
-								'update_button',
-								__( 'Default: Update', 'freeform-fields' )
-							) }
-							{ text(
-								__( 'Updated Message', 'freeform-fields' ),
-								'updated_message',
-								__(
-									'Default: Options Updated',
-									'freeform-fields'
-								)
-							) }
-							<ToggleControl
-								label={ __( 'Active', 'freeform-fields' ) }
-								checked={ !! page.active }
-								onChange={ ( active ) => set( { active } ) }
-								__nextHasNoMarginBottom
-							/>
-							{ ! page.parent_slug && (
-								<ToggleControl
+						>
+							<SettingsGrid>
+								<TextControl
 									label={ __(
-										'Open first sub page',
+										'Page Title',
 										'freeform-fields'
 									) }
-									help={ __(
-										'When the page has sub pages, its menu item opens the first one.',
-										'freeform-fields'
-									) }
-									checked={ !! page.redirect }
-									onChange={ ( redirect ) =>
-										set( { redirect } )
+									value={ page.page_title }
+									onChange={ ( title ) =>
+										set(
+											slugTouched
+												? { page_title: title }
+												: {
+														page_title: title,
+														menu_slug:
+															slugify( title ),
+													}
+										)
 									}
+									help={ errors.page_title }
+									className={
+										errors.page_title ? 'has-error' : ''
+									}
+									__next40pxDefaultSize
 									__nextHasNoMarginBottom
 								/>
-							) }
-							<ToggleControl
-								label={ __(
-									'Autoload values',
-									'freeform-fields'
+								{ text(
+									__( 'Menu Title', 'freeform-fields' ),
+									'menu_title',
+									__(
+										'Defaults to the page title.',
+										'freeform-fields'
+									)
 								) }
-								help={ __(
-									'Load values with every request. Use for small settings needed on most pages.',
-									'freeform-fields'
-								) }
-								checked={ !! page.autoload }
-								onChange={ ( autoload ) => set( { autoload } ) }
-								__nextHasNoMarginBottom
-							/>
+								<TextControl
+									label={ __(
+										'Menu Slug',
+										'freeform-fields'
+									) }
+									value={ page.menu_slug }
+									onChange={ ( value ) => {
+										setSlugTouched( true );
+										set( { menu_slug: slugify( value ) } );
+									} }
+									help={
+										errors.menu_slug ||
+										__(
+											'Used in the admin URL and in the "Options Page" location rule.',
+											'freeform-fields'
+										)
+									}
+									className={
+										errors.menu_slug ? 'has-error' : ''
+									}
+									__next40pxDefaultSize
+									__nextHasNoMarginBottom
+								/>
+							</SettingsGrid>
 							<TextareaControl
 								label={ __( 'Description', 'freeform-fields' ) }
 								value={ page.description }
@@ -611,8 +520,219 @@ export function OptionsPageEditor( { slug } ) {
 								rows={ 2 }
 								__nextHasNoMarginBottom
 							/>
-						</div>
+						</SettingsSection>
+
+						<SettingsSection
+							title={ __( 'Admin menu', 'freeform-fields' ) }
+							description={ __(
+								'Where the page appears: its own menu item or a sub item of another menu.',
+								'freeform-fields'
+							) }
+						>
+							<SettingsGrid>
+								<Select
+									label={ __(
+										'Parent Menu',
+										'freeform-fields'
+									) }
+									value={ page.parent_slug }
+									options={ Object.entries(
+										cfg.options.parents
+									)
+										.filter(
+											( [ value ] ) =>
+												value !== currentSlug
+										)
+										.map( ( [ value, label ] ) => ( {
+											value,
+											label,
+										} ) ) }
+									onChange={ ( parent ) =>
+										set( { parent_slug: parent } )
+									}
+									help={ errors.parent_slug }
+									__next40pxDefaultSize
+									__nextHasNoMarginBottom
+								/>
+								<NumberInput
+									label={ __(
+										'Menu Position',
+										'freeform-fields'
+									) }
+									value={ page.position }
+									onChange={ ( position ) =>
+										set( { position } )
+									}
+									__next40pxDefaultSize
+								/>
+								{ ! page.parent_slug && (
+									<IconPicker
+										label={ __(
+											'Menu Icon',
+											'freeform-fields'
+										) }
+										value={ page.icon_url }
+										onChange={ ( icon ) =>
+											set( { icon_url: icon } )
+										}
+										help={
+											errors.icon_url ||
+											__(
+												'Pick an icon, or type a dashicons class or an image URL.',
+												'freeform-fields'
+											)
+										}
+										allowUrl
+									/>
+								) }
+							</SettingsGrid>
+							{ ! page.parent_slug && (
+								<ToggleRows
+									items={ [
+										{
+											label: __(
+												'Open first sub page',
+												'freeform-fields'
+											),
+											help: __(
+												'When the page has sub pages, its menu item opens the first one.',
+												'freeform-fields'
+											),
+											checked: page.redirect,
+											onChange: ( redirect ) =>
+												set( { redirect } ),
+										},
+									] }
+								/>
+							) }
+						</SettingsSection>
+
+						<SettingsSection
+							title={ __(
+								'Access and storage',
+								'freeform-fields'
+							) }
+							description={ __(
+								'Who can change the values and where they are saved.',
+								'freeform-fields'
+							) }
+						>
+							<SettingsGrid>
+								<Select
+									label={ __(
+										'Who can edit',
+										'freeform-fields'
+									) }
+									value={ page.capability }
+									options={ Object.entries(
+										cfg.options.capabilities
+									).map( ( [ value, label ] ) => ( {
+										value,
+										label,
+									} ) ) }
+									onChange={ ( capability ) =>
+										set( { capability } )
+									}
+									__next40pxDefaultSize
+									__nextHasNoMarginBottom
+								/>
+								{ text(
+									__(
+										'Storage key (post_id)',
+										'freeform-fields'
+									),
+									'post_id',
+									__(
+										'Values are read with get_field( name, this key ). Default: options.',
+										'freeform-fields'
+									)
+								) }
+							</SettingsGrid>
+							<ToggleRows
+								items={ [
+									{
+										label: __(
+											'Autoload values',
+											'freeform-fields'
+										),
+										help: __(
+											'Load values with every request. Use for small settings needed on most pages.',
+											'freeform-fields'
+										),
+										checked: page.autoload,
+										onChange: ( autoload ) =>
+											set( { autoload } ),
+									},
+								] }
+							/>
+						</SettingsSection>
+
+						<SettingsSection
+							title={ __( 'Saving', 'freeform-fields' ) }
+							description={ __(
+								'The save button and the message after saving.',
+								'freeform-fields'
+							) }
+						>
+							<SettingsGrid>
+								{ text(
+									__(
+										'Update Button Label',
+										'freeform-fields'
+									),
+									'update_button',
+									__( 'Default: Update', 'freeform-fields' )
+								) }
+								{ text(
+									__( 'Updated Message', 'freeform-fields' ),
+									'updated_message',
+									__(
+										'Default: Options Updated',
+										'freeform-fields'
+									)
+								) }
+							</SettingsGrid>
+						</SettingsSection>
 					</div>
+
+					<aside className="wpff-settings__side">
+						<SideCard title={ __( 'Status', 'freeform-fields' ) }>
+							<ToggleControl
+								label={ __( 'Active', 'freeform-fields' ) }
+								help={ __(
+									'Inactive pages are not added to the menu.',
+									'freeform-fields'
+								) }
+								checked={ !! page.active }
+								onChange={ ( active ) => set( { active } ) }
+								__nextHasNoMarginBottom
+							/>
+							{ page.menu_slug && (
+								<p className="wpff-side-card__meta">
+									{ __( 'Slug:', 'freeform-fields' ) }{ ' ' }
+									<code>{ page.menu_slug }</code>
+								</p>
+							) }
+						</SideCard>
+						<SideCard
+							title={ __(
+								'In the admin menu',
+								'freeform-fields'
+							) }
+						>
+							<MenuPreview
+								icon={ page.icon_url }
+								label={ page.menu_title || page.page_title }
+								under={
+									page.parent_slug
+										? cfg.options.parents[
+												page.parent_slug
+											] || page.parent_slug
+										: ''
+								}
+							/>
+						</SideCard>
+					</aside>
 				</div>
 			</fieldset>
 		</div>

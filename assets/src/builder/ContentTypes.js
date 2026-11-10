@@ -18,6 +18,14 @@ import { EmptyState, PageHeader } from './ui';
 import { errorsFromResponse } from './api';
 import { NumberInput } from './fieldsShared';
 import { nameFromLabel } from './utils';
+import {
+	IconPicker,
+	MenuPreview,
+	SettingsGrid,
+	SettingsSection,
+	SideCard,
+	ToggleRows,
+} from './settings';
 
 const data = () => window.wpffBuilder.content;
 const path = ( key = '' ) =>
@@ -255,11 +263,11 @@ const NEW_ITEM = () =>
 
 function Checklist( { label, options, value, onChange } ) {
 	return (
-		<fieldset className="wpff-multiselect">
-			<legend className="components-base-control__label">
-				{ label }
-			</legend>
-			<div className="wpff-multiselect__options">
+		<fieldset className="wpff-checklist">
+			{ label && (
+				<legend className="wpff-checklist__legend">{ label }</legend>
+			) }
+			<div className="wpff-checklist__options">
 				{ Object.entries( options ).map( ( [ key, text ] ) => (
 					<CheckboxControl
 						key={ key }
@@ -371,15 +379,6 @@ export function ContentTypeEditor() {
 			__nextHasNoMarginBottom
 		/>
 	);
-	const toggle = ( label, prop, help ) => (
-		<ToggleControl
-			label={ label }
-			help={ help }
-			checked={ !! item[ prop ] }
-			onChange={ ( on ) => set( { [ prop ]: on } ) }
-			__nextHasNoMarginBottom
-		/>
-	);
 
 	return (
 		<div className="wpff-editor">
@@ -411,83 +410,76 @@ export function ContentTypeEditor() {
 					{ notice.text }
 				</Notice>
 			) }
-			<div className="wpff-panel">
-				<div className="wpff-panel__body">
-					<div className="wpff-field-settings__grid">
-						{ text(
-							__( 'Plural Label', 'freeform-fields' ),
-							'plural',
-							__( 'e.g. Books', 'freeform-fields' ),
-							( plural ) =>
-								set(
-									keyTouched
-										? { plural }
-										: {
-												plural,
-												key: nameFromLabel(
-													plural
-												).slice(
-													0,
-													isPostType() ? 20 : 32
-												),
-											}
-								)
-						) }
-						{ text(
-							__( 'Singular Label', 'freeform-fields' ),
-							'singular',
-							__( 'e.g. Book', 'freeform-fields' )
-						) }
-						{ text(
-							isPostType()
-								? __( 'Post Type Key', 'freeform-fields' )
-								: __( 'Taxonomy Key', 'freeform-fields' ),
-							'key',
+			<div className="wpff-settings">
+				<div className="wpff-settings__main">
+					<SettingsSection
+						title={ __( 'Names', 'freeform-fields' ) }
+						description={
 							isPostType()
 								? __(
-										'Up to 20 characters: a–z, 0–9, _ and -. Changing it hides existing posts.',
+										'How the post type is called in the admin, and its key in code and URLs.',
 										'freeform-fields'
 									)
 								: __(
-										'Up to 32 characters: a–z, 0–9, _ and -.',
+										'How the taxonomy is called in the admin, and its key in code and URLs.',
 										'freeform-fields'
-									),
-							( key ) => {
-								setKeyTouched( true );
-								set( {
-									key: key
-										.toLowerCase()
-										.replace( /[^a-z0-9_-]/g, '' ),
-								} );
-							}
-						) }
-						{ text(
-							__( 'URL Slug', 'freeform-fields' ),
-							'rewrite_slug',
-							__( 'Defaults to the key.', 'freeform-fields' )
-						) }
-						{ isPostType() &&
-							text(
-								__( 'Menu Icon', 'freeform-fields' ),
-								'menu_icon',
-								__(
-									'A dashicons class, e.g. dashicons-book.',
-									'freeform-fields'
-								)
+									)
+						}
+					>
+						<SettingsGrid>
+							{ text(
+								__( 'Plural Label', 'freeform-fields' ),
+								'plural',
+								__( 'e.g. Books', 'freeform-fields' ),
+								( plural ) =>
+									set(
+										keyTouched
+											? { plural }
+											: {
+													plural,
+													key: nameFromLabel(
+														plural
+													).slice(
+														0,
+														isPostType() ? 20 : 32
+													),
+												}
+									)
 							) }
-						{ isPostType() && (
-							<NumberInput
-								label={ __(
-									'Menu Position',
-									'freeform-fields'
-								) }
-								value={ item.menu_position }
-								onChange={ ( v ) =>
-									set( { menu_position: v } )
+							{ text(
+								__( 'Singular Label', 'freeform-fields' ),
+								'singular',
+								__( 'e.g. Book', 'freeform-fields' )
+							) }
+							{ text(
+								isPostType()
+									? __( 'Post Type Key', 'freeform-fields' )
+									: __( 'Taxonomy Key', 'freeform-fields' ),
+								'key',
+								isPostType()
+									? __(
+											'Up to 20 characters: a–z, 0–9, _ and -. Changing it hides existing posts.',
+											'freeform-fields'
+										)
+									: __(
+											'Up to 32 characters: a–z, 0–9, _ and -.',
+											'freeform-fields'
+										),
+								( key ) => {
+									setKeyTouched( true );
+									set( {
+										key: key
+											.toLowerCase()
+											.replace( /[^a-z0-9_-]/g, '' ),
+									} );
 								}
-								__next40pxDefaultSize
-							/>
-						) }
+							) }
+							{ text(
+								__( 'URL Slug', 'freeform-fields' ),
+								'rewrite_slug',
+								__( 'Defaults to the key.', 'freeform-fields' )
+							) }
+						</SettingsGrid>
 						<TextareaControl
 							label={ __( 'Description', 'freeform-fields' ) }
 							value={ item.description }
@@ -495,99 +487,228 @@ export function ContentTypeEditor() {
 							rows={ 2 }
 							__nextHasNoMarginBottom
 						/>
-					</div>
-					<div className="wpff-field-settings__grid">
-						{ toggle(
-							__( 'Active', 'freeform-fields' ),
-							'active'
-						) }
-						{ toggle(
-							__( 'Public', 'freeform-fields' ),
-							'public',
-							__(
-								'Visible on the site and in the admin.',
+					</SettingsSection>
+
+					{ isPostType() && (
+						<SettingsSection
+							title={ __( 'Admin menu', 'freeform-fields' ) }
+							description={ __(
+								'The icon and place of the post type in the admin menu.',
 								'freeform-fields'
-							)
-						) }
-						{ toggle(
-							__( 'Hierarchical', 'freeform-fields' ),
-							'hierarchical',
-							isPostType()
-								? __(
-										'Like pages (parents and children).',
-										'freeform-fields'
-									)
-								: __(
-										'Like categories (parents and children).',
-										'freeform-fields'
-									)
-						) }
-						{ toggle(
-							__( 'Show in REST API', 'freeform-fields' ),
-							'show_in_rest',
-							__(
-								'Needed for the block editor.',
-								'freeform-fields'
-							)
-						) }
-						{ isPostType() &&
-							toggle(
-								__( 'Archive', 'freeform-fields' ),
-								'has_archive',
-								__(
-									'A page listing all items.',
-									'freeform-fields'
-								)
 							) }
-						{ isPostType() &&
-							toggle(
-								__( 'Exclude from Search', 'freeform-fields' ),
-								'exclude_from_search'
-							) }
-						{ ! isPostType() &&
-							toggle(
-								__( 'Admin Column', 'freeform-fields' ),
-								'show_admin_column',
-								__(
-									'Show the terms in post lists.',
-									'freeform-fields'
-								)
-							) }
-					</div>
-					<div className="wpff-field-settings__grid">
-						{ isPostType() ? (
-							<>
-								<Checklist
+						>
+							<SettingsGrid>
+								<IconPicker
 									label={ __(
-										'Supports',
+										'Menu Icon',
 										'freeform-fields'
 									) }
+									value={ item.menu_icon }
+									onChange={ ( icon ) =>
+										set( { menu_icon: icon } )
+									}
+									help={
+										errors.menu_icon ||
+										__(
+											'Pick an icon or type a dashicons class.',
+											'freeform-fields'
+										)
+									}
+								/>
+								<NumberInput
+									label={ __(
+										'Menu Position',
+										'freeform-fields'
+									) }
+									value={ item.menu_position }
+									onChange={ ( v ) =>
+										set( { menu_position: v } )
+									}
+									help={ __(
+										'5 — below Posts, 20 — below Pages, 60 — below Appearance. Empty: at the end.',
+										'freeform-fields'
+									) }
+									__next40pxDefaultSize
+								/>
+							</SettingsGrid>
+						</SettingsSection>
+					) }
+
+					<SettingsSection
+						title={ __( 'Behavior', 'freeform-fields' ) }
+						description={ __(
+							'Where it appears and how it works.',
+							'freeform-fields'
+						) }
+					>
+						<ToggleRows
+							items={ [
+								{
+									label: __( 'Public', 'freeform-fields' ),
+									help: __(
+										'Visible on the site and in the admin.',
+										'freeform-fields'
+									),
+									checked: item.public,
+									onChange: ( on ) => set( { public: on } ),
+								},
+								{
+									label: __(
+										'Hierarchical',
+										'freeform-fields'
+									),
+									help: isPostType()
+										? __(
+												'Like pages (parents and children).',
+												'freeform-fields'
+											)
+										: __(
+												'Like categories (parents and children).',
+												'freeform-fields'
+											),
+									checked: item.hierarchical,
+									onChange: ( on ) =>
+										set( { hierarchical: on } ),
+								},
+								{
+									label: __(
+										'Show in REST API',
+										'freeform-fields'
+									),
+									help: __(
+										'Needed for the block editor.',
+										'freeform-fields'
+									),
+									checked: item.show_in_rest,
+									onChange: ( on ) =>
+										set( { show_in_rest: on } ),
+								},
+								{
+									hidden: ! isPostType(),
+									label: __( 'Archive', 'freeform-fields' ),
+									help: __(
+										'A page listing all items.',
+										'freeform-fields'
+									),
+									checked: item.has_archive,
+									onChange: ( on ) =>
+										set( { has_archive: on } ),
+								},
+								{
+									hidden: ! isPostType(),
+									label: __(
+										'Exclude from Search',
+										'freeform-fields'
+									),
+									help: __(
+										'Items do not appear in site search results.',
+										'freeform-fields'
+									),
+									checked: item.exclude_from_search,
+									onChange: ( on ) =>
+										set( { exclude_from_search: on } ),
+								},
+								{
+									hidden: isPostType(),
+									label: __(
+										'Admin Column',
+										'freeform-fields'
+									),
+									help: __(
+										'Show the terms in post lists.',
+										'freeform-fields'
+									),
+									checked: item.show_admin_column,
+									onChange: ( on ) =>
+										set( { show_admin_column: on } ),
+								},
+							] }
+						/>
+					</SettingsSection>
+
+					{ isPostType() ? (
+						<>
+							<SettingsSection
+								title={ __( 'Supports', 'freeform-fields' ) }
+								description={ __(
+									'Parts of the edit screen.',
+									'freeform-fields'
+								) }
+							>
+								<Checklist
 									options={ cfg.supports }
 									value={ item.supports }
 									onChange={ ( v ) => set( { supports: v } ) }
 								/>
+							</SettingsSection>
+							<SettingsSection
+								title={ __( 'Taxonomies', 'freeform-fields' ) }
+								description={ __(
+									'Taxonomies used to sort the items.',
+									'freeform-fields'
+								) }
+							>
 								<Checklist
-									label={ __(
-										'Taxonomies',
-										'freeform-fields'
-									) }
 									options={ cfg.taxonomies }
 									value={ item.taxonomies }
 									onChange={ ( v ) =>
 										set( { taxonomies: v } )
 									}
 								/>
-							</>
-						) : (
+							</SettingsSection>
+						</>
+					) : (
+						<SettingsSection
+							title={ __( 'Post Types', 'freeform-fields' ) }
+							description={ __(
+								'Post types the terms can be assigned to.',
+								'freeform-fields'
+							) }
+						>
 							<Checklist
-								label={ __( 'Post Types', 'freeform-fields' ) }
 								options={ cfg.postTypes }
 								value={ item.object_type }
 								onChange={ ( v ) => set( { object_type: v } ) }
 							/>
-						) }
-					</div>
+						</SettingsSection>
+					) }
 				</div>
+
+				<aside className="wpff-settings__side">
+					<SideCard title={ __( 'Status', 'freeform-fields' ) }>
+						<ToggleControl
+							label={ __( 'Active', 'freeform-fields' ) }
+							help={ __(
+								'Inactive ones are not registered.',
+								'freeform-fields'
+							) }
+							checked={ !! item.active }
+							onChange={ ( on ) => set( { active: on } ) }
+							__nextHasNoMarginBottom
+						/>
+						{ item.key && (
+							<p className="wpff-side-card__meta">
+								{ __( 'Key:', 'freeform-fields' ) }{ ' ' }
+								<code>{ item.key }</code>
+							</p>
+						) }
+					</SideCard>
+					<SideCard
+						title={ __( 'In the admin menu', 'freeform-fields' ) }
+					>
+						<MenuPreview
+							icon={ item.menu_icon }
+							label={ item.plural }
+							under={
+								isPostType()
+									? ''
+									: cfg.menuNames?.[
+											item.object_type[ 0 ]
+										] || __( 'Posts', 'freeform-fields' )
+							}
+						/>
+					</SideCard>
+				</aside>
 			</div>
 		</div>
 	);
