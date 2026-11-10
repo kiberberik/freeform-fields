@@ -195,6 +195,29 @@ final class OptionsPagesTest extends TestCase {
 		wp_delete_user( $editor );
 	}
 
+	public function test_post_type_menu_as_parent(): void {
+		register_post_type(
+			'book',
+			array(
+				'show_ui' => true,
+				'label'   => 'Books',
+			)
+		);
+		$this->assertArrayHasKey( 'edit.php?post_type=book', \FreeformFields\Options\OptionsPageStore::post_type_parents() );
+
+		$created = $this->rest(
+			'POST',
+			'/options-pages',
+			array(
+				'page_title'  => 'Catalog settings',
+				'parent_slug' => 'edit.php?post_type=book',
+			)
+		);
+		$this->assertSame( 201, $created->get_status() );
+		$this->assertSame( 'edit.php?post_type=book', $created->get_data()['parent_slug'], 'A post type menu is kept as the parent.' );
+		unregister_post_type( 'book' );
+	}
+
 	public function test_rest_crud(): void {
 		$bad = $this->rest(
 			'POST',

@@ -19,6 +19,11 @@ defined( 'ABSPATH' ) || exit;
  *
  * Only fields with "Allow in Block Bindings" turned on are exposed, and only for posts the
  * visitor may read.
+ *
+ * `args.object` reads other objects: `term` is the term of a taxonomy archive (category, tag or
+ * custom taxonomy template), and an options page's storage key (`options`, or the page's own
+ * `post_id`) reads that page's values. Without it, outside a post (for example the header of an
+ * archive template), the archive's term is used.
  */
 final class Bindings {
 
@@ -57,15 +62,63 @@ final class Bindings {
 		if ( '' === $selector ) {
 			return null;
 		}
-		$post_id = $block instanceof \WP_Block && isset( $block->context['postId'] ) ? (int) $block->context['postId'] : (int) get_the_ID();
-		if ( ! $post_id || ! self::can_read( $post_id ) ) {
+		$target = $this->target( is_array( $args ) ? $args : array(), $block );
+		if ( null === $target ) {
 			return null;
 		}
-		$object = $this->plugin->values()->get_object( $selector, $post_id, true );
+		$object = $this->plugin->values()->get_object( $selector, $target, true );
 		if ( ! $object || empty( $object['allow_in_bindings'] ) ) {
 			return null;
 		}
 		return self::to_attribute( $object['value'], (string) $attribute );
+	}
+
+	/**
+	 * ACF-style object id the binding reads, or null when there is nothing the visitor may see.
+	 *
+	 * @param array<string, mixed> $args  Binding args.
+	 * @param \WP_Block|null       $block Block instance.
+	 * @return int|string|null
+	 */
+	private function target( array $args, $block ) {
+		$object = isset( $args['object'] ) && is_string( $args['object'] ) ? $args['object'] : '';
+		if ( 'term' === $object ) {
+			return self::archive_term();
+		}
+		if ( '' !== $object ) {
+			// Only storage keys of registered options pages, never arbitrary option names.
+			foreach ( $this->plugin->options_pages()->all() as $page ) {
+				if ( $page['post_id'] === $object ) {
+					return $object;
+				}
+			}
+			return null;
+		}
+		$post_id = $block instanceof \WP_Block && isset( $block->context['postId'] ) ? (int) $block->context['postId'] : 0;
+		if ( ! $post_id ) {
+			// Outside a post, on a taxonomy archive: the archive's term.
+			$term = self::archive_term();
+			if ( null !== $term ) {
+				return $term;
+			}
+			$post_id = (int) get_the_ID();
+		}
+		return $post_id && self::can_read( $post_id ) ? $post_id : null;
+	}
+
+	/**
+	 * `term_{id}` of the term a public taxonomy archive shows, else null.
+	 */
+	private static function archive_term(): ?string {
+		if ( ! ( is_category() || is_tag() || is_tax() ) ) {
+			return null;
+		}
+		$term = get_queried_object();
+		if ( ! $term instanceof \WP_Term ) {
+			return null;
+		}
+		$taxonomy = get_taxonomy( $term->taxonomy );
+		return $taxonomy && $taxonomy->public ? 'term_' . $term->term_id : null;
 	}
 
 	/**

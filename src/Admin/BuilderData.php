@@ -147,7 +147,7 @@ final class BuilderData {
 	 */
 	public function group_summaries(): array {
 		$list = array();
-		foreach ( $this->plugin->fields()->get_all_groups() as $group ) {
+		foreach ( $this->plugin->fields()->get_all_group_definitions() as $group ) {
 			$list[] = self::summary( $group, $this->plugin->fields()->is_local( $group['key'] ) );
 		}
 		return $list;

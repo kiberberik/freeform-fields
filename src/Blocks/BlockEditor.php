@@ -39,13 +39,21 @@ final class BlockEditor {
 
 	/**
 	 * Fields offered in the Block Bindings field picker: top-level fields of active groups with
-	 * "Allow in Block Bindings" on, with the post types their group is shown on (empty: any).
+	 * "Allow in Block Bindings" on. Post fields carry the post types their group is shown on
+	 * (empty: any); term fields read the archive's term (`object: term`); options page fields
+	 * read that page (`object`: its storage key).
 	 *
-	 * @return array<int, array{key: string, label: string, group: string, postTypes: array<int, string>}>
+	 * @return array<int, array{key: string, label: string, object: string, postTypes: array<int, string>}>
 	 */
 	private function bindable_fields(): array {
-		$not_posts = array( 'options_page', 'taxonomy', 'user_form', 'user_role', 'current_user', 'current_user_role', 'block', 'nav_menu', 'nav_menu_item', 'comment', 'widget', 'attachment' );
-		$list      = array();
+		$other_screens = array( 'taxonomy', 'options_page', 'user_form', 'user_role', 'current_user', 'current_user_role', 'block', 'nav_menu', 'nav_menu_item', 'comment', 'widget', 'attachment' );
+		$page_ids      = array();
+		$page_titles   = array();
+		foreach ( $this->plugin->options_pages()->all() as $slug => $page ) {
+			$page_ids[ $slug ]    = (string) $page['post_id'];
+			$page_titles[ $slug ] = (string) $page['page_title'];
+		}
+		$list = array();
 		foreach ( $this->plugin->fields()->get_all_groups() as $group ) {
 			if ( empty( $group['active'] ) ) {
 				continue;
@@ -58,34 +66,65 @@ final class BlockEditor {
 				continue;
 			}
 			$post_types = array();
-			$any        = false;
+			$any_post   = false;
 			$on_posts   = false;
+			$on_terms   = false;
+			$pages      = array();
 			foreach ( (array) $group['location'] as $rules ) {
 				$params = array_column( (array) $rules, 'param' );
 				$types  = array();
 				foreach ( (array) $rules as $rule ) {
-					if ( 'post_type' === ( $rule['param'] ?? '' ) && '==' === ( $rule['operator'] ?? '' ) ) {
-						$types[] = (string) $rule['value'];
+					$param = (string) ( $rule['param'] ?? '' );
+					$value = (string) ( $rule['value'] ?? '' );
+					if ( '==' !== ( $rule['operator'] ?? '' ) ) {
+						continue;
 					}
+					if ( 'post_type' === $param ) {
+						$types[] = $value;
+					} elseif ( 'options_page' === $param && isset( $page_ids[ $value ] ) ) {
+						$pages[ $page_ids[ $value ] ] = $page_titles[ $value ];
+					}
+				}
+				if ( in_array( 'taxonomy', $params, true ) ) {
+					$on_terms = true;
 				}
 				if ( array() !== $types ) {
 					$post_types = array_merge( $post_types, $types );
 					$on_posts   = true;
-				} elseif ( array() === array_intersect( $params, $not_posts ) ) {
-					$any      = true;
+				} elseif ( array() === array_intersect( $params, $other_screens ) ) {
+					$any_post = true;
 					$on_posts = true;
 				}
 			}
-			if ( ! $on_posts ) {
-				continue;
-			}
 			foreach ( $fields as $field ) {
-				$list[] = array(
-					'key'       => (string) $field['name'],
-					'label'     => (string) ( '' !== (string) ( $field['label'] ?? '' ) ? $field['label'] : $field['name'] ),
-					'group'     => (string) $group['title'],
-					'postTypes' => $any ? array() : array_values( array_unique( $post_types ) ),
-				);
+				$key   = (string) $field['name'];
+				$label = (string) ( '' !== (string) ( $field['label'] ?? '' ) ? $field['label'] : $key );
+				if ( $on_posts ) {
+					$list[] = array(
+						'key'       => $key,
+						'label'     => $label,
+						'object'    => '',
+						'postTypes' => $any_post ? array() : array_values( array_unique( $post_types ) ),
+					);
+				}
+				if ( $on_terms ) {
+					$list[] = array(
+						'key'       => $key,
+						/* translators: %s: field label. */
+						'label'     => sprintf( __( '%s (archive term)', 'freeform-fields' ), $label ),
+						'object'    => 'term',
+						'postTypes' => array(),
+					);
+				}
+				foreach ( $pages as $post_id => $title ) {
+					$list[] = array(
+						'key'       => $key,
+						/* translators: 1: field label, 2: options page title. */
+						'label'     => sprintf( __( '%1$s (%2$s)', 'freeform-fields' ), $label, $title ),
+						'object'    => $post_id,
+						'postTypes' => array(),
+					);
+				}
 			}
 		}
 		return $list;

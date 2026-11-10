@@ -168,6 +168,40 @@ final class FieldGroupsApiTest extends TestCase {
 		$this->assertFalse( $restored->get_data()['active'], 'Restore keeps the previous (inactive) status.' );
 	}
 
+	public function test_clone_stays_a_clone_in_builder_copy_and_export(): void {
+		$source = $this->request( 'POST', '/field-groups', self::group_input( array( 'title' => 'Source' ) ) )->get_data();
+		$input  = self::group_input( array( 'title' => 'With clone' ) );
+
+		$input['fields'] = array(
+			array(
+				'label' => 'Copy of price',
+				'name'  => 'price_copy',
+				'type'  => 'clone',
+				'clone' => array( 'field_price_x' ),
+			),
+		);
+		$saved           = $this->request( 'POST', '/field-groups', $input )->get_data();
+		$this->assertSame( 'clone', $saved['fields'][0]['type'], 'The save response keeps the clone.' );
+
+		$loaded = $this->request( 'GET', '/field-groups/' . $saved['key'] )->get_data();
+		$this->assertCount( 1, $loaded['fields'] );
+		$this->assertSame( 'clone', $loaded['fields'][0]['type'], 'The builder edits the clone, not the cloned fields.' );
+		$this->assertSame( array( 'field_price_x' ), $loaded['fields'][0]['clone'] );
+
+		// Saving what the builder loaded must not turn the clone into a real field.
+		$this->request( 'PUT', '/field-groups/' . $saved['key'], $loaded );
+		$this->assertSame( 'clone', $this->plugin()->fields()->get_group_definition( $saved['key'] )['fields'][0]['type'] );
+		// Rendering still sees the cloned field.
+		$this->assertSame( 'number', $this->plugin()->fields()->get_group( $saved['key'] )['fields'][0]['type'] );
+
+		$copy = $this->request( 'POST', '/field-groups/' . $saved['key'] . '/duplicate' )->get_data();
+		$this->assertSame( 'clone', $copy['fields'][0]['type'], 'Duplicate copies the clone.' );
+
+		$export = ( new \FreeformFields\Tools\ImportExport( $this->plugin() ) )->export( array( $saved['key'] ) );
+		$this->assertSame( 'clone', $export[0]['fields'][0]['type'], 'Export writes the clone.' );
+		$this->assertNotEmpty( $source['key'] );
+	}
+
 	public function test_trash_list_and_permanent_delete(): void {
 		$key = $this->request( 'POST', '/field-groups', self::group_input( array( 'title' => 'Old' ) ) )->get_data()['key'];
 		$this->assertSame( array(), $this->request( 'GET', '/field-groups/trash' )->get_data() );

@@ -344,4 +344,120 @@ final class BlocksTest extends TestCase {
 		$this->assertStringContainsString( '>Old</p>', $bind( 'paragraph', 'content', 'tagline', '<p>Old</p>' ), 'Private posts are not exposed to visitors.' );
 		wp_set_current_user( 1 );
 	}
+
+	public function test_bindings_read_archive_term_and_options_page(): void {
+		if ( ! function_exists( 'get_block_bindings_source' ) ) {
+			$this->markTestSkipped( 'Block Bindings need WordPress 6.5.' );
+		}
+		$this->make_group(
+			array(
+				array(
+					'name'              => 'genre_slogan',
+					'allow_in_bindings' => 1,
+				),
+			),
+			array(
+				'location' => array(
+					array(
+						array(
+							'param'    => 'taxonomy',
+							'operator' => '==',
+							'value'    => 'category',
+						),
+					),
+				),
+			)
+		);
+		wpff_add_options_page(
+			array(
+				'page_title' => 'Catalog',
+				'menu_slug'  => 'catalog-test',
+				'post_id'    => 'catalog_test',
+			)
+		);
+		$this->make_group(
+			array(
+				array(
+					'name'              => 'shop_name',
+					'allow_in_bindings' => 1,
+				),
+			),
+			array(
+				'location' => array(
+					array(
+						array(
+							'param'    => 'options_page',
+							'operator' => '==',
+							'value'    => 'catalog-test',
+						),
+					),
+				),
+			)
+		);
+		$term = wp_insert_term( 'Space ' . wp_rand(), 'category' );
+		wpff_update_field( 'genre_slogan', 'Beyond the stars', 'term_' . $term['term_id'] );
+		wpff_update_field( 'shop_name', 'Book Hall', 'catalog_test' );
+
+		$bind = static function ( array $args, array $context = array() ): string {
+			$attrs  = array(
+				'metadata' => array(
+					'bindings' => array(
+						'content' => array(
+							'source' => 'wpff/field',
+							'args'   => $args,
+						),
+					),
+				),
+			);
+			$parsed = parse_blocks( '<!-- wp:paragraph ' . wp_json_encode( $attrs ) . ' --><p>Old</p><!-- /wp:paragraph -->' );
+			return ( new \WP_Block( $parsed[0], $context ) )->render();
+		};
+
+		$this->assertStringContainsString(
+			'Book Hall',
+			$bind(
+				array(
+					'key'    => 'shop_name',
+					'object' => 'catalog_test',
+				)
+			)
+		);
+		$this->assertStringContainsString(
+			'>Old<',
+			$bind(
+				array(
+					'key'    => 'shop_name',
+					'object' => 'blogname',
+				)
+			),
+			'Only options page storage keys are read.'
+		);
+
+		global $wp_query;
+		$saved    = $wp_query;
+		$wp_query = new \WP_Query( array( 'cat' => $term['term_id'] ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- simulates a category archive.
+		$this->assertStringContainsString(
+			'Beyond the stars',
+			$bind(
+				array(
+					'key'    => 'genre_slogan',
+					'object' => 'term',
+				)
+			)
+		);
+		$this->assertStringContainsString( 'Beyond the stars', $bind( array( 'key' => 'genre_slogan' ) ), 'Outside a post, an archive reads its term.' );
+		$wp_query = $saved; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		$this->assertStringContainsString(
+			'>Old<',
+			$bind(
+				array(
+					'key'    => 'genre_slogan',
+					'object' => 'term',
+				)
+			),
+			'No archive, no term.'
+		);
+
+		wp_delete_term( $term['term_id'], 'category' );
+	}
 }

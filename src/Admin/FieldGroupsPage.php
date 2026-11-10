@@ -95,6 +95,9 @@ final class FieldGroupsPage {
 		foreach ( OptionsPageStore::CORE_PARENTS as $slug ) {
 			$parents[ $slug ] = self::core_menu_title( $slug );
 		}
+		foreach ( OptionsPageStore::post_type_parents() as $slug => $label ) {
+			$parents[ $slug ] = $label;
+		}
 		foreach ( $this->plugin->options_pages()->all( true ) as $slug => $page ) {
 			if ( '' === $page['parent_slug'] ) {
 				/* translators: %s: options page title. */
