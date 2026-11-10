@@ -72,7 +72,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: bin/build-zip.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: freeform-fields
           path: dist/*.zip
