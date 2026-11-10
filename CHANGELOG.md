@@ -8,6 +8,10 @@ All notable changes to this project are listed here. The format follows [Keep a 
 - Block Bindings: `args.object` reads other objects — `term` for the term of a taxonomy archive, or an options page's storage key (`options` or the page's `post_id`). Outside a post, a taxonomy archive template reads its term by default. Such fields are offered in the Attributes panel too.
 - Options pages can be placed under the menu of a custom post type (`edit.php?post_type=…`).
 - Field group editor: "Move into “…”" in a field's menu moves it into the repeater, group or flexible layout above it, without dragging.
+- Menu icon picker for post types and options pages: search the Dashicons library and pick an icon, or type a `dashicons-*` class (options pages also take an image URL).
+
+### Changed
+- Post type, taxonomy and options page screens are reorganised into titled sections (Names, Admin menu, Behavior, Supports…) with switches as rows, checkbox tiles, and a side panel with the status and a preview of the admin menu item.
 
 ### Fixed
 - Clone fields were expanded when the field group editor loaded a group, so saving it again replaced the clone with copies of the cloned fields. Duplicate, JSON/PHP export and Local JSON had the same problem. They now keep the clone field (`get_group_definition()` / `get_all_group_definitions()`).

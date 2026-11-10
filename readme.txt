@@ -81,6 +81,7 @@ No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer
 * Clone fields stay clone fields when a group is saved again, duplicated or exported (they were replaced by copies of the cloned fields).
 * Block Bindings: fields of the archive's term and of options pages can be shown in templates.
 * Options pages can go under the menu of a custom post type.
+* Menu icon picker with search over Dashicons; redesigned post type, taxonomy and options page screens.
 * The "Add term" form is cleared after a term is added; "Move into" in the field menu; Enter picks the first match in searchable selects.
 
 = 1.2.1 =

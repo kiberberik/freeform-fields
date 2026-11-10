@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Freeform Fields 1.2.1\n"
+"Project-Id-Version: WP Freeform Fields 1.2.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/freeform-fields\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-10T09:35:21+00:00\n"
+"POT-Creation-Date: 2026-11-10T10:10:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: freeform-fields\n"
@@ -107,6 +107,7 @@ msgstr ""
 
 #: src/Admin/BuilderData.php:66
 #: src/Admin/BuilderData.php:89
+#: build/builder.js:16
 msgid "Page"
 msgstr ""
 
@@ -277,25 +278,25 @@ msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:58
 #: src/Plugin.php:173
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Options Pages"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:59
 #: src/Content/ContentTypes.php:93
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Post Types"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:60
 #: src/Content/ContentTypes.php:93
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Taxonomies"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:61
-#: src/Admin/FieldGroupsPage.php:174
-#: build/builder.js:17
+#: src/Admin/FieldGroupsPage.php:177
+#: build/builder.js:18
 msgid "Tools"
 msgstr ""
 
@@ -329,109 +330,109 @@ msgstr ""
 msgid "Administrators (manage_options)"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:147
+#: src/Admin/FieldGroupsPage.php:150
 #: src/Front/Forms.php:287
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Title"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:148
+#: src/Admin/FieldGroupsPage.php:151
 msgid "Editor"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:149
+#: src/Admin/FieldGroupsPage.php:152
 msgid "Featured Image"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:150
+#: src/Admin/FieldGroupsPage.php:153
 msgid "Excerpt"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:151
+#: src/Admin/FieldGroupsPage.php:154
 msgid "Custom Fields (core)"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:152
+#: src/Admin/FieldGroupsPage.php:155
 msgid "Comments"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:153
+#: src/Admin/FieldGroupsPage.php:156
 msgid "Revisions"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:154
+#: src/Admin/FieldGroupsPage.php:157
 msgid "Author"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:155
+#: src/Admin/FieldGroupsPage.php:158
 msgid "Page Attributes (order, parent)"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:167
+#: src/Admin/FieldGroupsPage.php:170
 msgid "Dashboard"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:168
-#: build/builder.js:17
+#: src/Admin/FieldGroupsPage.php:171
+#: build/builder.js:18
 msgid "Posts"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:169
+#: src/Admin/FieldGroupsPage.php:172
 msgid "Media"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:170
+#: src/Admin/FieldGroupsPage.php:173
 msgid "Pages"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:171
+#: src/Admin/FieldGroupsPage.php:174
 #: src/Fields/Types/Taxonomy.php:61
 msgid "Appearance"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:172
+#: src/Admin/FieldGroupsPage.php:175
 msgid "Plugins"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:173
+#: src/Admin/FieldGroupsPage.php:176
 msgid "Users"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:175
+#: src/Admin/FieldGroupsPage.php:178
 #: build/builder.js:15
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:191
+#: src/Admin/FieldGroupsPage.php:194
 msgid "Loading…"
 msgstr ""
 
-#: src/Admin/FieldGroupsPage.php:207
+#: src/Admin/FieldGroupsPage.php:210
 msgid "The field group builder is not built. Run \"npm install && npm run build\" in the plugin folder."
 msgstr ""
 
-#: src/Admin/OptionsScreen.php:131
+#: src/Admin/OptionsScreen.php:141
 msgid "Sorry, you are not allowed to edit these options."
 msgstr ""
 
-#: src/Admin/OptionsScreen.php:140
+#: src/Admin/OptionsScreen.php:150
 msgid "The link you followed has expired. Please reload the page and try again."
 msgstr ""
 
-#: src/Admin/OptionsScreen.php:170
+#: src/Admin/OptionsScreen.php:180
 #: src/Options/OptionsPages.php:153
 msgid "Options Updated"
 msgstr ""
 
-#: src/Admin/OptionsScreen.php:177
+#: src/Admin/OptionsScreen.php:187
 msgid "No field groups are assigned to this options page yet. Create a field group with the location rule \"Options Page is equal to\" this page."
 msgstr ""
 
-#: src/Admin/OptionsScreen.php:187
+#: src/Admin/OptionsScreen.php:197
 msgid "Publish"
 msgstr ""
 
-#: src/Admin/OptionsScreen.php:190
+#: src/Admin/OptionsScreen.php:200
 #: src/Front/Forms.php:74
 #: src/Options/OptionsPages.php:152
 msgid "Update"
@@ -441,7 +442,7 @@ msgstr ""
 msgid "Some fields were not saved:"
 msgstr ""
 
-#: src/Blocks/Bindings.php:45
+#: src/Blocks/Bindings.php:74
 #: build/blocks.js:1
 msgid "Custom field"
 msgstr ""
@@ -620,7 +621,7 @@ msgstr ""
 
 #: src/Fields/Types/ChoiceField.php:53
 #: build/builder.js:12
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Label"
 msgstr ""
 
@@ -1544,7 +1545,7 @@ msgstr ""
 
 #: src/Options/OptionsPageStore.php:148
 #: src/Rest/OptionsPagesController.php:159
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "This options page is registered in code and cannot be edited here."
 msgstr ""
 
@@ -1881,13 +1882,15 @@ msgstr ""
 
 #: build/builder.js:7
 #: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Active"
 msgstr ""
 
 #: build/builder.js:7
 #: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Inactive"
 msgstr ""
 
@@ -1953,8 +1956,8 @@ msgid "Shown on"
 msgstr ""
 
 #: build/builder.js:7
-#: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Status"
 msgstr ""
 
@@ -1989,7 +1992,7 @@ msgid "Read from ACF (read-only). Migrate it in Tools."
 msgstr ""
 
 #: build/builder.js:7
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Registered in code (read-only)"
 msgstr ""
 
@@ -1998,13 +2001,13 @@ msgid "Loaded from a JSON file"
 msgstr ""
 
 #: build/builder.js:7
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "PHP"
 msgstr ""
 
 #: build/builder.js:7
-#: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Edit"
 msgstr ""
 
@@ -2032,7 +2035,7 @@ msgstr ""
 
 #. translators: %d: number of fields.
 #: build/builder.js:9
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "%d field"
 msgid_plural "%d fields"
 msgstr[0] ""
@@ -2081,8 +2084,8 @@ msgstr ""
 
 #: build/builder.js:10
 #: build/builder.js:12
-#: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Delete"
 msgstr ""
 
@@ -2354,7 +2357,8 @@ msgid "Unsaved changes"
 msgstr ""
 
 #: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Save changes"
 msgstr ""
 
@@ -2395,7 +2399,7 @@ msgid "Inactive groups are not shown on edit screens."
 msgstr ""
 
 #: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Show in REST API"
 msgstr ""
 
@@ -2460,7 +2464,8 @@ msgid "Groups with a lower number appear first."
 msgstr ""
 
 #: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Description"
 msgstr ""
 
@@ -2473,404 +2478,525 @@ msgid "Group key:"
 msgstr ""
 
 #: build/builder.js:15
+msgid "Choose…"
+msgstr ""
+
+#: build/builder.js:15
+msgid "Search icons (book, cart, star…)"
+msgstr ""
+
+#. translators: %d: number of icons.
+#: build/builder.js:16
+msgid "%d icon"
+msgid_plural "%d icons"
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/builder.js:16
+msgid "No icons found. Search uses English names."
+msgstr ""
+
+#: build/builder.js:16
+msgid "Icon class or image URL"
+msgstr ""
+
+#: build/builder.js:16
+msgid "(no title)"
+msgstr ""
+
+#: build/builder.js:16
 msgid "An options page adds an admin menu item with fields for site-wide settings. Show a field group on it with the location rule \"Options Page\"."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Add options page"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "No options pages yet"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Use one for things like a phone number, social links or a footer text that the whole site shares."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Menu"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Field groups"
 msgstr ""
 
 #. translators: %s: page title.
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Delete the options page \"%s\"? Saved values are kept."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Options page deleted."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Edit Options Page"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "New Options Page"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Open page"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Options page saved. Reload the admin to see menu changes."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
+msgid "The title of the page and its address in the admin."
+msgstr ""
+
+#: build/builder.js:16
 msgid "Page Title"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Menu Title"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Defaults to the page title."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Menu Slug"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Used in the admin URL and in the \"Options Page\" location rule."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
+#: build/builder.js:18
+msgid "Admin menu"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Where the page appears: its own menu item or a sub item of another menu."
+msgstr ""
+
+#: build/builder.js:16
 msgid "Parent Menu"
 msgstr ""
 
-#: build/builder.js:15
-msgid "Who can edit"
-msgstr ""
-
-#: build/builder.js:15
-msgid "Storage key (post_id)"
-msgstr ""
-
-#: build/builder.js:15
-msgid "Values are read with get_field( name, this key ). Default: options."
-msgstr ""
-
-#: build/builder.js:15
-#: build/builder.js:17
-msgid "Menu Icon"
-msgstr ""
-
-#: build/builder.js:15
-msgid "A dashicons class (dashicons-admin-generic) or an image URL."
-msgstr ""
-
-#: build/builder.js:15
-#: build/builder.js:17
+#: build/builder.js:16
+#: build/builder.js:18
 msgid "Menu Position"
 msgstr ""
 
-#: build/builder.js:15
-msgid "Update Button Label"
+#: build/builder.js:16
+#: build/builder.js:18
+msgid "Menu Icon"
 msgstr ""
 
-#: build/builder.js:15
-msgid "Default: Update"
+#: build/builder.js:16
+msgid "Pick an icon, or type a dashicons class or an image URL."
 msgstr ""
 
-#: build/builder.js:15
-msgid "Updated Message"
-msgstr ""
-
-#: build/builder.js:15
-msgid "Default: Options Updated"
-msgstr ""
-
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Open first sub page"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "When the page has sub pages, its menu item opens the first one."
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
+msgid "Access and storage"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Who can change the values and where they are saved."
+msgstr ""
+
+#: build/builder.js:16
+msgid "Who can edit"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Storage key (post_id)"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Values are read with get_field( name, this key ). Default: options."
+msgstr ""
+
+#: build/builder.js:16
 msgid "Autoload values"
 msgstr ""
 
-#: build/builder.js:15
+#: build/builder.js:16
 msgid "Load values with every request. Use for small settings needed on most pages."
 msgstr ""
 
-#. translators: %d: number of imported items (field groups, options pages, post types).
 #: build/builder.js:16
+msgid "Saving"
+msgstr ""
+
+#: build/builder.js:16
+msgid "The save button and the message after saving."
+msgstr ""
+
+#: build/builder.js:16
+msgid "Update Button Label"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Default: Update"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Updated Message"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Default: Options Updated"
+msgstr ""
+
+#: build/builder.js:16
+msgid "Inactive pages are not added to the menu."
+msgstr ""
+
+#: build/builder.js:16
+msgid "Slug:"
+msgstr ""
+
+#: build/builder.js:16
+#: build/builder.js:18
+msgid "In the admin menu"
+msgstr ""
+
+#. translators: %d: number of imported items (field groups, options pages, post types).
+#: build/builder.js:17
 msgid "%d item imported."
 msgid_plural "%d items imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "Choose field groups, then download them as JSON (to import elsewhere) or get PHP code to register them in a theme."
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "Select all"
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "Export as JSON"
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "Generate PHP"
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "PHP code"
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "Paste into your theme's functions.php. Delete the database copies afterwards to avoid duplicates."
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "Import a JSON export from WP Freeform Fields or from ACF. Groups with the same key are updated."
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "This file is not valid JSON."
 msgstr ""
 
-#: build/builder.js:16
+#: build/builder.js:17
 msgid "JSON file"
 msgstr ""
 
 #. translators: %d: number of PHP files.
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Theme check: %d PHP files use no ACF functions or hooks that WP Freeform Fields lacks."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Check your theme before deactivating ACF."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "These functions are not provided by WP Freeform Fields. Calling them without ACF causes a fatal error:"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "These ACF hooks are not fired by WP Freeform Fields, so the theme code attached to them will stop running:"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "These field groups were created with ACF. Importing keeps their keys, so values already saved by ACF keep working."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "already imported"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Import from ACF"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "No field groups created with ACF were found in the database."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Saved field groups are written to:"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Local JSON is off. Create this folder (writable by the web server) to save field groups as JSON files:"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Field groups are loaded from:"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "With WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, wp wpff import-acf."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Export, import and move field groups between sites, or switch from ACF."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Export Field Groups"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Import Field Groups"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Migrate from ACF"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Local JSON"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Content types like Products or Events, each with its own admin menu."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Ways to group content, like Genres or Locations."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Add post type"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Add taxonomy"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "No post types yet"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "No taxonomies yet"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Key"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Terms"
 msgstr ""
 
 #. translators: %s: label.
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Delete the post type \"%s\"? Its posts stay in the database but are hidden until it is registered again."
 msgstr ""
 
 #. translators: %s: label.
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Delete the taxonomy \"%s\"? Its terms stay in the database but are hidden until it is registered again."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Deleted."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Edit Post Type"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Add Post Type"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Edit Taxonomy"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Add Taxonomy"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Saved. Reload the admin to see it in the menu."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
+msgid "Names"
+msgstr ""
+
+#: build/builder.js:18
+msgid "How the post type is called in the admin, and its key in code and URLs."
+msgstr ""
+
+#: build/builder.js:18
+msgid "How the taxonomy is called in the admin, and its key in code and URLs."
+msgstr ""
+
+#: build/builder.js:18
 msgid "Plural Label"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "e.g. Books"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Singular Label"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "e.g. Book"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Post Type Key"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Taxonomy Key"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Up to 20 characters: a–z, 0–9, _ and -. Changing it hides existing posts."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Up to 32 characters: a–z, 0–9, _ and -."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "URL Slug"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Defaults to the key."
 msgstr ""
 
-#: build/builder.js:17
-msgid "A dashicons class, e.g. dashicons-book."
+#: build/builder.js:18
+msgid "The icon and place of the post type in the admin menu."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
+msgid "Pick an icon or type a dashicons class."
+msgstr ""
+
+#: build/builder.js:18
+msgid "5 — below Posts, 20 — below Pages, 60 — below Appearance. Empty: at the end."
+msgstr ""
+
+#: build/builder.js:18
+msgid "Behavior"
+msgstr ""
+
+#: build/builder.js:18
+msgid "Where it appears and how it works."
+msgstr ""
+
+#: build/builder.js:18
 msgid "Public"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Visible on the site and in the admin."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Hierarchical"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Like pages (parents and children)."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Like categories (parents and children)."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Needed for the block editor."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Archive"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "A page listing all items."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Exclude from Search"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
+msgid "Items do not appear in site search results."
+msgstr ""
+
+#: build/builder.js:18
 msgid "Admin Column"
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Show the terms in post lists."
 msgstr ""
 
-#: build/builder.js:17
+#: build/builder.js:18
 msgid "Supports"
+msgstr ""
+
+#: build/builder.js:18
+msgid "Parts of the edit screen."
+msgstr ""
+
+#: build/builder.js:18
+msgid "Taxonomies used to sort the items."
+msgstr ""
+
+#: build/builder.js:18
+msgid "Post types the terms can be assigned to."
+msgstr ""
+
+#: build/builder.js:18
+msgid "Inactive ones are not registered."
+msgstr ""
+
+#: build/builder.js:18
+msgid "Key:"
 msgstr ""
 
 #: build/map.js:1
