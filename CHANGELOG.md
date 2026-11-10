@@ -2,6 +2,20 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Field group list: a **Trash** tab to restore trashed groups or delete them for good. REST: `GET /wpff/v1/field-groups/trash`, `DELETE /wpff/v1/field-groups/{key}?force=1`.
+- Block Bindings: fields with "Allow in Block Bindings" can be picked in the block's **Attributes** panel (WordPress 6.9+), filtered by the post type of the template or post.
+
+### Changed
+- The field group list counts sub fields and layout fields, as the field group editor does.
+
+### Fixed
+- Block editor: values rejected by the server (invalid email or URL, number limits, `wpff/validate_value`) were dropped on save without a message. They are now checked while editing: the field shows the error, an editor notice lists the errors, and saving waits until the values are valid.
+- Block Bindings: a WYSIWYG value bound to a paragraph or heading produced nested `<p>` tags; its paragraphs are now joined with line breaks.
+- Field group editor: the field settings panel did not scroll in Chrome, so settings below the fold (such as "Allow in Block Bindings") were out of reach.
+
 ## [1.2.0] — 2026-11-10
 
 ### Added

@@ -28,6 +28,15 @@ export const updateGroup = ( group ) =>
 export const trashGroup = ( key ) =>
 	apiFetch( { path: `${ base() }/field-groups/${ key }`, method: 'DELETE' } );
 
+export const listTrash = () =>
+	apiFetch( { path: `${ base() }/field-groups/trash` } );
+
+export const deleteGroup = ( key ) =>
+	apiFetch( {
+		path: `${ base() }/field-groups/${ key }?force=1`,
+		method: 'DELETE',
+	} );
+
 export const restoreGroup = ( key ) =>
 	apiFetch( {
 		path: `${ base() }/field-groups/${ key }/restore`,

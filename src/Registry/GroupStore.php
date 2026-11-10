@@ -193,6 +193,47 @@ final class GroupStore {
 	}
 
 	/**
+	 * Groups in the trash, newest first.
+	 *
+	 * @return array<int, array{key: string, title: string, trashed: string}>
+	 */
+	public function trashed(): array {
+		$posts = get_posts(
+			array(
+				'post_type'      => Plugin::GROUP_POST_TYPE,
+				'post_status'    => 'trash',
+				'posts_per_page' => -1,
+				'orderby'        => 'modified',
+				'order'          => 'DESC',
+			)
+		);
+		$list  = array();
+		foreach ( $posts as $post ) {
+			$list[] = array(
+				'key'     => preg_replace( '/__trashed(-\d+)?$/', '', $post->post_name ),
+				'title'   => $post->post_title,
+				'trashed' => (string) get_post_meta( $post->ID, '_wp_trash_meta_time', true ),
+			);
+		}
+		return $list;
+	}
+
+	/**
+	 * Deletes a trashed group for good.
+	 *
+	 * @param string $key Group key.
+	 */
+	public function delete( string $key ): bool {
+		$post = $this->find_post( $key, true );
+		if ( ! $post || 'trash' !== $post->post_status ) {
+			return false;
+		}
+		$ok = (bool) wp_delete_post( $post->ID, true );
+		$this->registry->flush();
+		return $ok;
+	}
+
+	/**
 	 * Imports a group's Local JSON file into the database.
 	 *
 	 * @param string $key Group key.

@@ -37,6 +37,60 @@ final class BlockEditor {
 		wp_set_script_translations( BlockRegistry::EDITOR_HANDLE, 'freeform-fields', WPFF_PATH . 'languages' );
 	}
 
+	/**
+	 * Fields offered in the Block Bindings field picker: top-level fields of active groups with
+	 * "Allow in Block Bindings" on, with the post types their group is shown on (empty: any).
+	 *
+	 * @return array<int, array{key: string, label: string, group: string, postTypes: array<int, string>}>
+	 */
+	private function bindable_fields(): array {
+		$not_posts = array( 'options_page', 'taxonomy', 'user_form', 'user_role', 'current_user', 'current_user_role', 'block', 'nav_menu', 'nav_menu_item', 'comment', 'widget', 'attachment' );
+		$list      = array();
+		foreach ( $this->plugin->fields()->get_all_groups() as $group ) {
+			if ( empty( $group['active'] ) ) {
+				continue;
+			}
+			$fields = array_filter(
+				$group['fields'],
+				static fn( $field ) => ! empty( $field['allow_in_bindings'] ) && '' !== (string) ( $field['name'] ?? '' )
+			);
+			if ( array() === $fields ) {
+				continue;
+			}
+			$post_types = array();
+			$any        = false;
+			$on_posts   = false;
+			foreach ( (array) $group['location'] as $rules ) {
+				$params = array_column( (array) $rules, 'param' );
+				$types  = array();
+				foreach ( (array) $rules as $rule ) {
+					if ( 'post_type' === ( $rule['param'] ?? '' ) && '==' === ( $rule['operator'] ?? '' ) ) {
+						$types[] = (string) $rule['value'];
+					}
+				}
+				if ( array() !== $types ) {
+					$post_types = array_merge( $post_types, $types );
+					$on_posts   = true;
+				} elseif ( array() === array_intersect( $params, $not_posts ) ) {
+					$any      = true;
+					$on_posts = true;
+				}
+			}
+			if ( ! $on_posts ) {
+				continue;
+			}
+			foreach ( $fields as $field ) {
+				$list[] = array(
+					'key'       => (string) $field['name'],
+					'label'     => (string) ( '' !== (string) ( $field['label'] ?? '' ) ? $field['label'] : $field['name'] ),
+					'group'     => (string) $group['title'],
+					'postTypes' => $any ? array() : array_values( array_unique( $post_types ) ),
+				);
+			}
+		}
+		return $list;
+	}
+
 	public function enqueue(): void {
 		$blocks = $this->plugin->blocks()->all();
 		// The script also registers the Block Bindings source, so it loads without field blocks too.
@@ -59,6 +113,7 @@ final class BlockEditor {
 				array(
 					'blocks'   => $list,
 					'restPath' => '/' . FieldGroupsController::NAMESPACE,
+					'bindings' => $this->bindable_fields(),
 				)
 			) . ';',
 			'before'

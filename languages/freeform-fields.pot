@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-10T05:41:48+00:00\n"
+"POT-Creation-Date: 2026-11-10T08:13:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: freeform-fields\n"
@@ -179,7 +179,7 @@ msgstr ""
 #: src/Admin/BuilderData.php:90
 #: src/Fields/Types/Group.php:51
 #: src/Fields/Types/Repeater.php:59
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Block"
 msgstr ""
 
@@ -200,13 +200,13 @@ msgstr ""
 
 #: src/Admin/BuilderData.php:97
 #: src/Admin/BuilderData.php:102
-#: src/Admin/BuilderData.php:181
-#: src/Admin/BuilderData.php:209
-#: src/Admin/BuilderData.php:231
+#: src/Admin/BuilderData.php:201
+#: src/Admin/BuilderData.php:229
+#: src/Admin/BuilderData.php:251
 #: src/Fields/Types/File.php:57
 #: src/Fields/Types/Gallery.php:58
 #: src/Fields/Types/Image.php:64
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "All"
 msgstr ""
 
@@ -246,11 +246,11 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/Admin/BuilderData.php:195
+#: src/Admin/BuilderData.php:215
 msgid "Default Template"
 msgstr ""
 
-#: src/Admin/BuilderData.php:317
+#: src/Admin/BuilderData.php:337
 msgid "Super Admin"
 msgstr ""
 
@@ -258,8 +258,8 @@ msgstr ""
 #: src/Admin/FieldGroupsPage.php:56
 #: src/Plugin.php:153
 #: src/Plugin.php:423
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Field Groups"
 msgstr ""
 
@@ -277,25 +277,25 @@ msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:58
 #: src/Plugin.php:173
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Options Pages"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:59
 #: src/Content/ContentTypes.php:93
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Post Types"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:60
 #: src/Content/ContentTypes.php:93
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Taxonomies"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:61
 #: src/Admin/FieldGroupsPage.php:171
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Tools"
 msgstr ""
 
@@ -331,7 +331,7 @@ msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:144
 #: src/Front/Forms.php:287
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Title"
 msgstr ""
 
@@ -372,7 +372,7 @@ msgid "Dashboard"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:165
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Posts"
 msgstr ""
 
@@ -398,7 +398,7 @@ msgid "Users"
 msgstr ""
 
 #: src/Admin/FieldGroupsPage.php:172
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Settings"
 msgstr ""
 
@@ -604,13 +604,13 @@ msgstr ""
 
 #: src/Fields/Types/ChoiceField.php:52
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value"
 msgstr ""
 
 #: src/Fields/Types/ChoiceField.php:53
-#: build/builder.js:7
-#: build/builder.js:12
+#: build/builder.js:10
+#: build/builder.js:15
 msgid "Label"
 msgstr ""
 
@@ -632,8 +632,8 @@ msgstr ""
 
 #: src/Fields/Types/CloneField.php:48
 #: build/blocks.js:1
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Fields"
 msgstr ""
 
@@ -642,7 +642,7 @@ msgid "Select a whole field group or single fields to reuse."
 msgstr ""
 
 #: src/Fields/Types/CloneField.php:57
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Display"
 msgstr ""
 
@@ -852,12 +852,12 @@ msgid "Maximum Selection"
 msgstr ""
 
 #: src/Fields/Types/Gallery.php:103
-#: assets/js/admin.js:1548
+#: assets/js/admin.js:1665
 msgid "Remove image"
 msgstr ""
 
 #: src/Fields/Types/Gallery.php:107
-#: assets/js/admin.js:1509
+#: assets/js/admin.js:1626
 msgid "Add to gallery"
 msgstr ""
 
@@ -944,13 +944,13 @@ msgid "Enter both latitude (-90 to 90) and longitude (-180 to 180)."
 msgstr ""
 
 #: src/Fields/Types/Group.php:28
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Group"
 msgstr ""
 
 #: src/Fields/Types/Group.php:52
 #: src/Fields/Types/Repeater.php:60
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Row"
 msgstr ""
 
@@ -1141,12 +1141,12 @@ msgstr ""
 #. translators: %s: option label.
 #: src/Fields/Types/RelationalField.php:108
 #: assets/js/admin.js:580
-#: assets/js/admin.js:1897
+#: assets/js/admin.js:2013
 msgid "Remove %s"
 msgstr ""
 
 #: src/Fields/Types/RelationalField.php:116
-#: assets/js/admin.js:1960
+#: assets/js/admin.js:2076
 #: build/builder.js:1
 msgid "Search…"
 msgstr ""
@@ -1191,7 +1191,7 @@ msgid "Repeater"
 msgstr ""
 
 #: src/Fields/Types/Repeater.php:58
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Table"
 msgstr ""
 
@@ -1275,12 +1275,12 @@ msgid "Placement"
 msgstr ""
 
 #: src/Fields/Types/Tab.php:40
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Top aligned"
 msgstr ""
 
 #: src/Fields/Types/Tab.php:41
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Left aligned"
 msgstr ""
 
@@ -1534,7 +1534,7 @@ msgstr ""
 
 #: src/Options/OptionsPageStore.php:132
 #: src/Rest/OptionsPagesController.php:159
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "This options page is registered in code and cannot be edited here."
 msgstr ""
 
@@ -1553,62 +1553,62 @@ msgid "Inactive"
 msgstr ""
 
 #: src/Registry/GroupStore.php:56
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field group title is required."
 msgstr ""
 
 #: src/Registry/GroupStore.php:107
-#: src/Rest/FieldGroupsController.php:262
-#: build/builder.js:8
+#: src/Rest/FieldGroupsController.php:288
+#: build/builder.js:11
 msgid "This field group is registered in code and cannot be edited here."
 msgstr ""
 
-#: src/Registry/GroupStore.php:204
+#: src/Registry/GroupStore.php:245
 msgid "No JSON file for this field group."
 msgstr ""
 
-#: src/Registry/GroupStore.php:218
-#: src/Rest/FieldGroupsController.php:258
+#: src/Registry/GroupStore.php:259
+#: src/Rest/FieldGroupsController.php:284
 msgid "Field group not found."
 msgstr ""
 
 #. translators: %s: field group title.
 #. translators: %s: field label.
-#: src/Registry/GroupStore.php:222
-#: build/builder.js:9
+#: src/Registry/GroupStore.php:263
+#: build/builder.js:12
 msgid "%s (copy)"
 msgstr ""
 
 #. translators: %s: field name.
-#: src/Registry/GroupStore.php:346
+#: src/Registry/GroupStore.php:387
 msgid "Field name \"%s\" is used more than once here."
 msgstr ""
 
 #. translators: %s: field type.
-#: src/Registry/GroupStore.php:375
+#: src/Registry/GroupStore.php:416
 msgid "Unknown field type \"%s\"."
 msgstr ""
 
-#: src/Registry/GroupStore.php:383
-#: build/builder.js:8
+#: src/Registry/GroupStore.php:424
+#: build/builder.js:11
 msgid "Field label is required."
 msgstr ""
 
-#: src/Registry/GroupStore.php:392
+#: src/Registry/GroupStore.php:433
 msgid "Field name is required and may contain only a-z, 0-9, _ and -."
 msgstr ""
 
-#: src/Registry/GroupStore.php:480
-#: build/builder.js:8
+#: src/Registry/GroupStore.php:521
+#: build/builder.js:11
 msgid "Layout label is required."
 msgstr ""
 
-#: src/Registry/GroupStore.php:486
+#: src/Registry/GroupStore.php:527
 msgid "Layout name is required and may contain only a-z, 0-9, _ and -."
 msgstr ""
 
 #. translators: %s: layout name.
-#: src/Registry/GroupStore.php:492
+#: src/Registry/GroupStore.php:533
 msgid "Layout name \"%s\" is used more than once."
 msgstr ""
 
@@ -1661,7 +1661,7 @@ msgstr ""
 #. translators: %s: field label.
 #: src/Validation/Validator.php:83
 #: src/Validation/Validator.php:144
-#: assets/js/admin.js:901
+#: assets/js/admin.js:905
 msgid "%s is required."
 msgstr ""
 
@@ -1707,56 +1707,60 @@ msgstr ""
 msgid "Could not load results."
 msgstr ""
 
-#: assets/js/admin.js:986
+#: assets/js/admin.js:990
 msgid "Fill in the required fields to save."
 msgstr ""
 
+#: assets/js/admin.js:1060
+msgid "Fix the highlighted fields to save."
+msgstr ""
+
 #. translators: %d: maximum number of rows.
-#: assets/js/admin.js:1122
+#: assets/js/admin.js:1239
 msgid "At most %d rows are allowed."
 msgstr ""
 
 #. translators: %d: maximum number of this layout.
-#: assets/js/admin.js:1142
+#: assets/js/admin.js:1259
 msgid "This layout can be used at most %d times."
 msgstr ""
 
 #. translators: %d: minimum number of rows.
-#: assets/js/admin.js:1246
+#: assets/js/admin.js:1363
 msgid "At least %d rows are required."
 msgstr ""
 
-#: assets/js/admin.js:1338
+#: assets/js/admin.js:1455
 msgid "Rows pagination"
 msgstr ""
 
-#: assets/js/admin.js:1344
+#: assets/js/admin.js:1461
 msgid "Previous"
 msgstr ""
 
-#: assets/js/admin.js:1345
+#: assets/js/admin.js:1462
 msgid "Next"
 msgstr ""
 
 #. translators: 1: current page, 2: number of pages.
-#: assets/js/admin.js:1355
+#: assets/js/admin.js:1472
 msgid "Page %1$d of %2$d"
 msgstr ""
 
-#: assets/js/admin.js:1508
+#: assets/js/admin.js:1625
 msgid "Add Image to Gallery"
 msgstr ""
 
-#: assets/js/admin.js:1924
+#: assets/js/admin.js:2040
 msgid "Select…"
 msgstr ""
 
-#: assets/js/admin.js:1963
+#: assets/js/admin.js:2079
 #: build/builder.js:1
 msgid "Search options"
 msgstr ""
 
-#: assets/js/admin.js:2054
+#: assets/js/admin.js:2170
 #: build/builder.js:1
 #: build/map.js:1
 msgid "Nothing found."
@@ -1783,19 +1787,19 @@ msgid "No rules: this field group is not shown anywhere."
 msgstr ""
 
 #: build/builder.js:1
-#: build/builder.js:4
 #: build/builder.js:7
+#: build/builder.js:10
 msgid "or"
 msgstr ""
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Show if"
 msgstr ""
 
 #: build/builder.js:1
-#: build/builder.js:4
 #: build/builder.js:7
+#: build/builder.js:10
 msgid "and"
 msgstr ""
 
@@ -1804,7 +1808,7 @@ msgid "Rule"
 msgstr ""
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Operator"
 msgstr ""
 
@@ -1817,17 +1821,17 @@ msgid "is not equal to"
 msgstr ""
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add \"and\" rule"
 msgstr ""
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Remove rule"
 msgstr ""
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add rule group"
 msgstr ""
 
@@ -1850,967 +1854,998 @@ msgstr ""
 msgid "“%s” synced from its JSON file."
 msgstr ""
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#. translators: %s: field group title.
+#: build/builder.js:5
+msgid "“%s” restored."
+msgstr ""
+
+#. translators: %s: field group title.
+#: build/builder.js:6
+msgid "Delete “%s” permanently? This cannot be undone. Values saved in posts are kept."
+msgstr ""
+
+#. translators: %s: field group title.
+#: build/builder.js:7
+msgid "“%s” deleted permanently."
+msgstr ""
+
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Active"
 msgstr ""
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Inactive"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Sync available"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
+msgid "Trash"
+msgstr ""
+
+#: build/builder.js:7
 msgid "Sets of custom fields and the screens they appear on."
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Add field group"
 msgstr ""
 
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Undo"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Field group restored."
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "No field groups yet"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "A field group is a set of fields — price, gallery, author bio — shown on the screens you choose."
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Create your first field group"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Filter field groups"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Search groups"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Nothing found"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Try another search or filter."
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Field group"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Shown on"
 msgstr ""
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Status"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Actions"
 msgstr ""
 
+#: build/builder.js:7
+msgid "Moved to Trash"
+msgstr ""
+
+#: build/builder.js:7
+msgid "Restore"
+msgstr ""
+
+#: build/builder.js:7
+msgid "Delete permanently"
+msgstr ""
+
 #. translators: 1: rule name, 2: value.
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "%1$s is %2$s"
 msgstr ""
 
 #. translators: 1: rule name, 2: value.
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "%1$s is not %2$s"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Read from ACF (read-only). Migrate it in Tools."
 msgstr ""
 
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Registered in code (read-only)"
 msgstr ""
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Loaded from a JSON file"
 msgstr ""
 
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "PHP"
 msgstr ""
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Edit"
 msgstr ""
 
 #. translators: %s: field group title.
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Actions for “%s”"
 msgstr ""
 
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Sync from JSON"
 msgstr ""
 
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Copy to an editable group"
 msgstr ""
 
-#: build/builder.js:5
-#: build/builder.js:7
+#: build/builder.js:8
+#: build/builder.js:10
 msgid "Duplicate"
 msgstr ""
 
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Move to Trash"
 msgstr ""
 
 #. translators: %d: number of fields.
-#: build/builder.js:6
-#: build/builder.js:12
+#: build/builder.js:9
+#: build/builder.js:15
 msgid "%d field"
 msgid_plural "%d fields"
 msgstr[0] ""
 msgstr[1] ""
 
-#: build/builder.js:6
+#: build/builder.js:9
 msgid "Drag fields here, or pick a type in the “Add field” panel."
 msgstr ""
 
-#: build/builder.js:6
+#: build/builder.js:9
 msgid "No fields yet. Drag a field type here from the “Add field” panel, or click one to add it."
 msgstr ""
 
-#: build/builder.js:6
-#: build/builder.js:7
+#: build/builder.js:9
 #: build/builder.js:10
+#: build/builder.js:13
 msgid "(no label)"
 msgstr ""
 
 #. translators: 1: field label, 2: field type.
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "%1$s, %2$s field"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Drag to move"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Show sub fields"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Hide sub fields"
 msgstr ""
 
-#: build/builder.js:7
-#: build/builder.js:8
+#: build/builder.js:10
+#: build/builder.js:11
 msgid "Required"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Conditional"
 msgstr ""
 
-#: build/builder.js:7
 #: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Delete"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "More actions"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Move up"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Move down"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Move out of the parent field"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add a layout in the field settings to place fields in it."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Conditional Logic"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Show this field only when other fields have certain values."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add another field to this group to use conditions."
 msgstr ""
 
-#: build/builder.js:7
 #: build/builder.js:10
+#: build/builder.js:13
 msgid "Field"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is equal to"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is not equal to"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Has no value"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Has any value"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value contains"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value does not contain"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is greater than"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is less than"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Checked"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Unchecked"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add at least one layout."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Duplicate layout"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Delete layout"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Name"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Returned by get_row_layout()."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Min"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Max"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add Layout"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "General"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Field Label"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Shown on the edit screen."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Shown as the tab, section or message title."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Field Name"
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Used in code: get_field( 'name' ). Letters a-z, digits, _ and -."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Changing the name of a saved field hides values already stored under the old name."
 msgstr ""
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Field Type"
 msgstr ""
 
 #. translators: %s: field type label.
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "%s settings"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Layouts"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Sub Fields"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Validation & presentation"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Instructions"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Shown to editors under the label."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Allow in Block Bindings"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Lets editors show this value in core blocks (paragraph, heading, image, button) on the site."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Width (%)"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Wrapper CSS class"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Wrapper ID"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Conditional logic"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field key:"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "— None —"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Search field types"
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Click to add after the selected field, or drag into place."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "No field types found."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "This field group is read from ACF and cannot be edited here. Migrate it in Tools to edit it."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Please fix the highlighted problems and save again."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field name is required and may contain only a–z, 0–9, _ and -."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "This field name is already used here."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "This layout name is already used."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Layout name is required and may contain only a–z, 0–9, _ and -."
 msgstr ""
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field group saved."
 msgstr ""
 
 #. translators: %s: field label.
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Deleted “%s”."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Edit Field Group"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "New Field Group"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Unsaved changes"
 msgstr ""
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Save changes"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Create field group"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Field group title, e.g. Product details"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Field Group Title"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Expand all"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Collapse all"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Add field"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Location"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Select a field in the list to edit its settings."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Inactive groups are not shown on edit screens."
 msgstr ""
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Show in REST API"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Add these fields to WordPress REST responses (property \"acf\")."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Presentation"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Position"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "High (after title)"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Normal (after content)"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Side"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Style"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Standard (meta box)"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Seamless (no meta box)"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Label Placement"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Instruction Placement"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Below labels"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Below fields"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Order No."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Groups with a lower number appear first."
 msgstr ""
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Description"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Shown in the field group list."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Group key:"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "An options page adds an admin menu item with fields for site-wide settings. Show a field group on it with the location rule \"Options Page\"."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Add options page"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "No options pages yet"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Use one for things like a phone number, social links or a footer text that the whole site shares."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Menu"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Field groups"
 msgstr ""
 
 #. translators: %s: page title.
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Delete the options page \"%s\"? Saved values are kept."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Options page deleted."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Edit Options Page"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "New Options Page"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Open page"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Options page saved. Reload the admin to see menu changes."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Page Title"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Menu Title"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Defaults to the page title."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Menu Slug"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Used in the admin URL and in the \"Options Page\" location rule."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Parent Menu"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Who can edit"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Storage key (post_id)"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Values are read with get_field( name, this key ). Default: options."
 msgstr ""
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Menu Icon"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "A dashicons class (dashicons-admin-generic) or an image URL."
 msgstr ""
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Menu Position"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Update Button Label"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Default: Update"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Updated Message"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Default: Options Updated"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Open first sub page"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "When the page has sub pages, its menu item opens the first one."
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Autoload values"
 msgstr ""
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Load values with every request. Use for small settings needed on most pages."
 msgstr ""
 
 #. translators: %d: number of imported items (field groups, options pages, post types).
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "%d item imported."
 msgid_plural "%d items imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Choose field groups, then download them as JSON (to import elsewhere) or get PHP code to register them in a theme."
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Select all"
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Export as JSON"
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Generate PHP"
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "PHP code"
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Paste into your theme's functions.php. Delete the database copies afterwards to avoid duplicates."
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Import a JSON export from WP Freeform Fields or from ACF. Groups with the same key are updated."
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "This file is not valid JSON."
 msgstr ""
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "JSON file"
 msgstr ""
 
 #. translators: %d: number of PHP files.
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Theme check: %d PHP files use no ACF functions or hooks that WP Freeform Fields lacks."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Check your theme before deactivating ACF."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "These functions are not provided by WP Freeform Fields. Calling them without ACF causes a fatal error:"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "These ACF hooks are not fired by WP Freeform Fields, so the theme code attached to them will stop running:"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "These field groups were created with ACF. Importing keeps their keys, so values already saved by ACF keep working."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "already imported"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Import from ACF"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "No field groups created with ACF were found in the database."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Saved field groups are written to:"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Local JSON is off. Create this folder (writable by the web server) to save field groups as JSON files:"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Field groups are loaded from:"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "With WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, wp wpff import-acf."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Export, import and move field groups between sites, or switch from ACF."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Export Field Groups"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Import Field Groups"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Migrate from ACF"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Local JSON"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Content types like Products or Events, each with its own admin menu."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Ways to group content, like Genres or Locations."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add post type"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add taxonomy"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "No post types yet"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "No taxonomies yet"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Key"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Terms"
 msgstr ""
 
 #. translators: %s: label.
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Delete the post type \"%s\"? Its posts stay in the database but are hidden until it is registered again."
 msgstr ""
 
 #. translators: %s: label.
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Delete the taxonomy \"%s\"? Its terms stay in the database but are hidden until it is registered again."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Deleted."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Edit Post Type"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add Post Type"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Edit Taxonomy"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add Taxonomy"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Saved. Reload the admin to see it in the menu."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Plural Label"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "e.g. Books"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Singular Label"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "e.g. Book"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Post Type Key"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Taxonomy Key"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Up to 20 characters: a–z, 0–9, _ and -. Changing it hides existing posts."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Up to 32 characters: a–z, 0–9, _ and -."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "URL Slug"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Defaults to the key."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "A dashicons class, e.g. dashicons-book."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Public"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Visible on the site and in the admin."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Hierarchical"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Like pages (parents and children)."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Like categories (parents and children)."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Needed for the block editor."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Archive"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "A page listing all items."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Exclude from Search"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Admin Column"
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Show the terms in post lists."
 msgstr ""
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Supports"
 msgstr ""
 
