@@ -173,7 +173,7 @@ function Import() {
 			let groups;
 			try {
 				groups = JSON.parse( text );
-			} catch ( e ) {
+			} catch {
 				setError(
 					__( 'This file is not valid JSON.', 'freeform-fields' )
 				);

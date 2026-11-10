@@ -301,7 +301,7 @@ function initMap( el ) {
 			if ( place ) {
 				apply( { ...place, lat, lng }, false );
 			}
-		} catch ( e ) {
+		} catch {
 			say( '' );
 		}
 	}
@@ -355,10 +355,10 @@ function initMap( el ) {
 					? __(
 							'Choose a result with the arrow keys or the mouse.',
 							'freeform-fields'
-					  )
+						)
 					: __( 'Nothing found.', 'freeform-fields' )
 			);
-		} catch ( e ) {
+		} catch {
 			say(
 				__(
 					'Search failed. Try again later or enter coordinates.',
@@ -441,7 +441,7 @@ function initMap( el ) {
 				: [
 						Number( el.dataset.centerLat ),
 						Number( el.dataset.centerLng ),
-				  ];
+					];
 			const zoom =
 				Number( zoomInput.value ) || Number( el.dataset.zoom ) || 14;
 			map = provider.create( canvas, center, zoom, pick, ( z ) => {

@@ -78,11 +78,11 @@ export function FieldList( { fields, path, depth = 0 } ) {
 						? __(
 								'Drag fields here, or pick a type in the “Add field” panel.',
 								'freeform-fields'
-						  )
+							)
 						: __(
 								'No fields yet. Drag a field type here from the “Add field” panel, or click one to add it.',
 								'freeform-fields'
-						  ) }
+							) }
 				</p>
 			) }
 		</div>

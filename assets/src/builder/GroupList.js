@@ -117,7 +117,7 @@ export default function GroupList() {
 					__( 'Sync available', 'freeform-fields' ),
 					groups.filter( ( g ) => g.sync ).length,
 				],
-		  ].filter( ( [ id, , count ] ) => 'all' === id || count > 0 )
+			].filter( ( [ id, , count ] ) => 'all' === id || count > 0 )
 		: [];
 
 	const query = search.trim().toLowerCase();
@@ -171,7 +171,7 @@ export default function GroupList() {
 										label: __( 'Undo', 'freeform-fields' ),
 										onClick: () => onUndo( notice.undoKey ),
 									},
-							  ]
+								]
 							: []
 					}
 				>
@@ -443,7 +443,7 @@ function GroupRow( { group, busy, actions } ) {
 										? __(
 												'Copy to an editable group',
 												'freeform-fields'
-										  )
+											)
 										: __( 'Duplicate', 'freeform-fields' ) }
 								</MenuItem>
 							</MenuGroup>

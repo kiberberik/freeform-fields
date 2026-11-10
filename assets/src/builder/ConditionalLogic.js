@@ -52,7 +52,7 @@ export default function ConditionalLogic( { field, siblings, onChange } ) {
 				g === gi
 					? group.map( ( r, i ) =>
 							i === ri ? { ...r, ...patch } : r
-					  )
+						)
 					: group
 			)
 		);
@@ -82,11 +82,11 @@ export default function ConditionalLogic( { field, siblings, onChange } ) {
 						? __(
 								'Show this field only when other fields have certain values.',
 								'freeform-fields'
-						  )
+							)
 						: __(
 								'Add another field to this group to use conditions.',
 								'freeform-fields'
-						  )
+							)
 				}
 				checked={ !! rules }
 				disabled={ ! candidates.length }

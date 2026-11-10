@@ -27,7 +27,7 @@
 			from && from.parentElement
 				? from.parentElement.closest(
 						'.wpff-group, .wpff-fields, form'
-				  )
+					)
 				: null;
 		const selector = `.wpff-field[data-key="${ key }"]`;
 		return (
@@ -127,7 +127,7 @@
 					let groups;
 					try {
 						groups = JSON.parse( field.dataset.conditions );
-					} catch ( e ) {
+					} catch {
 						return;
 					}
 					const visible = groups.some( ( rules ) =>
@@ -458,7 +458,7 @@
 										);
 									} );
 								},
-						  },
+							},
 				quicktags: 'visual' !== tabs,
 				mediaButtons: '1' === area.dataset.media,
 			} );
@@ -1261,7 +1261,7 @@
 		let source = key
 			? row.querySelector(
 					`:scope .wpff-row__fields > .wpff-field[data-key="${ key }"]`
-			  )
+				)
 			: null;
 		source =
 			source ||
@@ -1616,7 +1616,7 @@
 		if ( 'true_false' === field.dataset.type ) {
 			return '1' === values[ 0 ];
 		}
-		return isListField( field ) ? values : values[ 0 ] ?? '';
+		return isListField( field ) ? values : ( values[ 0 ] ?? '' );
 	}
 
 	/**
@@ -1747,7 +1747,6 @@
 				setFieldValue( selector, value ) {
 					const field = topField( selector );
 					if ( ! field || ! writeValue( field, value ) ) {
-						// eslint-disable-next-line no-console -- developer feedback for an unsupported call.
 						window.console.warn(
 							`wpff/fields: cannot set "${ selector }"`
 						);

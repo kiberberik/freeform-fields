@@ -255,7 +255,7 @@ export default function Select( {
 				>
 					{ current
 						? current.label
-						: placeholder ?? ( value ? String( value ) : '—' ) }
+						: ( placeholder ?? ( value ? String( value ) : '—' ) ) }
 				</span>
 				<Icon icon={ chevronDown } size={ 20 } />
 			</button>
