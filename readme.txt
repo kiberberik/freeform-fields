@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,12 @@ Yes. Values are read from the same meta keys, and the functions return the same 
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.2.1 =
+* Block editor: values rejected by validation (for example an invalid email) are no longer dropped without a message; saving waits until they are fixed.
+* Field group list: a Trash tab to restore or permanently delete groups; field counts include sub fields.
+* Block Bindings: pick a field in the block's Attributes panel; WYSIWYG values no longer nest paragraphs.
+* Field group editor: the field settings panel scrolls in Chrome.
 
 = 1.2.0 =
 * Migration from ACF PRO checked end to end: values, pages, REST output and admin screens stay the same after ACF is removed.
