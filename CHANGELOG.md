@@ -2,13 +2,14 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.2.1] — 2026-11-10
 
 ### Added
 - Field group list: a **Trash** tab to restore trashed groups or delete them for good. REST: `GET /wpff/v1/field-groups/trash`, `DELETE /wpff/v1/field-groups/{key}?force=1`.
 - Block Bindings: fields with "Allow in Block Bindings" can be picked in the block's **Attributes** panel (WordPress 6.9+), filtered by the post type of the template or post.
 
 ### Changed
+- `Update URI: false` in the plugin header, so WordPress never offers an update from an unrelated wordpress.org plugin with the same slug.
 - The field group list counts sub fields and layout fields, as the field group editor does.
 
 ### Fixed
