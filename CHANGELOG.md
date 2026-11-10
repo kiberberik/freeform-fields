@@ -13,6 +13,7 @@ All notable changes to this project are listed here. The format follows [Keep a 
 - Clone fields were expanded when the field group editor loaded a group, so saving it again replaced the clone with copies of the cloned fields. Duplicate, JSON/PHP export and Local JSON had the same problem. They now keep the clone field (`get_group_definition()` / `get_all_group_definitions()`).
 - The "Add term" form kept the previous term's field values (image, color, choices) after a term was added over AJAX.
 - Searchable selects in the field group editor: Enter right after typing did nothing until the highlight caught up; it now picks the first match.
+- Saving an options page placed under a post type menu redirected to the post list: the return URL had `&#038;` instead of `&`.
 
 ## [1.2.1] — 2026-11-10
 

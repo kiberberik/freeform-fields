@@ -215,6 +215,13 @@ final class OptionsPagesTest extends TestCase {
 		);
 		$this->assertSame( 201, $created->get_status() );
 		$this->assertSame( 'edit.php?post_type=book', $created->get_data()['parent_slug'], 'A post type menu is kept as the parent.' );
+
+		// The redirect after saving must keep `&page=` (menu_page_url() returns `&#038;`).
+		global $_parent_pages;
+		$_parent_pages['catalog-settings'] = 'edit.php?post_type=book'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- what add_submenu_page() sets.
+		$url                               = \FreeformFields\Admin\OptionsScreen::page_url( 'catalog-settings' );
+		$this->assertStringContainsString( 'edit.php?post_type=book&page=catalog-settings', $url );
+		unset( $_parent_pages['catalog-settings'] );
 		unregister_post_type( 'book' );
 	}
 
