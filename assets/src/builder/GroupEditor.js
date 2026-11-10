@@ -98,6 +98,41 @@ export default function GroupEditor( { groupKey } ) {
 	const [ notice, setNotice ] = useState( null );
 	const [ saving, setSaving ] = useState( false );
 	const [ exists, setExists ] = useState( ! isNew );
+	const inspectorRef = useRef( null );
+	const hasGroup = null !== group;
+
+	// The sticky inspector fits the window from where it is: before it sticks (page not
+	// scrolled), its top is lower than the sticky offset, and a fixed max-height cut off
+	// its bottom. Recomputed on scroll, resize and layout changes (notices, field list).
+	useEffect( () => {
+		const el = inspectorRef.current;
+		if ( ! el ) {
+			return;
+		}
+		const fit = () => {
+			if ( 'sticky' !== window.getComputedStyle( el ).position ) {
+				el.style.maxHeight = '';
+				return;
+			}
+			const top = Math.max( el.getBoundingClientRect().top, 52 );
+			el.style.maxHeight = `${ Math.max(
+				240,
+				window.innerHeight - top - 20
+			) }px`;
+		};
+		fit();
+		window.addEventListener( 'scroll', fit, { passive: true } );
+		window.addEventListener( 'resize', fit );
+		const observer = window.ResizeObserver
+			? new window.ResizeObserver( fit )
+			: null;
+		observer?.observe( document.body );
+		return () => {
+			window.removeEventListener( 'scroll', fit );
+			window.removeEventListener( 'resize', fit );
+			observer?.disconnect();
+		};
+	}, [ hasGroup ] );
 	const [ drop, setDrop ] = useState( null );
 	const [ dragging, setDragging ] = useState( null );
 	const titleRef = useRef();
@@ -635,6 +670,7 @@ export default function GroupEditor( { groupKey } ) {
 					</fieldset>
 
 					<aside
+						ref={ inspectorRef }
 						className="wpff-inspector"
 						aria-label={ __( 'Settings', 'freeform-fields' ) }
 					>
