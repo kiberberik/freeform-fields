@@ -12,7 +12,7 @@ Thank you for helping! Bug reports, fixes, translations and documentation are al
 
 ## Setup
 
-You need PHP 8.1+, Composer, Node 20+ and WP-CLI. Docker and MySQL are not needed.
+You need PHP 8.2+ (for PHPUnit; the plugin itself runs on 8.1), Composer, Node 20+ and WP-CLI. Docker and MySQL are not needed.
 
 ```bash
 composer install

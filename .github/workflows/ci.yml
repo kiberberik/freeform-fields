@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.1', '8.3', '8.4']
+        php: ['8.2', '8.3', '8.4']
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -49,10 +49,22 @@ jobs:
       - run: bin/setup-dev.sh
       - run: composer test
 
+  php81:
+    name: PHP 8.1 syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+      # PHPUnit 11 needs PHP 8.2, so on 8.1 (the minimum the plugin supports) only the syntax is checked.
+      - run: find freeform-fields.php src examples -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+
   package:
     name: Plugin zip
     runs-on: ubuntu-latest
-    needs: [js, php]
+    needs: [js, php, php81]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
