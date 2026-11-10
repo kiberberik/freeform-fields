@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,8 @@ The Map field loads maps and searches addresses with outside services. They are 
 
 Developers can change the tile server and the geocoder with the `wpff/fields/google_map/tiles` and `wpff/fields/google_map/geocoder_url` filters.
 
+**Plugin updates.** Twice a day, with the regular WordPress update check, the site downloads a small `update.json` file from the plugin's latest release on GitHub (github.com and its file host release-assets.githubusercontent.com) to see whether a new version exists. No site data is sent, only the usual request details such as the server's IP address. When you install an update, the zip comes from the same release. See the [GitHub terms](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) and the [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Turn the check off with `add_filter( 'wpff/updates/enabled', '__return_false' );`.
+
 == Installation ==
 
 1. Upload the plugin to `/wp-content/plugins/freeform-fields` or install it from the Plugins screen.
@@ -76,6 +78,10 @@ Yes. Values are read from the same meta keys, and the functions return the same 
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.3.0 =
+* Updates from the Plugins screen: new versions are offered from the plugin's GitHub releases and install like any other plugin update.
+* The plugin has a website with documentation: https://wpff.kiberberik.link
 
 = 1.2.2 =
 * Clone fields stay clone fields when a group is saved again, duplicated or exported (they were replaced by copies of the cloned fields).

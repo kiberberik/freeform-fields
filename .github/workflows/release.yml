@@ -22,7 +22,9 @@ jobs:
           version="$(sed -n 's/^ \* Version: *//p' freeform-fields.php | head -1)"
           [ "v$version" = "$GITHUB_REF_NAME" ] || { echo "Tag $GITHUB_REF_NAME does not match version $version"; exit 1; }
       - run: bin/build-zip.sh
+      - name: Build the update manifest
+        run: bin/build-update-manifest.sh
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --title "$GITHUB_REF_NAME" --notes "See [CHANGELOG.md](CHANGELOG.md) for what changed." --verify-tag
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip dist/update.json --title "$GITHUB_REF_NAME" --notes "See [CHANGELOG.md](CHANGELOG.md) for what changed." --verify-tag

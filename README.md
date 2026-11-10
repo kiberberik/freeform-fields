@@ -118,6 +118,16 @@ wpff_update_setting( 'google_api_key', 'your-key' ); // or acf_update_setting(),
 
 These services are contacted only from admin screens that show a Map field, and only to load the map and run the searches an editor starts. The plugin itself sends no data anywhere. You can change the tile server and geocoder with the `wpff/fields/google_map/tiles` and `wpff/fields/google_map/geocoder_url` filters.
 
+## Updates
+
+New versions show up on the Plugins and Updates screens, like updates from wordpress.org. The plugin reads `update.json` from its [latest GitHub release](https://github.com/kiberberik/freeform-fields/releases/latest) with the regular WordPress update check, twice a day, and installs that release's zip. No site data is sent. To turn the check off:
+
+```php
+add_filter( 'wpff/updates/enabled', '__return_false' );
+```
+
+Version 1.2.2 and older cannot update themselves: install 1.3.0 once by uploading the zip, and later versions arrive as updates.
+
 ## Development
 
 ```bash
