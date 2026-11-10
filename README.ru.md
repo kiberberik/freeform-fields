@@ -2,7 +2,7 @@
 
 **Бесплатный плагин произвольных полей для WordPress с открытым кодом. Создан по мотивам ACF PRO и совместим с его данными.**
 
-[English version](README.md) · [Руководство разработчика](docs/developer-guide.ru.md) · [Список изменений](CHANGELOG.md) · [Как помочь проекту](CONTRIBUTING.md)
+[Сайт и документация](https://wpff.kiberberik.link/ru/) · [English version](README.md) · [Руководство разработчика](docs/developer-guide.ru.md) · [Список изменений](CHANGELOG.md) · [Как помочь проекту](CONTRIBUTING.md)
 
 WP Freeform Fields добавляет в WordPress:
 
