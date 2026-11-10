@@ -1,0 +1,2872 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Freeform Fields 1.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/freeform-fields\n"
+"Last-Translator: kiberberik\n"
+"Language-Team: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-09T09:04:45+00:00\n"
+"PO-Revision-Date: 2026-11-09 12:00+0000\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: freeform-fields\n"
+
+#: examples/blocks/cta.php:12
+msgid "Call to action"
+msgstr "Призыв к действию"
+
+#: examples/blocks/testimonial/testimonial.php:16
+msgid "Write the quote in the block sidebar."
+msgstr "Напишите цитату в боковой панели блока."
+
+#: src/Admin/Ajax.php:33
+msgid "You are not allowed to edit this item."
+msgstr "У вас нет прав на изменение этого объекта."
+
+#: src/Admin/BuilderData.php:33
+#: src/Fields/Types/Wysiwyg.php:60
+msgid "Basic"
+msgstr "Базовые"
+
+#: src/Admin/BuilderData.php:34
+#: src/Front/Forms.php:296
+msgid "Content"
+msgstr "Контент"
+
+#: src/Admin/BuilderData.php:35
+msgid "Choice"
+msgstr "Выбор"
+
+#: src/Admin/BuilderData.php:36
+msgid "Relational"
+msgstr "Связи"
+
+#: src/Admin/BuilderData.php:37
+msgid "Advanced"
+msgstr "Дополнительные"
+
+#: src/Admin/BuilderData.php:38
+#: src/Fields/Types/ChoiceField.php:69
+#: src/Fields/Types/Group.php:47
+#: src/Fields/Types/Repeater.php:54
+msgid "Layout"
+msgstr "Разметка"
+
+#: src/Admin/BuilderData.php:65
+#: src/Admin/BuilderData.php:75
+msgid "Post"
+msgstr "Запись"
+
+#: src/Admin/BuilderData.php:66
+#: src/Admin/BuilderData.php:89
+msgid "Page"
+msgstr "Страница"
+
+#: src/Admin/BuilderData.php:67
+#: src/Fields/Types/User.php:22
+msgid "User"
+msgstr "Пользователь"
+
+#: src/Admin/BuilderData.php:69
+msgid "Post Type"
+msgstr "Тип записи"
+
+#: src/Admin/BuilderData.php:70
+msgid "Post Template"
+msgstr "Шаблон записи"
+
+#: src/Admin/BuilderData.php:71
+msgid "Post Status"
+msgstr "Статус записи"
+
+#: src/Admin/BuilderData.php:72
+msgid "Post Format"
+msgstr "Формат записи"
+
+#: src/Admin/BuilderData.php:73
+msgid "Post Category"
+msgstr "Рубрика записи"
+
+#: src/Admin/BuilderData.php:74
+msgid "Post Taxonomy"
+msgstr "Таксономия записи"
+
+#: src/Admin/BuilderData.php:76
+msgid "Page Template"
+msgstr "Шаблон страницы"
+
+#: src/Admin/BuilderData.php:79
+msgid "Page Type"
+msgstr "Тип страницы"
+
+#: src/Admin/BuilderData.php:81
+msgid "Front Page"
+msgstr "Главная страница"
+
+#: src/Admin/BuilderData.php:82
+msgid "Posts Page"
+msgstr "Страница записей"
+
+#: src/Admin/BuilderData.php:83
+msgid "Top Level Page (no parent)"
+msgstr "Страница верхнего уровня (без родителя)"
+
+#: src/Admin/BuilderData.php:84
+msgid "Parent Page (has children)"
+msgstr "Родительская страница (есть дочерние)"
+
+#: src/Admin/BuilderData.php:85
+msgid "Child Page (has parent)"
+msgstr "Дочерняя страница (есть родитель)"
+
+#: src/Admin/BuilderData.php:88
+msgid "Page Parent"
+msgstr "Родитель страницы"
+
+#: src/Admin/BuilderData.php:90
+#: src/Admin/BuilderData.php:91
+msgid "Forms"
+msgstr "Формы"
+
+#: src/Admin/BuilderData.php:90
+#: src/Fields/Types/Group.php:51
+#: src/Fields/Types/Repeater.php:59
+#: build/builder.js:7
+msgid "Block"
+msgstr "Блок"
+
+#: src/Admin/BuilderData.php:91
+#: src/Plugin.php:174
+msgid "Options Page"
+msgstr "Страница настроек"
+
+#: src/Admin/BuilderData.php:92
+#: src/Fields/Types/Taxonomy.php:25
+#: src/Fields/Types/Taxonomy.php:58
+msgid "Taxonomy"
+msgstr "Таксономия"
+
+#: src/Admin/BuilderData.php:95
+msgid "User Form"
+msgstr "Форма пользователя"
+
+#: src/Admin/BuilderData.php:97
+#: src/Admin/BuilderData.php:102
+#: src/Admin/BuilderData.php:181
+#: src/Admin/BuilderData.php:209
+#: src/Admin/BuilderData.php:231
+#: src/Fields/Types/File.php:57
+#: src/Fields/Types/Gallery.php:58
+#: src/Fields/Types/Image.php:64
+#: build/builder.js:4
+msgid "All"
+msgstr "Все"
+
+#: src/Admin/BuilderData.php:98
+msgid "Add New User"
+msgstr "Новый пользователь"
+
+#: src/Admin/BuilderData.php:99
+msgid "Edit User / Profile"
+msgstr "Редактирование пользователя / профиль"
+
+#: src/Admin/BuilderData.php:102
+msgid "User Role"
+msgstr "Роль пользователя"
+
+#: src/Admin/BuilderData.php:105
+msgid "Current User"
+msgstr "Текущий пользователь"
+
+#: src/Admin/BuilderData.php:107
+msgid "Logged in"
+msgstr "Вошёл в систему"
+
+#: src/Admin/BuilderData.php:108
+msgid "Viewing front end"
+msgstr "Просматривает сайт"
+
+#: src/Admin/BuilderData.php:109
+msgid "Viewing back end"
+msgstr "Находится в админке"
+
+#: src/Admin/BuilderData.php:112
+msgid "Current User Role"
+msgstr "Роль текущего пользователя"
+
+#: src/Admin/BuilderData.php:134
+msgid "Other"
+msgstr "Другое"
+
+#: src/Admin/BuilderData.php:195
+msgid "Default Template"
+msgstr "Шаблон по умолчанию"
+
+#: src/Admin/BuilderData.php:317
+msgid "Super Admin"
+msgstr "Суперадминистратор"
+
+#: src/Admin/FieldGroupsPage.php:48
+#: src/Admin/FieldGroupsPage.php:56
+#: src/Plugin.php:153
+#: src/Plugin.php:423
+#: build/builder.js:4
+#: build/builder.js:10
+msgid "Field Groups"
+msgstr "Группы полей"
+
+#: src/Admin/FieldGroupsPage.php:49
+msgid "Custom Fields"
+msgstr "Произвольные поля"
+
+#: src/Admin/FieldGroupsPage.php:57
+msgid "Add New Field Group"
+msgstr "Новая группа полей"
+
+#: src/Admin/FieldGroupsPage.php:57
+msgid "Add New"
+msgstr "Добавить"
+
+#: src/Admin/FieldGroupsPage.php:58
+#: src/Plugin.php:173
+#: build/builder.js:10
+msgid "Options Pages"
+msgstr "Страницы настроек"
+
+#: src/Admin/FieldGroupsPage.php:59
+#: src/Content/ContentTypes.php:93
+#: build/builder.js:12
+msgid "Post Types"
+msgstr "Типы записей"
+
+#: src/Admin/FieldGroupsPage.php:60
+#: src/Content/ContentTypes.php:93
+#: build/builder.js:12
+msgid "Taxonomies"
+msgstr "Таксономии"
+
+#: src/Admin/FieldGroupsPage.php:61
+#: src/Admin/FieldGroupsPage.php:171
+#: build/builder.js:12
+msgid "Tools"
+msgstr "Инструменты"
+
+#: src/Admin/FieldGroupsPage.php:94
+msgid "— Top level menu —"
+msgstr "— Меню верхнего уровня —"
+
+#. translators: %s: options page title.
+#: src/Admin/FieldGroupsPage.php:101
+#: src/Rest/ToolsController.php:102
+msgid "Options page: %s"
+msgstr "Страница настроек: %s"
+
+#: src/Admin/FieldGroupsPage.php:107
+msgid "Editors, authors and contributors (edit_posts)"
+msgstr "Редакторы, авторы и участники (edit_posts)"
+
+#: src/Admin/FieldGroupsPage.php:108
+msgid "Editors and authors (publish_posts)"
+msgstr "Редакторы и авторы (publish_posts)"
+
+#: src/Admin/FieldGroupsPage.php:109
+msgid "Editors (edit_pages)"
+msgstr "Редакторы (edit_pages)"
+
+#: src/Admin/FieldGroupsPage.php:110
+msgid "Administrators: appearance (edit_theme_options)"
+msgstr "Администраторы: внешний вид (edit_theme_options)"
+
+#: src/Admin/FieldGroupsPage.php:111
+msgid "Administrators (manage_options)"
+msgstr "Администраторы (manage_options)"
+
+#: src/Admin/FieldGroupsPage.php:144
+#: src/Front/Forms.php:287
+#: build/builder.js:10
+msgid "Title"
+msgstr "Заголовок"
+
+#: src/Admin/FieldGroupsPage.php:145
+msgid "Editor"
+msgstr "Редактор"
+
+#: src/Admin/FieldGroupsPage.php:146
+msgid "Featured Image"
+msgstr "Изображение записи"
+
+#: src/Admin/FieldGroupsPage.php:147
+msgid "Excerpt"
+msgstr "Отрывок"
+
+#: src/Admin/FieldGroupsPage.php:148
+msgid "Custom Fields (core)"
+msgstr "Произвольные поля (встроенные)"
+
+#: src/Admin/FieldGroupsPage.php:149
+msgid "Comments"
+msgstr "Комментарии"
+
+#: src/Admin/FieldGroupsPage.php:150
+msgid "Revisions"
+msgstr "Редакции"
+
+#: src/Admin/FieldGroupsPage.php:151
+msgid "Author"
+msgstr "Автор"
+
+#: src/Admin/FieldGroupsPage.php:152
+msgid "Page Attributes (order, parent)"
+msgstr "Атрибуты страницы (порядок, родитель)"
+
+#: src/Admin/FieldGroupsPage.php:164
+msgid "Dashboard"
+msgstr "Консоль"
+
+#: src/Admin/FieldGroupsPage.php:165
+#: build/builder.js:12
+msgid "Posts"
+msgstr "Записи"
+
+#: src/Admin/FieldGroupsPage.php:166
+msgid "Media"
+msgstr "Медиафайлы"
+
+#: src/Admin/FieldGroupsPage.php:167
+msgid "Pages"
+msgstr "Страницы"
+
+#: src/Admin/FieldGroupsPage.php:168
+#: src/Fields/Types/Taxonomy.php:61
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: src/Admin/FieldGroupsPage.php:169
+msgid "Plugins"
+msgstr "Плагины"
+
+#: src/Admin/FieldGroupsPage.php:170
+msgid "Users"
+msgstr "Пользователи"
+
+#: src/Admin/FieldGroupsPage.php:172
+#: build/builder.js:10
+msgid "Settings"
+msgstr "Настройки"
+
+#: src/Admin/FieldGroupsPage.php:188
+msgid "Loading…"
+msgstr "Загрузка…"
+
+#: src/Admin/FieldGroupsPage.php:204
+msgid "The field group builder is not built. Run \"npm install && npm run build\" in the plugin folder."
+msgstr "Конструктор групп полей не собран. Выполните «npm install && npm run build» в папке плагина."
+
+#: src/Admin/OptionsScreen.php:131
+msgid "Sorry, you are not allowed to edit these options."
+msgstr "У вас нет прав на изменение этих настроек."
+
+#: src/Admin/OptionsScreen.php:140
+msgid "The link you followed has expired. Please reload the page and try again."
+msgstr "Ссылка устарела. Обновите страницу и попробуйте снова."
+
+#: src/Admin/OptionsScreen.php:170
+#: src/Options/OptionsPages.php:153
+msgid "Options Updated"
+msgstr "Настройки сохранены"
+
+#: src/Admin/OptionsScreen.php:177
+msgid "No field groups are assigned to this options page yet. Create a field group with the location rule \"Options Page is equal to\" this page."
+msgstr "К этой странице настроек пока не привязана ни одна группа полей. Создайте группу полей с правилом «Страница настроек равно» этой странице."
+
+#: src/Admin/OptionsScreen.php:187
+msgid "Publish"
+msgstr "Опубликовать"
+
+#: src/Admin/OptionsScreen.php:190
+#: src/Front/Forms.php:74
+#: src/Options/OptionsPages.php:152
+msgid "Update"
+msgstr "Обновить"
+
+#: src/Admin/PostScreen.php:210
+msgid "Some fields were not saved:"
+msgstr "Некоторые поля не сохранены:"
+
+#. translators: %s: block name.
+#: src/Blocks/BlockRegistry.php:368
+msgid "Block \"%s\" has no render template."
+msgstr "У блока «%s» нет шаблона вывода."
+
+#. translators: %d: maximum length.
+#: src/Content/ContentTypes.php:241
+msgid "Key is required: up to %d lowercase letters, digits, _ or -."
+msgstr "Ключ обязателен: до %d строчных латинских букв, цифр, _ или -."
+
+#: src/Content/ContentTypes.php:246
+msgid "This key is reserved by WordPress."
+msgstr "Этот ключ зарезервирован WordPress."
+
+#: src/Content/ContentTypes.php:251
+msgid "This key is already used."
+msgstr "Этот ключ уже используется."
+
+#: src/Content/ContentTypes.php:258
+msgid "Label is required."
+msgstr "Подпись обязательна."
+
+#. translators: %s: singular label.
+#: src/Content/ContentTypes.php:397
+#: src/Content/ContentTypes.php:441
+msgid "Add New %s"
+msgstr "Добавить: %s"
+
+#. translators: %s: singular label.
+#: src/Content/ContentTypes.php:399
+#: src/Content/ContentTypes.php:443
+msgid "Edit %s"
+msgstr "Редактировать: %s"
+
+#. translators: %s: singular label.
+#: src/Content/ContentTypes.php:401
+msgid "New %s"
+msgstr "Новый элемент: %s"
+
+#. translators: %s: singular label.
+#: src/Content/ContentTypes.php:403
+msgid "View %s"
+msgstr "Просмотр: %s"
+
+#. translators: %s: plural label.
+#: src/Content/ContentTypes.php:405
+#: src/Content/ContentTypes.php:445
+msgid "Search %s"
+msgstr "Поиск: %s"
+
+#. translators: %s: plural label.
+#: src/Content/ContentTypes.php:407
+#: src/Content/ContentTypes.php:447
+msgid "No %s found"
+msgstr "Не найдено: %s"
+
+#. translators: %s: plural label.
+#: src/Content/ContentTypes.php:409
+msgid "No %s found in Trash"
+msgstr "В корзине не найдено: %s"
+
+#: src/Fields/Bidirectional.php:146
+msgid "Bidirectional"
+msgstr "Двусторонняя связь"
+
+#: src/Fields/Bidirectional.php:148
+msgid "Also update a field on the selected items, so both sides list each other."
+msgstr "Обновлять поле и у выбранных объектов, чтобы обе стороны ссылались друг на друга."
+
+#: src/Fields/Bidirectional.php:152
+msgid "Target Field"
+msgstr "Поле на другой стороне"
+
+#: src/Fields/Bidirectional.php:155
+msgid "The field on the other side that should list this item."
+msgstr "Поле на другой стороне, в котором должен появиться этот объект."
+
+#: src/Fields/Types/Accordion.php:21
+msgid "Accordion"
+msgstr "Аккордеон"
+
+#: src/Fields/Types/Accordion.php:34
+msgid "Open"
+msgstr "Открыт"
+
+#: src/Fields/Types/Accordion.php:34
+msgid "Show this section open when the page loads."
+msgstr "Показывать этот раздел открытым при загрузке страницы."
+
+#: src/Fields/Types/Accordion.php:35
+msgid "Multi-Expand"
+msgstr "Несколько открытых"
+
+#: src/Fields/Types/Accordion.php:35
+msgid "Allow this section to stay open when another opens."
+msgstr "Не закрывать этот раздел, когда открывается другой."
+
+#: src/Fields/Types/Accordion.php:36
+msgid "Endpoint"
+msgstr "Конечная точка"
+
+#: src/Fields/Types/Accordion.php:36
+msgid "Close the previous accordion here; fields below are not in a section."
+msgstr "Закрыть здесь предыдущий аккордеон; поля ниже не входят в раздел."
+
+#: src/Fields/Types/ButtonGroup.php:20
+msgid "Button Group"
+msgstr "Группа кнопок"
+
+#: src/Fields/Types/Checkbox.php:20
+#: src/Fields/Types/Taxonomy.php:65
+msgid "Checkbox"
+msgstr "Флажки"
+
+#: src/Fields/Types/Checkbox.php:37
+#: src/Fields/Types/ColorPicker.php:37
+#: src/Fields/Types/Number.php:38
+#: src/Fields/Types/Radio.php:33
+#: src/Fields/Types/Select.php:34
+#: src/Fields/Types/Text.php:43
+#: src/Fields/Types/Textarea.php:37
+#: src/Fields/Types/TrueFalse.php:40
+#: src/Fields/Types/Url.php:31
+#: src/Fields/Types/Wysiwyg.php:40
+msgid "Default Value"
+msgstr "Значение по умолчанию"
+
+#: src/Fields/Types/Checkbox.php:37
+#: src/Fields/Types/Select.php:34
+msgid "Enter each default value on a new line."
+msgstr "Каждое значение по умолчанию — с новой строки."
+
+#: src/Fields/Types/ChoiceField.php:41
+msgid "Choices"
+msgstr "Варианты"
+
+#: src/Fields/Types/ChoiceField.php:43
+msgid "One choice per line. Use \"value : Label\" to set the stored value and the label separately."
+msgstr "Один вариант на строку. Формат «значение : Подпись» задаёт сохраняемое значение и подпись отдельно."
+
+#: src/Fields/Types/ChoiceField.php:45
+#: src/Fields/Types/RelationalField.php:149
+#: src/Fields/Types/Taxonomy.php:72
+msgid "Allow Null"
+msgstr "Разрешить пустое значение"
+
+#: src/Fields/Types/ChoiceField.php:48
+#: src/Fields/Types/ColorPicker.php:41
+#: src/Fields/Types/DatePicker.php:56
+#: src/Fields/Types/Gallery.php:42
+#: src/Fields/Types/Image.php:47
+#: src/Fields/Types/PostObject.php:61
+#: src/Fields/Types/User.php:68
+msgid "Return Format"
+msgstr "Формат возврата"
+
+#: src/Fields/Types/ChoiceField.php:52
+#: build/builder.js:1
+#: build/builder.js:7
+msgid "Value"
+msgstr "Значение"
+
+#: src/Fields/Types/ChoiceField.php:53
+#: build/builder.js:7
+#: build/builder.js:12
+msgid "Label"
+msgstr "Подпись"
+
+#: src/Fields/Types/ChoiceField.php:54
+msgid "Both (Array)"
+msgstr "Оба (массив)"
+
+#: src/Fields/Types/ChoiceField.php:73
+msgid "Vertical"
+msgstr "Вертикально"
+
+#: src/Fields/Types/ChoiceField.php:74
+msgid "Horizontal"
+msgstr "Горизонтально"
+
+#: src/Fields/Types/CloneField.php:28
+msgid "Clone"
+msgstr "Клон"
+
+#: src/Fields/Types/CloneField.php:48
+#: build/blocks.js:1
+#: build/builder.js:4
+#: build/builder.js:10
+msgid "Fields"
+msgstr "Поля"
+
+#: src/Fields/Types/CloneField.php:52
+msgid "Select a whole field group or single fields to reuse."
+msgstr "Выберите целую группу полей или отдельные поля для повторного использования."
+
+#: src/Fields/Types/CloneField.php:57
+#: build/builder.js:7
+msgid "Display"
+msgstr "Отображение"
+
+#: src/Fields/Types/CloneField.php:61
+msgid "Seamless (replaces this field with the selected fields)"
+msgstr "Бесшовно (заменяет это поле выбранными полями)"
+
+#: src/Fields/Types/CloneField.php:62
+msgid "Group (shows the selected fields inside this field)"
+msgstr "Группа (показывает выбранные поля внутри этого поля)"
+
+#: src/Fields/Types/CloneField.php:66
+msgid "Prefix Field Labels"
+msgstr "Префикс подписей полей"
+
+#: src/Fields/Types/CloneField.php:67
+msgid "Prefix Field Names"
+msgstr "Префикс имён полей"
+
+#: src/Fields/Types/CloneField.php:67
+msgid "Store values as {this name}_{field name}."
+msgstr "Хранить значения как {это имя}_{имя поля}."
+
+#. translators: %s: field group title.
+#: src/Fields/Types/CloneField.php:80
+msgid "All fields of \"%s\""
+msgstr "Все поля группы «%s»"
+
+#: src/Fields/Types/ColorPicker.php:24
+msgid "Color Picker"
+msgstr "Выбор цвета"
+
+#: src/Fields/Types/ColorPicker.php:38
+msgid "Enable Transparency"
+msgstr "Разрешить прозрачность"
+
+#: src/Fields/Types/ColorPicker.php:45
+msgid "Hex String"
+msgstr "Строка HEX"
+
+#: src/Fields/Types/ColorPicker.php:46
+msgid "RGBA Array"
+msgstr "Массив RGBA"
+
+#: src/Fields/Types/ColorPicker.php:74
+msgid "Value must be a valid color."
+msgstr "Значение должно быть корректным цветом."
+
+#: src/Fields/Types/DatePicker.php:41
+msgid "Date Picker"
+msgstr "Выбор даты"
+
+#: src/Fields/Types/DatePicker.php:58
+msgid "PHP date format of the value returned by get_field(), e.g. d/m/Y or Ymd."
+msgstr "Формат даты PHP для значения, которое возвращает get_field(), например d/m/Y или Ymd."
+
+#: src/Fields/Types/DatePicker.php:85
+msgid "Please enter a valid date."
+msgstr "Введите корректную дату."
+
+#: src/Fields/Types/DateTimePicker.php:24
+msgid "Date Time Picker"
+msgstr "Выбор даты и времени"
+
+#: src/Fields/Types/DateTimePicker.php:36
+msgid "Please enter a valid date and time."
+msgstr "Введите корректные дату и время."
+
+#: src/Fields/Types/Email.php:22
+msgid "Email"
+msgstr "Email"
+
+#: src/Fields/Types/Email.php:31
+msgid "Value must be a valid email address."
+msgstr "Значение должно быть корректным адресом email."
+
+#: src/Fields/Types/File.php:24
+msgid "File"
+msgstr "Файл"
+
+#: src/Fields/Types/File.php:41
+#: src/Fields/Types/Link.php:38
+#: src/Fields/Types/Taxonomy.php:77
+msgid "Return Value"
+msgstr "Возвращаемое значение"
+
+#: src/Fields/Types/File.php:45
+msgid "File Array"
+msgstr "Массив файла"
+
+#: src/Fields/Types/File.php:46
+msgid "File URL"
+msgstr "URL файла"
+
+#: src/Fields/Types/File.php:47
+msgid "File ID"
+msgstr "ID файла"
+
+#: src/Fields/Types/File.php:53
+#: src/Fields/Types/Gallery.php:54
+#: src/Fields/Types/Image.php:60
+msgid "Library"
+msgstr "Медиатека"
+
+#: src/Fields/Types/File.php:58
+#: src/Fields/Types/Gallery.php:59
+#: src/Fields/Types/Image.php:65
+msgid "Uploaded to post"
+msgstr "Загруженные к записи"
+
+#: src/Fields/Types/File.php:62
+msgid "Allowed File Types"
+msgstr "Разрешённые типы файлов"
+
+#: src/Fields/Types/File.php:62
+msgid "Comma separated list, e.g. pdf, docx. Empty for all types."
+msgstr "Список через запятую, например pdf, docx. Пусто — любые типы."
+
+#: src/Fields/Types/File.php:91
+#: src/Fields/Types/Image.php:95
+msgid "Remove"
+msgstr "Удалить"
+
+#: src/Fields/Types/File.php:95
+msgid "No file selected."
+msgstr "Файл не выбран."
+
+#: src/Fields/Types/File.php:96
+msgid "Add File"
+msgstr "Добавить файл"
+
+#: src/Fields/Types/File.php:108
+msgid "Please select a valid file."
+msgstr "Выберите корректный файл."
+
+#. translators: %s: allowed extensions.
+#: src/Fields/Types/File.php:115
+msgid "File type must be one of: %s."
+msgstr "Тип файла должен быть одним из: %s."
+
+#: src/Fields/Types/FlexibleContent.php:25
+msgid "Flexible Content"
+msgstr "Гибкое содержимое"
+
+#: src/Fields/Types/FlexibleContent.php:43
+msgid "Minimum Layouts"
+msgstr "Минимум макетов"
+
+#: src/Fields/Types/FlexibleContent.php:44
+msgid "Maximum Layouts"
+msgstr "Максимум макетов"
+
+#: src/Fields/Types/FlexibleContent.php:45
+#: src/Fields/Types/Repeater.php:66
+msgid "Button Label"
+msgstr "Текст кнопки"
+
+#: src/Fields/Types/FlexibleContent.php:45
+#: src/Fields/Types/Repeater.php:66
+msgid "Default: \"Add Row\"."
+msgstr "По умолчанию: «Добавить строку»."
+
+#. translators: 1: minimum number, 2: layout label.
+#: src/Fields/Types/FlexibleContent.php:63
+msgid "Add at least %1$d \"%2$s\" layout(s)."
+msgstr "Добавьте не менее %1$d макетов «%2$s»."
+
+#. translators: 1: maximum number, 2: layout label.
+#: src/Fields/Types/FlexibleContent.php:67
+msgid "Use at most %1$d \"%2$s\" layout(s)."
+msgstr "Используйте не более %1$d макетов «%2$s»."
+
+#: src/Fields/Types/FlexibleContent.php:93
+msgid "Click the button below to start creating your layout."
+msgstr "Нажмите кнопку ниже, чтобы начать собирать макет."
+
+#: src/Fields/Types/FlexibleContent.php:109
+#: src/Fields/Types/Repeater.php:152
+msgid "Add Row"
+msgstr "Добавить строку"
+
+#: src/Fields/Types/Gallery.php:24
+msgid "Gallery"
+msgstr "Галерея"
+
+#: src/Fields/Types/Gallery.php:46
+#: src/Fields/Types/Image.php:51
+msgid "Image Array"
+msgstr "Массив изображения"
+
+#: src/Fields/Types/Gallery.php:47
+#: src/Fields/Types/Image.php:52
+msgid "Image URL"
+msgstr "URL изображения"
+
+#: src/Fields/Types/Gallery.php:48
+#: src/Fields/Types/Image.php:53
+msgid "Image ID"
+msgstr "ID изображения"
+
+#: src/Fields/Types/Gallery.php:63
+msgid "Minimum Selection"
+msgstr "Минимум изображений"
+
+#: src/Fields/Types/Gallery.php:64
+msgid "Maximum Selection"
+msgstr "Максимум изображений"
+
+#: src/Fields/Types/Gallery.php:103
+#: assets/js/admin.js:1548
+msgid "Remove image"
+msgstr "Удалить изображение"
+
+#: src/Fields/Types/Gallery.php:107
+#: assets/js/admin.js:1509
+msgid "Add to gallery"
+msgstr "Добавить в галерею"
+
+#: src/Fields/Types/Gallery.php:122
+msgid "Please select only valid images."
+msgstr "Выберите только корректные изображения."
+
+#. translators: %d: minimum number of images.
+#: src/Fields/Types/Gallery.php:130
+msgid "Select at least %d image."
+msgid_plural "Select at least %d images."
+msgstr[0] "Выберите не менее %d изображения."
+msgstr[1] "Выберите не менее %d изображений."
+msgstr[2] "Выберите не менее %d изображений."
+
+#. translators: %d: maximum number of images.
+#: src/Fields/Types/Gallery.php:134
+msgid "Select at most %d image."
+msgid_plural "Select at most %d images."
+msgstr[0] "Выберите не более %d изображения."
+msgstr[1] "Выберите не более %d изображений."
+msgstr[2] "Выберите не более %d изображений."
+
+#: src/Fields/Types/Group.php:28
+#: build/builder.js:10
+msgid "Group"
+msgstr "Группа"
+
+#: src/Fields/Types/Group.php:52
+#: src/Fields/Types/Repeater.php:60
+#: build/builder.js:7
+msgid "Row"
+msgstr "Строка"
+
+#: src/Fields/Types/Image.php:24
+msgid "Image"
+msgstr "Изображение"
+
+#: src/Fields/Types/Image.php:57
+msgid "Preview Size"
+msgstr "Размер превью"
+
+#: src/Fields/Types/Image.php:99
+msgid "No image selected."
+msgstr "Изображение не выбрано."
+
+#: src/Fields/Types/Image.php:100
+msgid "Add Image"
+msgstr "Добавить изображение"
+
+#: src/Fields/Types/Image.php:115
+msgid "Please select a valid image."
+msgstr "Выберите корректное изображение."
+
+#: src/Fields/Types/Image.php:118
+msgid "You are not allowed to use this image."
+msgstr "У вас нет прав на использование этого изображения."
+
+#: src/Fields/Types/Link.php:24
+msgid "Link"
+msgstr "Ссылка"
+
+#: src/Fields/Types/Link.php:42
+msgid "Link Array"
+msgstr "Массив ссылки"
+
+#: src/Fields/Types/Link.php:43
+msgid "Link URL"
+msgstr "URL ссылки"
+
+#: src/Fields/Types/Link.php:55
+#: src/Fields/Types/Url.php:22
+msgid "URL"
+msgstr "URL"
+
+#: src/Fields/Types/Link.php:62
+msgid "Link Text"
+msgstr "Текст ссылки"
+
+#: src/Fields/Types/Link.php:70
+msgid "Open in a new tab"
+msgstr "Открывать в новой вкладке"
+
+#: src/Fields/Types/Message.php:20
+#: src/Fields/Types/Message.php:33
+#: src/Fields/Types/TrueFalse.php:39
+msgid "Message"
+msgstr "Сообщение"
+
+#: src/Fields/Types/Message.php:36
+#: src/Fields/Types/Textarea.php:43
+msgid "New Lines"
+msgstr "Переводы строк"
+
+#: src/Fields/Types/Message.php:40
+#: src/Fields/Types/Textarea.php:48
+msgid "Automatically add paragraphs"
+msgstr "Автоматически добавлять абзацы"
+
+#: src/Fields/Types/Message.php:41
+#: src/Fields/Types/Textarea.php:49
+msgid "Automatically add <br>"
+msgstr "Автоматически добавлять <br>"
+
+#: src/Fields/Types/Message.php:42
+#: src/Fields/Types/Textarea.php:47
+msgid "No formatting"
+msgstr "Без форматирования"
+
+#: src/Fields/Types/Message.php:46
+msgid "Escape HTML"
+msgstr "Экранировать HTML"
+
+#: src/Fields/Types/Message.php:46
+msgid "Show HTML tags as text."
+msgstr "Показывать HTML-теги как текст."
+
+#: src/Fields/Types/Number.php:22
+msgid "Number"
+msgstr "Число"
+
+#: src/Fields/Types/Number.php:39
+#: src/Fields/Types/Password.php:35
+#: src/Fields/Types/Select.php:36
+#: src/Fields/Types/Text.php:44
+#: src/Fields/Types/Textarea.php:38
+#: src/Fields/Types/Url.php:32
+msgid "Placeholder Text"
+msgstr "Текст-подсказка"
+
+#: src/Fields/Types/Number.php:40
+#: src/Fields/Types/Password.php:36
+#: src/Fields/Types/Text.php:45
+msgid "Prepend"
+msgstr "Префикс"
+
+#: src/Fields/Types/Number.php:41
+#: src/Fields/Types/Password.php:37
+#: src/Fields/Types/Text.php:46
+msgid "Append"
+msgstr "Суффикс"
+
+#: src/Fields/Types/Number.php:42
+msgid "Minimum Value"
+msgstr "Минимальное значение"
+
+#: src/Fields/Types/Number.php:43
+msgid "Maximum Value"
+msgstr "Максимальное значение"
+
+#: src/Fields/Types/Number.php:44
+msgid "Step Size"
+msgstr "Шаг"
+
+#: src/Fields/Types/Number.php:70
+msgid "Value must be a number."
+msgstr "Значение должно быть числом."
+
+#. translators: %s: minimum value.
+#: src/Fields/Types/Number.php:75
+msgid "Value must be equal to or higher than %s."
+msgstr "Значение должно быть не меньше %s."
+
+#. translators: %s: maximum value.
+#: src/Fields/Types/Number.php:79
+msgid "Value must be equal to or lower than %s."
+msgstr "Значение должно быть не больше %s."
+
+#: src/Fields/Types/Oembed.php:22
+msgid "oEmbed"
+msgstr "oEmbed"
+
+#: src/Fields/Types/Oembed.php:34
+msgid "Embed Size: width"
+msgstr "Размер встраивания: ширина"
+
+#: src/Fields/Types/Oembed.php:35
+msgid "Embed Size: height"
+msgstr "Размер встраивания: высота"
+
+#: src/Fields/Types/PageLink.php:20
+msgid "Page Link"
+msgstr "Ссылка на страницу"
+
+#: src/Fields/Types/PageLink.php:36
+#: src/Fields/Types/PostObject.php:41
+#: src/Fields/Types/Relationship.php:38
+msgid "Filter by Post Type"
+msgstr "Фильтр по типу записи"
+
+#: src/Fields/Types/PageLink.php:40
+#: src/Fields/Types/PostObject.php:45
+#: src/Fields/Types/Relationship.php:42
+msgid "None selected: all post types."
+msgstr "Ничего не выбрано — все типы записей."
+
+#: src/Fields/Types/Password.php:22
+msgid "Password"
+msgstr "Пароль"
+
+#: src/Fields/Types/PostObject.php:20
+#: src/Fields/Types/PostObject.php:65
+msgid "Post Object"
+msgstr "Объект записи"
+
+#: src/Fields/Types/PostObject.php:66
+msgid "Post ID"
+msgstr "ID записи"
+
+#: src/Fields/Types/Radio.php:20
+msgid "Radio Button"
+msgstr "Переключатели"
+
+#: src/Fields/Types/Range.php:20
+msgid "Range"
+msgstr "Ползунок"
+
+#. translators: %s: item title.
+#. translators: %s: option label.
+#: src/Fields/Types/RelationalField.php:108
+#: assets/js/admin.js:580
+#: assets/js/admin.js:1897
+msgid "Remove %s"
+msgstr "Удалить %s"
+
+#: src/Fields/Types/RelationalField.php:116
+#: assets/js/admin.js:1960
+#: build/builder.js:1
+msgid "Search…"
+msgstr "Поиск…"
+
+#: src/Fields/Types/RelationalField.php:136
+msgid "One of the selected items is not available."
+msgstr "Один из выбранных объектов недоступен."
+
+#: src/Fields/Types/RelationalField.php:150
+#: src/Fields/Types/Select.php:35
+msgid "Select Multiple"
+msgstr "Множественный выбор"
+
+#: src/Fields/Types/Relationship.php:20
+msgid "Relationship"
+msgstr "Связь с записями"
+
+#: src/Fields/Types/Relationship.php:45
+msgid "Minimum Posts"
+msgstr "Минимум записей"
+
+#: src/Fields/Types/Relationship.php:46
+msgid "Maximum Posts"
+msgstr "Максимум записей"
+
+#. translators: %d: minimum number of posts.
+#: src/Fields/Types/Relationship.php:66
+msgid "Select at least %d post."
+msgid_plural "Select at least %d posts."
+msgstr[0] "Выберите не менее %d записи."
+msgstr[1] "Выберите не менее %d записей."
+msgstr[2] "Выберите не менее %d записей."
+
+#. translators: %d: maximum number of posts.
+#: src/Fields/Types/Relationship.php:70
+msgid "Select at most %d post."
+msgid_plural "Select at most %d posts."
+msgstr[0] "Выберите не более %d записи."
+msgstr[1] "Выберите не более %d записей."
+msgstr[2] "Выберите не более %d записей."
+
+#: src/Fields/Types/Repeater.php:27
+msgid "Repeater"
+msgstr "Повторитель"
+
+#: src/Fields/Types/Repeater.php:58
+#: build/builder.js:7
+msgid "Table"
+msgstr "Таблица"
+
+#: src/Fields/Types/Repeater.php:64
+msgid "Minimum Rows"
+msgstr "Минимум строк"
+
+#: src/Fields/Types/Repeater.php:65
+msgid "Maximum Rows"
+msgstr "Максимум строк"
+
+#: src/Fields/Types/Repeater.php:67
+msgid "Collapsed"
+msgstr "Свёрнутая строка"
+
+#: src/Fields/Types/Repeater.php:67
+msgid "Sub field shown when a row is collapsed."
+msgstr "Подполе, которое показывается в свёрнутой строке."
+
+#. translators: %d: minimum number of rows.
+#: src/Fields/Types/Repeater.php:98
+msgid "At least %d row is required."
+msgid_plural "At least %d rows are required."
+msgstr[0] "Нужна хотя бы %d строка."
+msgstr[1] "Нужно хотя бы %d строки."
+msgstr[2] "Нужно хотя бы %d строк."
+
+#. translators: %d: maximum number of rows.
+#: src/Fields/Types/Repeater.php:102
+msgid "At most %d row is allowed."
+msgid_plural "At most %d rows are allowed."
+msgstr[0] "Допускается не более %d строки."
+msgstr[1] "Допускается не более %d строк."
+msgstr[2] "Допускается не более %d строк."
+
+#: src/Fields/Types/Repeater.php:183
+msgid "Drag to reorder"
+msgstr "Перетащите, чтобы изменить порядок"
+
+#: src/Fields/Types/Repeater.php:208
+msgid "Add row above"
+msgstr "Добавить строку выше"
+
+#: src/Fields/Types/Repeater.php:209
+msgid "Duplicate row"
+msgstr "Дублировать строку"
+
+#: src/Fields/Types/Repeater.php:210
+msgid "Collapse row"
+msgstr "Свернуть строку"
+
+#: src/Fields/Types/Repeater.php:211
+msgid "Remove row"
+msgstr "Удалить строку"
+
+#: src/Fields/Types/Select.php:20
+#: src/Fields/Types/Taxonomy.php:68
+msgid "Select"
+msgstr "Выпадающий список"
+
+#: src/Fields/Types/Select.php:65
+msgid "— Select —"
+msgstr "— Выберите —"
+
+#: src/Fields/Types/Tab.php:21
+msgid "Tab"
+msgstr "Вкладка"
+
+#: src/Fields/Types/Tab.php:36
+msgid "Placement"
+msgstr "Расположение"
+
+#: src/Fields/Types/Tab.php:40
+#: build/builder.js:10
+msgid "Top aligned"
+msgstr "Сверху"
+
+#: src/Fields/Types/Tab.php:41
+#: build/builder.js:10
+msgid "Left aligned"
+msgstr "Слева"
+
+#: src/Fields/Types/Tab.php:45
+msgid "New Tab Group"
+msgstr "Новая группа вкладок"
+
+#: src/Fields/Types/Tab.php:45
+msgid "Start a new set of tabs."
+msgstr "Начать новый набор вкладок."
+
+#: src/Fields/Types/Taxonomy.php:66
+msgid "Multi Select"
+msgstr "Множественный список"
+
+#: src/Fields/Types/Taxonomy.php:67
+msgid "Radio Buttons"
+msgstr "Переключатели"
+
+#: src/Fields/Types/Taxonomy.php:73
+msgid "Save Terms"
+msgstr "Сохранять термины"
+
+#: src/Fields/Types/Taxonomy.php:73
+msgid "Connect selected terms to the post."
+msgstr "Привязать выбранные термины к записи."
+
+#: src/Fields/Types/Taxonomy.php:74
+msgid "Load Terms"
+msgstr "Загружать термины"
+
+#: src/Fields/Types/Taxonomy.php:74
+msgid "Load value from the post terms."
+msgstr "Брать значение из терминов записи."
+
+#: src/Fields/Types/Taxonomy.php:81
+msgid "Term ID"
+msgstr "ID термина"
+
+#: src/Fields/Types/Taxonomy.php:82
+msgid "Term Object"
+msgstr "Объект термина"
+
+#: src/Fields/Types/Taxonomy.php:108
+msgid "No terms yet."
+msgstr "Терминов пока нет."
+
+#: src/Fields/Types/Text.php:29
+msgid "Text"
+msgstr "Текст"
+
+#: src/Fields/Types/Text.php:43
+msgid "Used when the field has no value yet."
+msgstr "Используется, пока у поля нет значения."
+
+#: src/Fields/Types/Text.php:47
+#: src/Fields/Types/Textarea.php:40
+msgid "Character Limit"
+msgstr "Лимит символов"
+
+#. translators: %d: maximum number of characters.
+#: src/Fields/Types/Text.php:88
+#: src/Fields/Types/Textarea.php:77
+msgid "Value must not exceed %d characters."
+msgstr "Значение не должно быть длиннее %d символов."
+
+#: src/Fields/Types/Textarea.php:22
+msgid "Text Area"
+msgstr "Многострочный текст"
+
+#: src/Fields/Types/Textarea.php:39
+msgid "Rows"
+msgstr "Строки"
+
+#: src/Fields/Types/Textarea.php:51
+msgid "How new lines are rendered on output."
+msgstr "Как выводить переводы строк."
+
+#: src/Fields/Types/TimePicker.php:24
+msgid "Time Picker"
+msgstr "Выбор времени"
+
+#: src/Fields/Types/TimePicker.php:35
+msgid "Please enter a valid time."
+msgstr "Введите корректное время."
+
+#: src/Fields/Types/TrueFalse.php:24
+msgid "True / False"
+msgstr "Да / Нет"
+
+#: src/Fields/Types/TrueFalse.php:39
+msgid "Text shown next to the checkbox."
+msgstr "Текст рядом с флажком."
+
+#: src/Fields/Types/TrueFalse.php:41
+msgid "Stylized UI"
+msgstr "Стилизованный переключатель"
+
+#: src/Fields/Types/TrueFalse.php:42
+msgid "On Text"
+msgstr "Текст «вкл»"
+
+#: src/Fields/Types/TrueFalse.php:43
+msgid "Off Text"
+msgstr "Текст «выкл»"
+
+#: src/Fields/Types/TrueFalse.php:59
+msgid "Yes"
+msgstr "Да"
+
+#: src/Fields/Types/TrueFalse.php:60
+msgid "No"
+msgstr "Нет"
+
+#: src/Fields/Types/Url.php:48
+msgid "Value must be a valid URL."
+msgstr "Значение должно быть корректным URL."
+
+#: src/Fields/Types/User.php:56
+msgid "Filter by Role"
+msgstr "Фильтр по роли"
+
+#: src/Fields/Types/User.php:60
+msgid "None selected: all roles."
+msgstr "Ничего не выбрано — все роли."
+
+#: src/Fields/Types/User.php:72
+msgid "User Array"
+msgstr "Массив пользователя"
+
+#: src/Fields/Types/User.php:73
+msgid "User Object"
+msgstr "Объект пользователя"
+
+#: src/Fields/Types/User.php:74
+msgid "User ID"
+msgstr "ID пользователя"
+
+#: src/Fields/Types/Wysiwyg.php:25
+msgid "WYSIWYG Editor"
+msgstr "Визуальный редактор"
+
+#: src/Fields/Types/Wysiwyg.php:43
+msgid "Tabs"
+msgstr "Вкладки"
+
+#: src/Fields/Types/Wysiwyg.php:47
+msgid "Visual & Text"
+msgstr "Визуально и текст"
+
+#: src/Fields/Types/Wysiwyg.php:48
+msgid "Visual Only"
+msgstr "Только визуально"
+
+#: src/Fields/Types/Wysiwyg.php:49
+msgid "Text Only"
+msgstr "Только текст"
+
+#: src/Fields/Types/Wysiwyg.php:55
+msgid "Toolbar"
+msgstr "Панель инструментов"
+
+#: src/Fields/Types/Wysiwyg.php:59
+msgid "Full"
+msgstr "Полная"
+
+#: src/Fields/Types/Wysiwyg.php:64
+msgid "Show Media Upload Buttons"
+msgstr "Показывать кнопки загрузки медиа"
+
+#: src/Options/OptionsPages.php:142
+msgid "Options"
+msgstr "Настройки"
+
+#: src/Options/OptionsPageStore.php:51
+msgid "Page title is required."
+msgstr "Заголовок страницы обязателен."
+
+#: src/Options/OptionsPageStore.php:62
+msgid "Menu slug is required (latin letters, digits and dashes)."
+msgstr "Slug меню обязателен (латинские буквы, цифры и дефисы)."
+
+#: src/Options/OptionsPageStore.php:72
+msgid "A page cannot be its own parent."
+msgstr "Страница не может быть родителем самой себя."
+
+#: src/Options/OptionsPageStore.php:84
+msgid "Storage key may contain only a-z, 0-9 and _ (e.g. options, site_settings, term_5)."
+msgstr "Ключ хранения может содержать только a–z, 0–9 и _ (например options, site_settings, term_5)."
+
+#: src/Options/OptionsPageStore.php:132
+#: src/Rest/OptionsPagesController.php:159
+#: build/builder.js:10
+msgid "This options page is registered in code and cannot be edited here."
+msgstr "Эта страница настроек зарегистрирована в коде, её нельзя изменить здесь."
+
+#: src/Options/OptionsPageStore.php:139
+#: src/Options/OptionsPageStore.php:145
+msgid "Another options page already uses this menu slug."
+msgstr "Этот slug меню уже использует другая страница настроек."
+
+#: src/Plugin.php:154
+msgid "Field Group"
+msgstr "Группа полей"
+
+#: src/Plugin.php:192
+msgctxt "field group status"
+msgid "Inactive"
+msgstr "Неактивна"
+
+#: src/Registry/GroupStore.php:56
+#: build/builder.js:8
+msgid "Field group title is required."
+msgstr "Название группы полей обязательно."
+
+#: src/Registry/GroupStore.php:107
+#: src/Rest/FieldGroupsController.php:262
+#: build/builder.js:8
+msgid "This field group is registered in code and cannot be edited here."
+msgstr "Эта группа полей зарегистрирована в коде, её нельзя изменить здесь."
+
+#: src/Registry/GroupStore.php:204
+msgid "No JSON file for this field group."
+msgstr "Для этой группы полей нет JSON-файла."
+
+#: src/Registry/GroupStore.php:218
+#: src/Rest/FieldGroupsController.php:258
+msgid "Field group not found."
+msgstr "Группа полей не найдена."
+
+#. translators: %s: field group title.
+#. translators: %s: field label.
+#: src/Registry/GroupStore.php:222
+#: build/builder.js:9
+msgid "%s (copy)"
+msgstr "%s (копия)"
+
+#. translators: %s: field name.
+#: src/Registry/GroupStore.php:346
+msgid "Field name \"%s\" is used more than once here."
+msgstr "Имя поля «%s» используется здесь несколько раз."
+
+#. translators: %s: field type.
+#: src/Registry/GroupStore.php:375
+msgid "Unknown field type \"%s\"."
+msgstr "Неизвестный тип поля «%s»."
+
+#: src/Registry/GroupStore.php:383
+#: build/builder.js:8
+msgid "Field label is required."
+msgstr "Подпись поля обязательна."
+
+#: src/Registry/GroupStore.php:392
+msgid "Field name is required and may contain only a-z, 0-9, _ and -."
+msgstr "Имя поля обязательно и может содержать только a–z, 0–9, _ и -."
+
+#: src/Registry/GroupStore.php:480
+#: build/builder.js:8
+msgid "Layout label is required."
+msgstr "Подпись макета обязательна."
+
+#: src/Registry/GroupStore.php:486
+msgid "Layout name is required and may contain only a-z, 0-9, _ and -."
+msgstr "Имя макета обязательно и может содержать только a–z, 0–9, _ и -."
+
+#. translators: %s: layout name.
+#: src/Registry/GroupStore.php:492
+msgid "Layout name \"%s\" is used more than once."
+msgstr "Имя макета «%s» используется несколько раз."
+
+#: src/Rest/BlocksController.php:88
+msgid "Block not found."
+msgstr "Блок не найден."
+
+#: src/Rest/ContentTypesController.php:150
+msgid "Not found."
+msgstr "Не найдено."
+
+#: src/Rest/FieldChoicesController.php:56
+msgid "Field not found."
+msgstr "Поле не найдено."
+
+#: src/Rest/OptionsPagesController.php:155
+msgid "Options page not found."
+msgstr "Страница настроек не найдена."
+
+#: src/Integrations/AcfToRestApi.php:110
+#: src/Rest/RestFields.php:49
+msgid "Custom field values."
+msgstr "Значения произвольных полей."
+
+#. translators: %s: field names.
+#: src/Rest/RestFields.php:351
+msgid "These fields cannot be updated here: %s"
+msgstr "Эти поля нельзя изменить здесь: %s"
+
+#. translators: %s: post type or taxonomy label.
+#: src/Rest/ToolsController.php:91
+msgid "Post type: %s"
+msgstr "Тип записи: %s"
+
+#. translators: %s: post type or taxonomy label.
+#: src/Rest/ToolsController.php:91
+msgid "Taxonomy: %s"
+msgstr "Таксономия: %s"
+
+#. translators: %d: position in the file.
+#: src/Tools/ImportExport.php:91
+msgid "Item %d is not a field group."
+msgstr "Элемент %d не является группой полей."
+
+#. translators: 1: field label, 2: field type, 3: group title.
+#: src/Tools/ImportExport.php:129
+msgid "Skipped field \"%1$s\" (type \"%2$s\" is not supported) in \"%3$s\"."
+msgstr "Поле «%1$s» пропущено (тип «%2$s» не поддерживается) в группе «%3$s»."
+
+#. translators: %s: field label.
+#: src/Validation/Validator.php:83
+#: src/Validation/Validator.php:144
+#: assets/js/admin.js:901
+msgid "%s is required."
+msgstr "Поле «%s» обязательно."
+
+#: src/Validation/Validator.php:186
+msgid "Validation failed."
+msgstr "Проверка не пройдена."
+
+#: assets/js/admin.js:320
+msgid "Select Image"
+msgstr "Выбрать изображение"
+
+#: assets/js/admin.js:321
+msgid "Select File"
+msgstr "Выбрать файл"
+
+#: assets/js/admin.js:325
+msgid "Use Image"
+msgstr "Использовать изображение"
+
+#: assets/js/admin.js:326
+msgid "Use File"
+msgstr "Использовать файл"
+
+#. translators: %d: maximum number of items.
+#: assets/js/admin.js:556
+msgid "You can select at most %d items."
+msgstr "Можно выбрать не более %d элементов."
+
+#: assets/js/admin.js:603
+#: build/map.js:1
+msgid "Searching…"
+msgstr "Поиск…"
+
+#: assets/js/admin.js:635
+msgid "No matches found."
+msgstr "Ничего не найдено."
+
+#: assets/js/admin.js:641
+msgid "Load more…"
+msgstr "Загрузить ещё…"
+
+#: assets/js/admin.js:652
+msgid "Could not load results."
+msgstr "Не удалось загрузить результаты."
+
+#: assets/js/admin.js:986
+msgid "Fill in the required fields to save."
+msgstr "Заполните обязательные поля, чтобы сохранить."
+
+#. translators: %d: maximum number of rows.
+#: assets/js/admin.js:1122
+msgid "At most %d rows are allowed."
+msgstr "Допускается не более %d строк."
+
+#. translators: %d: maximum number of this layout.
+#: assets/js/admin.js:1142
+msgid "This layout can be used at most %d times."
+msgstr "Этот макет можно использовать не более %d раз."
+
+#. translators: %d: minimum number of rows.
+#: assets/js/admin.js:1246
+msgid "At least %d rows are required."
+msgstr "Нужно хотя бы %d строк."
+
+#: assets/js/admin.js:1508
+msgid "Add Image to Gallery"
+msgstr "Добавить изображение в галерею"
+
+#: build/blocks.js:1
+msgid "No field group is assigned to this block. Add one with the location rule \"Block\"."
+msgstr "К этому блоку не привязана группа полей. Добавьте её с правилом «Блок»."
+
+#: build/blocks.js:1
+msgid "Fill in the fields in the sidebar."
+msgstr "Заполните поля в боковой панели."
+
+#: build/blocks.js:1
+msgid "This block has no content yet."
+msgstr "В этом блоке пока нет содержимого."
+
+#: build/builder.js:1
+msgid "Show this field group if all rules of any rule group match."
+msgstr "Показывать группу полей, если выполняются все правила хотя бы одной группы правил."
+
+#: build/builder.js:1
+msgid "No rules: this field group is not shown anywhere."
+msgstr "Нет правил: эта группа полей нигде не показывается."
+
+#: build/builder.js:1
+#: build/builder.js:4
+#: build/builder.js:7
+msgid "or"
+msgstr "или"
+
+#: build/builder.js:1
+#: build/builder.js:7
+msgid "Show if"
+msgstr "Показывать, если"
+
+#: build/builder.js:1
+#: build/builder.js:4
+#: build/builder.js:7
+msgid "and"
+msgstr "и"
+
+#: build/builder.js:1
+msgid "Rule"
+msgstr "Правило"
+
+#: build/builder.js:1
+#: build/builder.js:7
+msgid "Operator"
+msgstr "Оператор"
+
+#: build/builder.js:1
+msgid "is equal to"
+msgstr "равно"
+
+#: build/builder.js:1
+msgid "is not equal to"
+msgstr "не равно"
+
+#: build/builder.js:1
+#: build/builder.js:7
+msgid "Add \"and\" rule"
+msgstr "Добавить правило «и»"
+
+#: build/builder.js:1
+#: build/builder.js:7
+msgid "Remove rule"
+msgstr "Удалить правило"
+
+#: build/builder.js:1
+#: build/builder.js:7
+msgid "Add rule group"
+msgstr "Добавить группу правил"
+
+#: build/builder.js:1
+msgid "— No values —"
+msgstr "— Нет значений —"
+
+#: build/builder.js:4
+#: build/builder.js:10
+msgid "Undo"
+msgstr "Отменить"
+
+#: build/builder.js:4
+msgid "Field group restored."
+msgstr "Группа полей восстановлена."
+
+#: build/builder.js:10
+msgid "Location"
+msgstr "Размещение"
+
+#: build/builder.js:4
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Status"
+msgstr "Статус"
+
+#: build/builder.js:4
+msgid "Sync available"
+msgstr "Доступна синхронизация"
+
+#: build/builder.js:4
+#: build/builder.js:10
+msgid "Registered in code (read-only)"
+msgstr "Зарегистрирована в коде (только чтение)"
+
+#: build/builder.js:4
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Edit"
+msgstr "Изменить"
+
+#: build/builder.js:5
+#: build/builder.js:7
+msgid "Duplicate"
+msgstr "Дублировать"
+
+#. translators: 1: rule name, 2: value.
+#: build/builder.js:4
+msgid "%1$s is %2$s"
+msgstr "%1$s — %2$s"
+
+#. translators: 1: rule name, 2: value.
+#: build/builder.js:4
+msgid "%1$s is not %2$s"
+msgstr "%1$s — не %2$s"
+
+#. translators: %d: number of fields.
+#: build/builder.js:6
+#: build/builder.js:12
+msgid "%d field"
+msgid_plural "%d fields"
+msgstr[0] "%d поле"
+msgstr[1] "%d поля"
+msgstr[2] "%d полей"
+
+#: build/builder.js:4
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Active"
+msgstr "Активна"
+
+#: build/builder.js:4
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Inactive"
+msgstr "Неактивна"
+
+#: build/builder.js:7
+msgid "Conditional Logic"
+msgstr "Условная логика"
+
+#: build/builder.js:7
+msgid "Show this field only when other fields have certain values."
+msgstr "Показывать это поле, только когда другие поля имеют определённые значения."
+
+#: build/builder.js:7
+msgid "Add another field to this group to use conditions."
+msgstr "Добавьте в группу ещё одно поле, чтобы задать условия."
+
+#: build/builder.js:7
+#: build/builder.js:10
+msgid "Field"
+msgstr "Поле"
+
+#: build/builder.js:7
+msgid "Value is equal to"
+msgstr "Значение равно"
+
+#: build/builder.js:7
+msgid "Value is not equal to"
+msgstr "Значение не равно"
+
+#: build/builder.js:7
+msgid "Has no value"
+msgstr "Нет значения"
+
+#: build/builder.js:7
+msgid "Has any value"
+msgstr "Есть любое значение"
+
+#: build/builder.js:7
+msgid "Value contains"
+msgstr "Значение содержит"
+
+#: build/builder.js:7
+msgid "Value does not contain"
+msgstr "Значение не содержит"
+
+#: build/builder.js:7
+msgid "Value is greater than"
+msgstr "Значение больше"
+
+#: build/builder.js:7
+msgid "Value is less than"
+msgstr "Значение меньше"
+
+#: build/builder.js:7
+msgid "Checked"
+msgstr "Отмечено"
+
+#: build/builder.js:7
+msgid "Unchecked"
+msgstr "Не отмечено"
+
+#: build/builder.js:8
+msgid "Layouts"
+msgstr "Макеты"
+
+#: build/builder.js:7
+msgid "Add at least one layout."
+msgstr "Добавьте хотя бы один макет."
+
+#: build/builder.js:6
+#: build/builder.js:7
+#: build/builder.js:10
+msgid "(no label)"
+msgstr "(без подписи)"
+
+#: build/builder.js:7
+msgid "Move up"
+msgstr "Выше"
+
+#: build/builder.js:7
+msgid "Move down"
+msgstr "Ниже"
+
+#: build/builder.js:7
+msgid "Duplicate layout"
+msgstr "Дублировать макет"
+
+#: build/builder.js:7
+msgid "Delete layout"
+msgstr "Удалить макет"
+
+#: build/builder.js:7
+msgid "Name"
+msgstr "Имя"
+
+#: build/builder.js:7
+msgid "Returned by get_row_layout()."
+msgstr "Возвращается функцией get_row_layout()."
+
+#: build/builder.js:7
+msgid "Min"
+msgstr "Мин."
+
+#: build/builder.js:7
+msgid "Max"
+msgstr "Макс."
+
+#: build/builder.js:7
+msgid "Add Layout"
+msgstr "Добавить макет"
+
+#: build/builder.js:7
+msgid "Field Label"
+msgstr "Подпись поля"
+
+#: build/builder.js:7
+msgid "Shown on the edit screen."
+msgstr "Показывается на экране редактирования."
+
+#: build/builder.js:7
+msgid "Shown as the tab, section or message title."
+msgstr "Показывается как заголовок вкладки, раздела или сообщения."
+
+#: build/builder.js:7
+msgid "Field Name"
+msgstr "Имя поля"
+
+#: build/builder.js:7
+msgid "Used in code: get_field( 'name' ). Letters a-z, digits, _ and -."
+msgstr "Используется в коде: get_field( 'имя' ). Латинские буквы, цифры, _ и -."
+
+#: build/builder.js:7
+msgid "Changing the name of a saved field hides values already stored under the old name."
+msgstr "Если изменить имя сохранённого поля, значения под старым именем перестанут показываться."
+
+#: build/builder.js:7
+msgid "Field Type"
+msgstr "Тип поля"
+
+#: build/builder.js:8
+msgid "Sub Fields"
+msgstr "Подполя"
+
+#: build/builder.js:8
+msgid "Instructions"
+msgstr "Инструкции"
+
+#: build/builder.js:8
+msgid "Shown to editors under the label."
+msgstr "Показываются редакторам под подписью."
+
+#: build/builder.js:7
+#: build/builder.js:8
+msgid "Required"
+msgstr "Обязательное"
+
+#: build/builder.js:8
+msgid "Width (%)"
+msgstr "Ширина (%)"
+
+#: build/builder.js:8
+msgid "Wrapper CSS class"
+msgstr "CSS-класс обёртки"
+
+#: build/builder.js:8
+msgid "Wrapper ID"
+msgstr "ID обёртки"
+
+#: build/builder.js:8
+msgid "Field key:"
+msgstr "Ключ поля:"
+
+#: build/builder.js:8
+msgid "— None —"
+msgstr "— Нет —"
+
+#: build/builder.js:8
+msgid "Please fix the highlighted problems and save again."
+msgstr "Исправьте отмеченные ошибки и сохраните снова."
+
+#: build/builder.js:10
+msgid "Edit Field Group"
+msgstr "Изменить группу полей"
+
+#: build/builder.js:10
+msgid "Unsaved changes"
+msgstr "Есть несохранённые изменения"
+
+#: build/builder.js:8
+msgid "Field name is required and may contain only a–z, 0–9, _ and -."
+msgstr "Имя поля обязательно и может содержать только a–z, 0–9, _ и -."
+
+#: build/builder.js:8
+msgid "This field name is already used here."
+msgstr "Это имя поля здесь уже используется."
+
+#: build/builder.js:8
+msgid "This layout name is already used."
+msgstr "Это имя макета уже используется."
+
+#: build/builder.js:8
+msgid "Layout name is required and may contain only a–z, 0–9, _ and -."
+msgstr "Имя макета обязательно и может содержать только a–z, 0–9, _ и -."
+
+#: build/builder.js:8
+msgid "Field group saved."
+msgstr "Группа полей сохранена."
+
+#: build/builder.js:10
+msgid "Field Group Title"
+msgstr "Название группы полей"
+
+#: build/builder.js:10
+msgid "Collapse all"
+msgstr "Свернуть все"
+
+#: build/builder.js:10
+msgid "Expand all"
+msgstr "Развернуть все"
+
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Show in REST API"
+msgstr "Показывать в REST API"
+
+#: build/builder.js:10
+msgid "Add these fields to WordPress REST responses (property \"acf\")."
+msgstr "Добавлять эти поля в ответы REST API WordPress (свойство «acf»)."
+
+#: build/builder.js:10
+msgid "Inactive groups are not shown on edit screens."
+msgstr "Неактивные группы не показываются на экранах редактирования."
+
+#: build/builder.js:10
+msgid "Position"
+msgstr "Положение"
+
+#: build/builder.js:10
+msgid "High (after title)"
+msgstr "Высоко (после заголовка)"
+
+#: build/builder.js:10
+msgid "Normal (after content)"
+msgstr "Обычно (после содержимого)"
+
+#: build/builder.js:10
+msgid "Side"
+msgstr "Сбоку"
+
+#: build/builder.js:10
+msgid "Style"
+msgstr "Стиль"
+
+#: build/builder.js:10
+msgid "Standard (meta box)"
+msgstr "Стандартный (метабокс)"
+
+#: build/builder.js:10
+msgid "Seamless (no meta box)"
+msgstr "Бесшовный (без метабокса)"
+
+#: build/builder.js:10
+msgid "Label Placement"
+msgstr "Расположение подписей"
+
+#: build/builder.js:10
+msgid "Instruction Placement"
+msgstr "Расположение инструкций"
+
+#: build/builder.js:10
+msgid "Below labels"
+msgstr "Под подписями"
+
+#: build/builder.js:10
+msgid "Below fields"
+msgstr "Под полями"
+
+#: build/builder.js:10
+msgid "Order No."
+msgstr "Порядковый номер"
+
+#: build/builder.js:10
+msgid "Groups with a lower number appear first."
+msgstr "Группы с меньшим номером показываются раньше."
+
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Description"
+msgstr "Описание"
+
+#: build/builder.js:10
+msgid "Shown in the field group list."
+msgstr "Показывается в списке групп полей."
+
+#: build/builder.js:10
+msgid "An options page adds an admin menu item with fields for site-wide settings. Show a field group on it with the location rule \"Options Page\"."
+msgstr "Страница настроек добавляет пункт меню админки с полями для общих настроек сайта. Покажите на ней группу полей с правилом «Страница настроек»."
+
+#: build/builder.js:10
+msgid "Menu"
+msgstr "Меню"
+
+#: build/builder.js:10
+msgid "Field groups"
+msgstr "Группы полей"
+
+#. translators: %s: page title.
+#: build/builder.js:10
+msgid "Delete the options page \"%s\"? Saved values are kept."
+msgstr "Удалить страницу настроек «%s»? Сохранённые значения останутся."
+
+#: build/builder.js:10
+msgid "Options page deleted."
+msgstr "Страница настроек удалена."
+
+#: build/builder.js:7
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Delete"
+msgstr "Удалить"
+
+#: build/builder.js:10
+msgid "Edit Options Page"
+msgstr "Изменить страницу настроек"
+
+#: build/builder.js:10
+msgid "Open page"
+msgstr "Открыть страницу"
+
+#: build/builder.js:10
+msgid "Options page saved. Reload the admin to see menu changes."
+msgstr "Страница настроек сохранена. Обновите админку, чтобы увидеть изменения в меню."
+
+#: build/builder.js:10
+msgid "Page Title"
+msgstr "Заголовок страницы"
+
+#: build/builder.js:10
+msgid "Menu Title"
+msgstr "Название в меню"
+
+#: build/builder.js:10
+msgid "Defaults to the page title."
+msgstr "По умолчанию — заголовок страницы."
+
+#: build/builder.js:10
+msgid "Menu Slug"
+msgstr "Slug меню"
+
+#: build/builder.js:10
+msgid "Used in the admin URL and in the \"Options Page\" location rule."
+msgstr "Используется в адресе страницы и в правиле «Страница настроек»."
+
+#: build/builder.js:10
+msgid "Parent Menu"
+msgstr "Родительское меню"
+
+#: build/builder.js:10
+msgid "Who can edit"
+msgstr "Кто может редактировать"
+
+#: build/builder.js:10
+msgid "Storage key (post_id)"
+msgstr "Ключ хранения (post_id)"
+
+#: build/builder.js:10
+msgid "Values are read with get_field( name, this key ). Default: options."
+msgstr "Значения читаются через get_field( имя, этот ключ ). По умолчанию: options."
+
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Menu Icon"
+msgstr "Иконка меню"
+
+#: build/builder.js:10
+msgid "A dashicons class (dashicons-admin-generic) or an image URL."
+msgstr "Класс dashicons (dashicons-admin-generic) или URL изображения."
+
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Menu Position"
+msgstr "Позиция в меню"
+
+#: build/builder.js:10
+msgid "Update Button Label"
+msgstr "Текст кнопки сохранения"
+
+#: build/builder.js:10
+msgid "Default: Update"
+msgstr "По умолчанию: Обновить"
+
+#: build/builder.js:10
+msgid "Updated Message"
+msgstr "Сообщение после сохранения"
+
+#: build/builder.js:10
+msgid "Default: Options Updated"
+msgstr "По умолчанию: Настройки сохранены"
+
+#: build/builder.js:10
+msgid "Open first sub page"
+msgstr "Открывать первую подстраницу"
+
+#: build/builder.js:10
+msgid "When the page has sub pages, its menu item opens the first one."
+msgstr "Если у страницы есть подстраницы, пункт меню открывает первую из них."
+
+#: build/builder.js:10
+msgid "Autoload values"
+msgstr "Автозагрузка значений"
+
+#: build/builder.js:10
+msgid "Load values with every request. Use for small settings needed on most pages."
+msgstr "Загружать значения при каждом запросе. Подходит для небольших настроек, нужных на большинстве страниц."
+
+#: build/builder.js:11
+msgid "Choose field groups, then download them as JSON (to import elsewhere) or get PHP code to register them in a theme."
+msgstr "Выберите группы полей и скачайте их как JSON (для импорта в другом месте) или получите PHP-код для регистрации в теме."
+
+#: build/builder.js:11
+msgid "Select all"
+msgstr "Выбрать все"
+
+#: build/builder.js:11
+msgid "Export as JSON"
+msgstr "Экспорт в JSON"
+
+#: build/builder.js:11
+msgid "Generate PHP"
+msgstr "Сгенерировать PHP"
+
+#: build/builder.js:11
+msgid "PHP code"
+msgstr "PHP-код"
+
+#: build/builder.js:11
+msgid "Paste into your theme's functions.php. Delete the database copies afterwards to avoid duplicates."
+msgstr "Вставьте в functions.php темы. Затем удалите копии из базы, чтобы избежать дублей."
+
+#: build/builder.js:11
+msgid "This file is not valid JSON."
+msgstr "Это не корректный JSON-файл."
+
+#: build/builder.js:11
+msgid "JSON file"
+msgstr "JSON-файл"
+
+#: build/builder.js:12
+msgid "These field groups were created with ACF. Importing keeps their keys, so values already saved by ACF keep working."
+msgstr "Эти группы полей созданы в ACF. При импорте ключи сохраняются, поэтому значения, уже сохранённые ACF, продолжат работать."
+
+#: build/builder.js:12
+msgid "already imported"
+msgstr "уже импортирована"
+
+#: build/builder.js:12
+msgid "Import from ACF"
+msgstr "Импортировать из ACF"
+
+#: build/builder.js:12
+msgid "No field groups created with ACF were found in the database."
+msgstr "Группы полей, созданные в ACF, в базе не найдены."
+
+#: build/builder.js:12
+msgid "Saved field groups are written to:"
+msgstr "Сохранённые группы полей записываются в:"
+
+#: build/builder.js:12
+msgid "Local JSON is off. Create this folder (writable by the web server) to save field groups as JSON files:"
+msgstr "Local JSON выключен. Создайте эту папку (доступную веб-серверу на запись), чтобы сохранять группы полей в JSON-файлы:"
+
+#: build/builder.js:12
+msgid "Field groups are loaded from:"
+msgstr "Группы полей загружаются из:"
+
+#: build/builder.js:12
+msgid "Export Field Groups"
+msgstr "Экспорт групп полей"
+
+#: build/builder.js:12
+msgid "Import Field Groups"
+msgstr "Импорт групп полей"
+
+#: build/builder.js:12
+msgid "Migrate from ACF"
+msgstr "Перенос из ACF"
+
+#: build/builder.js:12
+msgid "Local JSON"
+msgstr "Local JSON"
+
+#: build/builder.js:12
+msgid "Key"
+msgstr "Ключ"
+
+#: build/builder.js:12
+msgid "Terms"
+msgstr "Термины"
+
+#. translators: %s: label.
+#: build/builder.js:12
+msgid "Delete the post type \"%s\"? Its posts stay in the database but are hidden until it is registered again."
+msgstr "Удалить тип записи «%s»? Его записи останутся в базе, но будут скрыты, пока тип не зарегистрируют снова."
+
+#. translators: %s: label.
+#: build/builder.js:12
+msgid "Delete the taxonomy \"%s\"? Its terms stay in the database but are hidden until it is registered again."
+msgstr "Удалить таксономию «%s»? Её термины останутся в базе, но будут скрыты, пока таксономию не зарегистрируют снова."
+
+#: build/builder.js:12
+msgid "Deleted."
+msgstr "Удалено."
+
+#: build/builder.js:12
+msgid "Edit Post Type"
+msgstr "Изменить тип записи"
+
+#: build/builder.js:12
+msgid "Add Post Type"
+msgstr "Новый тип записи"
+
+#: build/builder.js:12
+msgid "Edit Taxonomy"
+msgstr "Изменить таксономию"
+
+#: build/builder.js:12
+msgid "Add Taxonomy"
+msgstr "Новая таксономия"
+
+#: build/builder.js:12
+msgid "Saved. Reload the admin to see it in the menu."
+msgstr "Сохранено. Обновите админку, чтобы увидеть изменения в меню."
+
+#: build/builder.js:12
+msgid "Plural Label"
+msgstr "Подпись во множественном числе"
+
+#: build/builder.js:12
+msgid "e.g. Books"
+msgstr "например, Книги"
+
+#: build/builder.js:12
+msgid "Singular Label"
+msgstr "Подпись в единственном числе"
+
+#: build/builder.js:12
+msgid "e.g. Book"
+msgstr "например, Книга"
+
+#: build/builder.js:12
+msgid "Post Type Key"
+msgstr "Ключ типа записи"
+
+#: build/builder.js:12
+msgid "Taxonomy Key"
+msgstr "Ключ таксономии"
+
+#: build/builder.js:12
+msgid "Up to 20 characters: a–z, 0–9, _ and -. Changing it hides existing posts."
+msgstr "До 20 символов: a–z, 0–9, _ и -. После изменения существующие записи скроются."
+
+#: build/builder.js:12
+msgid "Up to 32 characters: a–z, 0–9, _ and -."
+msgstr "До 32 символов: a–z, 0–9, _ и -."
+
+#: build/builder.js:12
+msgid "URL Slug"
+msgstr "Slug в URL"
+
+#: build/builder.js:12
+msgid "Defaults to the key."
+msgstr "По умолчанию — ключ."
+
+#: build/builder.js:12
+msgid "A dashicons class, e.g. dashicons-book."
+msgstr "Класс dashicons, например dashicons-book."
+
+#: build/builder.js:12
+msgid "Public"
+msgstr "Публичный"
+
+#: build/builder.js:12
+msgid "Visible on the site and in the admin."
+msgstr "Виден на сайте и в админке."
+
+#: build/builder.js:12
+msgid "Hierarchical"
+msgstr "Иерархический"
+
+#: build/builder.js:12
+msgid "Like pages (parents and children)."
+msgstr "Как страницы (родители и дочерние)."
+
+#: build/builder.js:12
+msgid "Like categories (parents and children)."
+msgstr "Как рубрики (родители и дочерние)."
+
+#: build/builder.js:12
+msgid "Needed for the block editor."
+msgstr "Нужно для редактора блоков."
+
+#: build/builder.js:12
+msgid "Archive"
+msgstr "Архив"
+
+#: build/builder.js:12
+msgid "A page listing all items."
+msgstr "Страница со списком всех записей."
+
+#: build/builder.js:12
+msgid "Exclude from Search"
+msgstr "Исключить из поиска"
+
+#: build/builder.js:12
+msgid "Admin Column"
+msgstr "Колонка в списке"
+
+#: build/builder.js:12
+msgid "Show the terms in post lists."
+msgstr "Показывать термины в списках записей."
+
+#: build/builder.js:12
+msgid "Supports"
+msgstr "Поддерживает"
+
+#: examples/blocks/testimonial/block.json
+msgctxt "block title"
+msgid "Testimonial"
+msgstr "Отзыв"
+
+#: examples/blocks/testimonial/block.json
+msgctxt "block description"
+msgid "A quote with the author's name and photo."
+msgstr "Цитата с именем и фотографией автора."
+
+#: examples/blocks/testimonial/block.json
+msgctxt "block keyword"
+msgid "quote"
+msgstr "цитата"
+
+#: examples/blocks/testimonial/block.json
+msgctxt "block keyword"
+msgid "review"
+msgstr "отзыв"
+
+#. Plugin Name of the plugin
+#: freeform-fields.php
+msgid "WP Freeform Fields"
+msgstr "WP Freeform Fields"
+
+#: build/builder.js:11
+msgid "Import a JSON export from WP Freeform Fields or from ACF. Groups with the same key are updated."
+msgstr "Импорт JSON-экспорта из WP Freeform Fields или из ACF. Группы с тем же ключом обновляются."
+
+#: build/builder.js:12
+msgid "With WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, wp wpff import-acf."
+msgstr "Через WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, wp wpff import-acf."
+
+#. Description of the plugin
+#: freeform-fields.php
+msgid "Free custom fields for WordPress: field groups, repeaters, flexible content, options pages and PHP blocks. Compatible with ACF data and template functions."
+msgstr "Бесплатные произвольные поля для WordPress: группы полей, повторители, гибкое содержимое, страницы настроек и блоки на PHP. Совместим с данными и функциями шаблонов ACF."
+
+#: src/Blocks/Bindings.php:40
+#: build/blocks.js:1
+msgid "Custom field"
+msgstr "Произвольное поле"
+
+#: src/Fields/Types/GoogleMap.php:48
+msgid "Map"
+msgstr "Карта"
+
+#: src/Fields/Types/GoogleMap.php:62
+msgid "Center Latitude"
+msgstr "Широта центра"
+
+#: src/Fields/Types/GoogleMap.php:62
+msgid "Where the map opens when no location is set."
+msgstr "Где открывается карта, пока место не выбрано."
+
+#: src/Fields/Types/GoogleMap.php:63
+msgid "Center Longitude"
+msgstr "Долгота центра"
+
+#: src/Fields/Types/GoogleMap.php:64
+msgid "Zoom"
+msgstr "Масштаб"
+
+#: src/Fields/Types/GoogleMap.php:64
+msgid "From 1 (world) to 20 (building). Default 14."
+msgstr "От 1 (весь мир) до 20 (здание). По умолчанию 14."
+
+#: src/Fields/Types/GoogleMap.php:65
+msgid "Height"
+msgstr "Высота"
+
+#: src/Fields/Types/GoogleMap.php:65
+msgid "Map height in pixels. Default 400."
+msgstr "Высота карты в пикселях. По умолчанию 400."
+
+#: src/Fields/Types/GoogleMap.php:153
+msgid "Search for an address…"
+msgstr "Поиск адреса…"
+
+#: src/Fields/Types/GoogleMap.php:155
+msgid "Find"
+msgstr "Найти"
+
+#: src/Fields/Types/GoogleMap.php:158
+msgid "Use my location"
+msgstr "Моё местоположение"
+
+#: src/Fields/Types/GoogleMap.php:160
+msgid "Clear"
+msgstr "Очистить"
+
+#: src/Fields/Types/GoogleMap.php:162
+msgid "Search results"
+msgstr "Результаты поиска"
+
+#: src/Fields/Types/GoogleMap.php:168
+msgid "Latitude"
+msgstr "Широта"
+
+#: src/Fields/Types/GoogleMap.php:169
+msgid "Longitude"
+msgstr "Долгота"
+
+#: src/Fields/Types/GoogleMap.php:215
+msgid "Enter both latitude (-90 to 90) and longitude (-180 to 180)."
+msgstr "Укажите и широту (от -90 до 90), и долготу (от -180 до 180)."
+
+#: src/Fields/Types/Repeater.php:68
+msgid "Pagination"
+msgstr "Постраничный вывод"
+
+#: src/Fields/Types/Repeater.php:68
+msgid "Show long lists of rows page by page in the editor."
+msgstr "Показывать длинные списки строк в редакторе по страницам."
+
+#: src/Fields/Types/Repeater.php:69
+msgid "Rows Per Page"
+msgstr "Строк на странице"
+
+#: src/Integrations/Abilities.php:35
+msgid "Custom fields"
+msgstr "Произвольные поля"
+
+#: src/Integrations/Abilities.php:36
+msgid "Field groups and field values from WP Freeform Fields."
+msgstr "Группы полей и значения полей WP Freeform Fields."
+
+#: src/Integrations/Abilities.php:58
+msgid "List field groups"
+msgstr "Список групп полей"
+
+#: src/Integrations/Abilities.php:59
+msgid "Lists field groups with their fields (key, name, label, type) and location rules."
+msgstr "Возвращает группы полей с полями (ключ, имя, подпись, тип) и правилами размещения."
+
+#: src/Integrations/Abilities.php:71
+msgid "Get field values"
+msgstr "Значения полей"
+
+#: src/Integrations/Abilities.php:72
+msgid "Returns the raw field values of a post, term (term_5), user (user_3) or options page (option)."
+msgstr "Возвращает значения полей без форматирования для записи, рубрики (term_5), пользователя (user_3) или страницы настроек (option)."
+
+#: src/Integrations/Abilities.php:79
+msgid "Post ID, term_{id}, user_{id}, comment_{id} or option."
+msgstr "ID записи, term_{id}, user_{id}, comment_{id} или option."
+
+#: src/Integrations/Abilities.php:133
+msgid "Unknown object."
+msgstr "Неизвестный объект."
+
+#. translators: %s: options page slug.
+#: src/Tools/ImportExport.php:369
+msgid "Options page \"%s\" already exists and was skipped."
+msgstr "Страница настроек «%s» уже существует и пропущена."
+
+#: assets/js/admin.js:1338
+msgid "Rows pagination"
+msgstr "Страницы строк"
+
+#: assets/js/admin.js:1344
+msgid "Previous"
+msgstr "Назад"
+
+#: assets/js/admin.js:1345
+msgid "Next"
+msgstr "Вперёд"
+
+#. translators: 1: current page, 2: number of pages.
+#: assets/js/admin.js:1355
+msgid "Page %1$d of %2$d"
+msgstr "Страница %1$d из %2$d"
+
+#: build/builder.js:8
+msgid "Allow in Block Bindings"
+msgstr "Разрешить в Block Bindings"
+
+#: build/builder.js:8
+msgid "Lets editors show this value in core blocks (paragraph, heading, image, button) on the site."
+msgstr "Позволяет выводить значение на сайте в стандартных блоках (абзац, заголовок, изображение, кнопка)."
+
+#: build/map.js:1
+msgid "Selected location"
+msgstr "Выбранное место"
+
+#: build/map.js:1
+msgid "Looking up the address…"
+msgstr "Определяю адрес…"
+
+#: build/map.js:1
+msgid "Choose a result with the arrow keys or the mouse."
+msgstr "Выберите результат стрелками или мышью."
+
+#: assets/js/admin.js:2054
+#: build/builder.js:1
+#: build/map.js:1
+msgid "Nothing found."
+msgstr "Ничего не найдено."
+
+#: build/map.js:1
+msgid "Search failed. Try again later or enter coordinates."
+msgstr "Поиск не удался. Повторите позже или введите координаты."
+
+#: build/map.js:1
+msgid "Finding your location…"
+msgstr "Определяю ваше местоположение…"
+
+#: build/map.js:1
+msgid "Your location is not available."
+msgstr "Местоположение недоступно."
+
+#: build/map.js:1
+msgid "The map could not be loaded. You can still enter coordinates."
+msgstr "Карту не удалось загрузить. Координаты можно ввести вручную."
+
+#: src/Admin/AcfNotice.php:47
+msgid "Advanced Custom Fields is active."
+msgstr "Advanced Custom Fields активен."
+
+#: src/Admin/AcfNotice.php:48
+msgid "While it is active, WP Freeform Fields leaves ACF's fields, acf-json files and blocks to ACF, and ACF-named functions such as get_field() belong to ACF."
+msgstr "Пока он активен, WP Freeform Fields не трогает поля, файлы acf-json и блоки ACF, а функции с именами ACF (например, get_field()) принадлежат ACF."
+
+#: src/Admin/AcfNotice.php:41
+#: src/Admin/AcfNotice.php:52
+msgid "Tools → Migrate from ACF"
+msgstr "Инструменты → Перенос из ACF"
+
+#: src/Front/Forms.php:75
+msgid "Post updated"
+msgstr "Запись обновлена"
+
+#: src/Front/Forms.php:125
+msgid "Leave this field empty"
+msgstr "Оставьте это поле пустым"
+
+#: src/Front/Forms.php:131
+msgid "Please correct the highlighted fields."
+msgstr "Исправьте отмеченные поля."
+
+#: src/Front/Forms.php:171
+msgid "The form has expired. Please reload the page and try again."
+msgstr "Срок действия формы истёк. Обновите страницу и попробуйте снова."
+
+#: src/Front/Forms.php:175
+msgid "Invalid form."
+msgstr "Неверная форма."
+
+#. translators: %d: number of PHP files.
+#: build/builder.js:12
+msgid "Theme check: %d PHP files use no ACF functions or hooks that WP Freeform Fields lacks."
+msgstr "Проверка темы: в %d PHP-файлах нет функций и хуков ACF, которых не хватает WP Freeform Fields."
+
+#: build/builder.js:12
+msgid "Check your theme before deactivating ACF."
+msgstr "Проверьте тему, прежде чем отключать ACF."
+
+#: build/builder.js:12
+msgid "These functions are not provided by WP Freeform Fields. Calling them without ACF causes a fatal error:"
+msgstr "Этих функций нет в WP Freeform Fields. Их вызов без ACF приведёт к фатальной ошибке:"
+
+#: build/builder.js:12
+msgid "These ACF hooks are not fired by WP Freeform Fields, so the theme code attached to them will stop running:"
+msgstr "WP Freeform Fields не вызывает эти хуки ACF, поэтому привязанный к ним код темы перестанет выполняться:"
+
+#. translators: %s: field group title.
+#: build/builder.js:2
+msgid "“%s” moved to the Trash."
+msgstr "«%s» перемещена в корзину."
+
+#. translators: %s: field group title.
+#: build/builder.js:3
+msgid "Created “%s”."
+msgstr "Создана «%s»."
+
+#. translators: %s: field group title.
+#: build/builder.js:4
+msgid "“%s” synced from its JSON file."
+msgstr "«%s» синхронизирована из JSON-файла."
+
+#: build/builder.js:4
+msgid "Sets of custom fields and the screens they appear on."
+msgstr "Наборы произвольных полей и экраны, на которых они показываются."
+
+#: build/builder.js:4
+msgid "Add field group"
+msgstr "Добавить группу полей"
+
+#: build/builder.js:4
+msgid "No field groups yet"
+msgstr "Групп полей пока нет"
+
+#: build/builder.js:4
+msgid "A field group is a set of fields — price, gallery, author bio — shown on the screens you choose."
+msgstr "Группа полей — это набор полей (цена, галерея, биография автора), который показывается на выбранных вами экранах."
+
+#: build/builder.js:4
+msgid "Create your first field group"
+msgstr "Создать первую группу полей"
+
+#: build/builder.js:4
+msgid "Filter field groups"
+msgstr "Фильтр групп полей"
+
+#: build/builder.js:4
+msgid "Search groups"
+msgstr "Поиск групп"
+
+#: build/builder.js:4
+msgid "Nothing found"
+msgstr "Ничего не найдено"
+
+#: build/builder.js:4
+msgid "Try another search or filter."
+msgstr "Попробуйте другой запрос или фильтр."
+
+#: build/builder.js:4
+msgid "Field group"
+msgstr "Группа полей"
+
+#: build/builder.js:4
+msgid "Shown on"
+msgstr "Где показывается"
+
+#: build/builder.js:4
+msgid "Actions"
+msgstr "Действия"
+
+#: build/builder.js:4
+#: build/builder.js:10
+msgid "PHP"
+msgstr "PHP"
+
+#: build/builder.js:4
+msgid "Loaded from a JSON file"
+msgstr "Загружена из JSON-файла"
+
+#. translators: %s: field group title.
+#: build/builder.js:5
+msgid "Actions for “%s”"
+msgstr "Действия для «%s»"
+
+#: build/builder.js:5
+msgid "Sync from JSON"
+msgstr "Синхронизировать из JSON"
+
+#: build/builder.js:5
+msgid "Copy to an editable group"
+msgstr "Скопировать в редактируемую группу"
+
+#: build/builder.js:5
+msgid "Move to Trash"
+msgstr "Удалить в корзину"
+
+#: build/builder.js:6
+msgid "Drag fields here, or pick a type in the “Add field” panel."
+msgstr "Перетащите сюда поля или выберите тип на панели «Добавить поле»."
+
+#: build/builder.js:6
+msgid "No fields yet. Drag a field type here from the “Add field” panel, or click one to add it."
+msgstr "Полей пока нет. Перетащите сюда тип поля с панели «Добавить поле» или нажмите на него."
+
+#. translators: 1: field label, 2: field type.
+#: build/builder.js:7
+msgid "%1$s, %2$s field"
+msgstr "%1$s, поле «%2$s»"
+
+#: build/builder.js:7
+msgid "Drag to move"
+msgstr "Перетащите, чтобы переместить"
+
+#: build/builder.js:7
+msgid "Show sub fields"
+msgstr "Показать подполя"
+
+#: build/builder.js:7
+msgid "Hide sub fields"
+msgstr "Скрыть подполя"
+
+#: build/builder.js:7
+msgid "Conditional"
+msgstr "С условием"
+
+#: build/builder.js:7
+msgid "More actions"
+msgstr "Другие действия"
+
+#: build/builder.js:7
+msgid "Move out of the parent field"
+msgstr "Вынести из родительского поля"
+
+#: build/builder.js:7
+msgid "Add a layout in the field settings to place fields in it."
+msgstr "Добавьте макет в настройках поля, чтобы размещать в нём поля."
+
+#: build/builder.js:7
+msgid "General"
+msgstr "Основное"
+
+#. translators: %s: field type label.
+#: build/builder.js:8
+msgid "%s settings"
+msgstr "Настройки: %s"
+
+#: build/builder.js:8
+msgid "Validation & presentation"
+msgstr "Проверка и отображение"
+
+#: build/builder.js:8
+msgid "Conditional logic"
+msgstr "Условная логика"
+
+#: build/builder.js:8
+msgid "Search field types"
+msgstr "Поиск типов полей"
+
+#: build/builder.js:8
+msgid "Click to add after the selected field, or drag into place."
+msgstr "Нажмите, чтобы добавить после выбранного поля, или перетащите в нужное место."
+
+#: build/builder.js:8
+msgid "No field types found."
+msgstr "Типы полей не найдены."
+
+#. translators: %s: field label.
+#: build/builder.js:10
+msgid "Deleted “%s”."
+msgstr "Удалено «%s»."
+
+#: build/builder.js:10
+msgid "New Field Group"
+msgstr "Новая группа полей"
+
+#: build/builder.js:10
+#: build/builder.js:12
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+#: build/builder.js:10
+msgid "Create field group"
+msgstr "Создать группу полей"
+
+#: build/builder.js:10
+msgid "Field group title, e.g. Product details"
+msgstr "Название группы, например «Характеристики товара»"
+
+#: build/builder.js:10
+msgid "Add field"
+msgstr "Добавить поле"
+
+#: build/builder.js:10
+msgid "Select a field in the list to edit its settings."
+msgstr "Выберите поле в списке, чтобы изменить его настройки."
+
+#: build/builder.js:10
+msgid "Presentation"
+msgstr "Отображение"
+
+#: build/builder.js:10
+msgid "Group key:"
+msgstr "Ключ группы:"
+
+#: build/builder.js:10
+msgid "Add options page"
+msgstr "Добавить страницу настроек"
+
+#: build/builder.js:10
+msgid "No options pages yet"
+msgstr "Страниц настроек пока нет"
+
+#: build/builder.js:10
+msgid "Use one for things like a phone number, social links or a footer text that the whole site shares."
+msgstr "Подходит для общих данных сайта: телефона, ссылок на соцсети, текста в подвале."
+
+#: build/builder.js:10
+msgid "New Options Page"
+msgstr "Новая страница настроек"
+
+#: build/builder.js:12
+msgid "Export, import and move field groups between sites, or switch from ACF."
+msgstr "Экспорт, импорт и перенос групп полей между сайтами, переход с ACF."
+
+#: build/builder.js:12
+msgid "Content types like Products or Events, each with its own admin menu."
+msgstr "Типы контента, например «Товары» или «События», каждый со своим пунктом меню."
+
+#: build/builder.js:12
+msgid "Ways to group content, like Genres or Locations."
+msgstr "Способы группировать контент, например «Жанры» или «Города»."
+
+#: build/builder.js:12
+msgid "Add post type"
+msgstr "Добавить тип записи"
+
+#: build/builder.js:12
+msgid "Add taxonomy"
+msgstr "Добавить таксономию"
+
+#: build/builder.js:12
+msgid "No post types yet"
+msgstr "Типов записей пока нет"
+
+#: build/builder.js:12
+msgid "No taxonomies yet"
+msgstr "Таксономий пока нет"
+
+#: assets/js/admin.js:1924
+msgid "Select…"
+msgstr "Выберите…"
+
+#: assets/js/admin.js:1963
+#: build/builder.js:1
+msgid "Search options"
+msgstr "Поиск вариантов"
+
+#. translators: 1: number of field groups, 2: link to the Tools screen.
+#: src/Admin/AcfNotice.php:39
+msgid "%1$d field group is still read from ACF's tables. It works, but cannot be edited until you run %2$s."
+msgid_plural "%1$d field groups are still read from ACF's tables. They work, but cannot be edited until you run %2$s."
+msgstr[0] "%1$d группа полей всё ещё читается из таблиц ACF. Она работает, но редактировать её можно только после запуска %2$s."
+msgstr[1] "%1$d группы полей всё ещё читаются из таблиц ACF. Они работают, но редактировать их можно только после запуска %2$s."
+msgstr[2] "%1$d групп полей всё ещё читаются из таблиц ACF. Они работают, но редактировать их можно только после запуска %2$s."
+
+#. translators: %s: link to the Tools screen.
+#: src/Admin/AcfNotice.php:51
+msgid "To switch: run %s, check the report, then deactivate ACF. Until then, edit screens show ACF's forms for the groups both plugins have."
+msgstr "Чтобы перейти: запустите %s, проверьте отчёт и отключите ACF. До этого для групп, которые есть в обоих плагинах, на экранах редактирования показываются формы ACF."
+
+#: build/builder.js:4
+msgid "Read from ACF (read-only). Migrate it in Tools."
+msgstr "Читается из ACF (только чтение). Перенесите её в «Инструментах»."
+
+#: build/builder.js:8
+msgid "This field group is read from ACF and cannot be edited here. Migrate it in Tools to edit it."
+msgstr "Эта группа полей читается из ACF и не редактируется здесь. Чтобы её изменить, перенесите её в «Инструментах»."
+
+#. translators: %d: number of imported items (field groups, options pages, post types).
+#: build/builder.js:11
+msgid "%d item imported."
+msgid_plural "%d items imported."
+msgstr[0] "Импортирован %d элемент."
+msgstr[1] "Импортировано %d элемента."
+msgstr[2] "Импортировано %d элементов."
+
+#. Author of the plugin
+#: freeform-fields.php
+msgid "kiberberik"
+msgstr "kiberberik"
+
+#. Author URI of the plugin
+#: freeform-fields.php
+msgid "https://kiberberik.link"
+msgstr "https://kiberberik.link"
+
+#: src/Integrations/AcfToRestApi.php:127
+msgid "No field with that name."
+msgstr "Поля с таким именем нет."

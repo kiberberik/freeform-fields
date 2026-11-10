@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "acf/testimonial",
+	"title": "Testimonial",
+	"description": "A quote with the author's name and photo.",
+	"category": "text",
+	"icon": "format-quote",
+	"keywords": [ "quote", "review" ],
+	"supports": {
+		"align": true,
+		"anchor": true
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "testimonial.php"
+	}
+}

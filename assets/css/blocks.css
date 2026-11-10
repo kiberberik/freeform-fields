@@ -1,0 +1,30 @@
+/* Field blocks in the editor. */
+
+.wpff-block-form .wpff-fields {
+	margin: 0;
+}
+
+.wpff-block-form .wpff-field {
+	padding: 8px 0;
+	width: 100% !important;
+}
+
+.wpff-block-form .wpff-field:first-child {
+	border-top: 0;
+}
+
+.wpff-block-form .wpff-fields--label-left .wpff-field {
+	grid-template-columns: 1fr;
+}
+
+.wpff-block-placeholder {
+	padding: 16px;
+	border: 1px dashed #c3c4c7;
+	color: #646970;
+	text-align: center;
+}
+
+.wpff-block-errors {
+	margin: 0 0 8px;
+	color: #d63638;
+}

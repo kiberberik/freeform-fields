@@ -1,0 +1,25 @@
+{
+	"name": "freeform-fields",
+	"version": "1.2.0",
+	"private": true,
+	"description": "Field group builder for WP Freeform Fields.",
+	"license": "GPL-2.0-or-later",
+	"author": "kiberberik (https://kiberberik.link)",
+	"scripts": {
+		"build": "wp-scripts build builder=./assets/src/builder/index.js blocks=./assets/src/blocks/index.js map=./assets/src/map/index.js --output-path=build",
+		"start": "wp-scripts start builder=./assets/src/builder/index.js blocks=./assets/src/blocks/index.js map=./assets/src/map/index.js --output-path=build",
+		"lint:js": "wp-scripts lint-js assets/src assets/js",
+		"i18n": "wp i18n make-pot . languages/freeform-fields.pot --slug=freeform-fields --domain=freeform-fields --exclude=.dev,vendor,node_modules,tests,assets/src && wp i18n update-po languages/freeform-fields.pot languages && wp i18n make-mo languages && wp i18n make-json languages --no-purge"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.0.0",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"@dnd-kit/core": "^6.1.0",
+		"@dnd-kit/sortable": "^8.0.0",
+		"@dnd-kit/utilities": "^3.2.2",
+		"@wordpress/icons": "^20.0.0",
+		"leaflet": "^1.9.4"
+	}
+}

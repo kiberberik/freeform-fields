@@ -1,0 +1,33 @@
+name: Bug report
+description: Something does not work as expected.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: For security problems, do not open an issue. See SECURITY.md.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: If a field group is involved, attach its JSON export (Tools → Export) with private data removed.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: "Plugin 1.2.0, WordPress 6.9, PHP 8.3"
+    validations:
+      required: true
+  - type: dropdown
+    id: acf
+    attributes:
+      label: Was the site migrated from ACF?
+      options: ['No', 'Yes, ACF is removed', 'Yes, ACF is still active']

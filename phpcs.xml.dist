@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<ruleset name="WP Freeform Fields">
+	<description>WordPress coding standards for WP Freeform Fields.</description>
+
+	<!-- Warnings are reported but do not fail CI. -->
+	<config name="ignore_warnings_on_exit" value="1"/>
+
+	<file>freeform-fields.php</file>
+	<file>src</file>
+	<file>examples</file>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<config name="minimum_wp_version" value="6.5"/>
+	<config name="testVersion" value="8.1-"/>
+
+	<rule ref="WordPress-Extra">
+		<!-- PSR-4 class files instead of class-*.php. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- ACF-compatible hook names use slashes, e.g. wpff/load_value. -->
+		<exclude name="WordPress.NamingConventions.ValidHookName"/>
+		<!-- Short ternaries are used deliberately for empty-string fallbacks. -->
+		<exclude name="Universal.Operators.DisallowShortTernary"/>
+	</rule>
+
+	<rule ref="WordPress.Security.EscapeOutput">
+		<properties>
+			<property name="customEscapingFunctions" type="array">
+				<element value="wpff_value_attr"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="freeform-fields"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="wpff"/>
+				<element value="WPFF"/>
+				<element value="FreeformFields"/>
+			</property>
+		</properties>
+		<!-- compat-acf.php intentionally defines ACF's function names. -->
+		<exclude-pattern>src/Api/compat-acf\.php</exclude-pattern>
+		<!-- Block templates are included inside a function; their variables are local. -->
+		<exclude-pattern>examples/blocks/*</exclude-pattern>
+	</rule>
+</ruleset>

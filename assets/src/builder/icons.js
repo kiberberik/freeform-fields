@@ -1,0 +1,87 @@
+/**
+ * Icons and colors for field types, so every type is recognizable at a glance.
+ */
+import {
+	blockDefault,
+	buttons,
+	calendar,
+	check,
+	classic,
+	color,
+	connection,
+	copy,
+	customLink,
+	details,
+	envelope,
+	file,
+	formSelect,
+	formatListBullets,
+	gallery,
+	group,
+	image,
+	info,
+	layout,
+	link,
+	lock,
+	mapMarker,
+	math,
+	page,
+	paragraph,
+	people,
+	post,
+	published,
+	repeat,
+	scheduled,
+	sidesHorizontal,
+	tabs,
+	tag,
+	time,
+	typography,
+	video,
+} from '@wordpress/icons';
+
+const ICONS = {
+	text: typography,
+	textarea: paragraph,
+	number: math,
+	range: sidesHorizontal,
+	email: envelope,
+	url: link,
+	password: lock,
+	image,
+	file,
+	wysiwyg: classic,
+	oembed: video,
+	gallery,
+	select: formSelect,
+	checkbox: check,
+	radio: formatListBullets,
+	button_group: buttons,
+	true_false: published,
+	link: customLink,
+	post_object: post,
+	page_link: page,
+	relationship: connection,
+	taxonomy: tag,
+	user: people,
+	date_picker: calendar,
+	date_time_picker: scheduled,
+	time_picker: time,
+	color_picker: color,
+	google_map: mapMarker,
+	message: info,
+	accordion: details,
+	tab: tabs,
+	group,
+	repeater: repeat,
+	flexible_content: layout,
+	clone: copy,
+};
+
+/**
+ * @param {string} name Field type name.
+ * @return {Object} Icon element.
+ */
+export function typeIcon( name ) {
+	return ICONS[ name ] || blockDefault;
+}

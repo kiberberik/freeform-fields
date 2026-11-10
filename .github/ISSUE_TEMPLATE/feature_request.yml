@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest a new feature or an ACF function that is missing.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you need
+      description: The problem you want to solve, and how you would like it to work.
+    validations:
+      required: true
+  - type: textarea
+    id: acf
+    attributes:
+      label: ACF equivalent
+      description: If ACF has this, name the function, hook or setting. Please do not paste ACF code.
