@@ -114,6 +114,7 @@ final class Plugin {
 		( new \FreeformFields\Blocks\Bindings( $this ) )->register();
 		( new \FreeformFields\Integrations\Abilities( $this ) )->register();
 		( new \FreeformFields\Integrations\AcfToRestApi( $this ) )->register();
+		( new \FreeformFields\Updates\Updater() )->register();
 		\FreeformFields\Front\Forms::instance()->register();
 		add_filter( 'plugin_action_links_' . plugin_basename( WPFF_FILE ), array( $this, 'action_links' ) );
 		add_action(

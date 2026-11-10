@@ -140,7 +140,7 @@ msgid "Block"
 msgstr "Блок"
 
 #: src/Admin/BuilderData.php:91
-#: src/Plugin.php:174
+#: src/Plugin.php:175
 msgid "Options Page"
 msgstr "Страница настроек"
 
@@ -212,8 +212,8 @@ msgstr "Суперадминистратор"
 
 #: src/Admin/FieldGroupsPage.php:48
 #: src/Admin/FieldGroupsPage.php:56
-#: src/Plugin.php:153
-#: src/Plugin.php:423
+#: src/Plugin.php:154
+#: src/Plugin.php:424
 #: build/builder.js:7
 #: build/builder.js:15
 msgid "Field Groups"
@@ -232,7 +232,7 @@ msgid "Add New"
 msgstr "Добавить"
 
 #: src/Admin/FieldGroupsPage.php:58
-#: src/Plugin.php:173
+#: src/Plugin.php:174
 #: build/builder.js:16
 msgid "Options Pages"
 msgstr "Страницы настроек"
@@ -1363,11 +1363,11 @@ msgstr "Эта страница настроек зарегистрирован�
 msgid "Another options page already uses this menu slug."
 msgstr "Этот slug меню уже использует другая страница настроек."
 
-#: src/Plugin.php:154
+#: src/Plugin.php:155
 msgid "Field Group"
 msgstr "Группа полей"
 
-#: src/Plugin.php:192
+#: src/Plugin.php:193
 msgctxt "field group status"
 msgid "Inactive"
 msgstr "Неактивна"
@@ -2352,6 +2352,7 @@ msgstr "Через WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, 
 
 #. Description of the plugin
 #: freeform-fields.php
+#: src/Updates/Updater.php:122
 msgid "Free custom fields for WordPress: field groups, repeaters, flexible content, options pages and PHP blocks. Compatible with ACF data and template functions."
 msgstr "Бесплатные произвольные поля для WordPress: группы полей, повторители, гибкое содержимое, страницы настроек и блоки на PHP. Совместим с данными и функциями шаблонов ACF."
 
@@ -3056,3 +3057,16 @@ msgid_plural "%d icons"
 msgstr[0] "%d иконка"
 msgstr[1] "%d иконки"
 msgstr[2] "%d иконок"
+
+#. Plugin URI of the plugin
+#: freeform-fields.php
+msgid "https://wpff.kiberberik.link"
+msgstr ""
+
+#: src/Updates/Updater.php:107
+msgid "Full changelog"
+msgstr "Полный список изменений"
+
+#: src/Updates/Updater.php:123
+msgid "Documentation"
+msgstr "Документация"
