@@ -190,7 +190,7 @@ function InnerBlocksPreview( { name, attributes } ) {
 	let props = {};
 	try {
 		props = target ? JSON.parse( target.dataset.wpffInnerBlocks ) : {};
-	} catch ( e ) {}
+	} catch {}
 
 	return (
 		<>
@@ -247,11 +247,11 @@ function Edit( { name, attributes, setAttributes, isSelected } ) {
 								? __(
 										'Fill in the fields in the sidebar.',
 										'freeform-fields'
-								  )
+									)
 								: __(
 										'This block has no content yet.',
 										'freeform-fields'
-								  ) }
+									) }
 						</div>
 					) }
 				/>

@@ -355,7 +355,7 @@ export function OptionsPageEditor( { slug } ) {
 					path: `${ base() }/${ currentSlug }`,
 					method: 'PUT',
 					data: page,
-			  } )
+				} )
 			: apiFetch( { path: base(), method: 'POST', data: page } );
 		request
 			.then( ( data ) => {
@@ -450,7 +450,7 @@ export function OptionsPageEditor( { slug } ) {
 											: {
 													page_title: title,
 													menu_slug: slugify( title ),
-											  }
+												}
 									)
 								}
 								help={ errors.page_title }

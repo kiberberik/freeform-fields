@@ -84,11 +84,11 @@ export default function FieldSettings( {
 								? __(
 										'Shown on the edit screen.',
 										'freeform-fields'
-								  )
+									)
 								: __(
 										'Shown as the tab, section or message title.',
 										'freeform-fields'
-								  ) )
+									) )
 						}
 						className={ own( 'label' ) ? 'has-error' : '' }
 						__next40pxDefaultSize
@@ -110,11 +110,11 @@ export default function FieldSettings( {
 									? __(
 											"Used in code: get_field( 'name' ). Letters a-z, digits, _ and -.",
 											'freeform-fields'
-									  )
+										)
 									: __(
 											'Changing the name of a saved field hides values already stored under the old name.',
 											'freeform-fields'
-									  ) )
+										) )
 							}
 							className={ `wpff-mono${
 								own( 'name' ) ? ' has-error' : ''

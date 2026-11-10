@@ -31,12 +31,12 @@ export function describeLocation( location ) {
 								__( '%1$s is %2$s', 'freeform-fields' ),
 								label,
 								value
-						  )
+							)
 						: /* translators: 1: rule name, 2: value. */ sprintf(
 								__( '%1$s is not %2$s', 'freeform-fields' ),
 								label,
 								value
-						  );
+							);
 				} )
 				.join( ` ${ __( 'and', 'freeform-fields' ) } ` )
 		)
@@ -66,7 +66,7 @@ export default function LocationRules( { location, onChange } ) {
 			g === gi
 				? rules.map( ( rule, r ) =>
 						r === ri ? { ...rule, ...patch } : rule
-				  )
+					)
 				: rules
 		);
 		onChange( next );
