@@ -41,11 +41,11 @@ export function ContentTypeList() {
 			? /* translators: %s: label. */ __(
 					'Delete the post type "%s"? Its posts stay in the database but are hidden until it is registered again.',
 					'freeform-fields'
-			  )
+				)
 			: /* translators: %s: label. */ __(
 					'Delete the taxonomy "%s"? Its terms stay in the database but are hidden until it is registered again.',
 					'freeform-fields'
-			  );
+				);
 		// eslint-disable-next-line no-alert -- a native confirm is enough for this rare action.
 		if ( ! window.confirm( sprintf( question, item.plural ) ) ) {
 			return;
@@ -76,11 +76,11 @@ export function ContentTypeList() {
 						? __(
 								'Content types like Products or Events, each with its own admin menu.',
 								'freeform-fields'
-						  )
+							)
 						: __(
 								'Ways to group content, like Genres or Locations.',
 								'freeform-fields'
-						  )
+							)
 				}
 				actions={
 					<Button
@@ -141,7 +141,7 @@ export function ContentTypeList() {
 										: __(
 												'Post Types',
 												'freeform-fields'
-										  ) }
+											) }
 								</th>
 								<th className="wpff-col-narrow">
 									{ isPostType()
@@ -238,7 +238,7 @@ const NEW_ITEM = () =>
 				has_archive: false,
 				exclude_from_search: false,
 				active: true,
-		  }
+			}
 		: {
 				key: '',
 				singular: '',
@@ -251,7 +251,7 @@ const NEW_ITEM = () =>
 				object_type: [ 'post' ],
 				show_admin_column: true,
 				active: true,
-		  };
+			};
 
 function Checklist( { label, options, value, onChange } ) {
 	return (
@@ -430,7 +430,7 @@ export function ContentTypeEditor() {
 													0,
 													isPostType() ? 20 : 32
 												),
-										  }
+											}
 								)
 						) }
 						{ text(
@@ -447,11 +447,11 @@ export function ContentTypeEditor() {
 								? __(
 										'Up to 20 characters: a–z, 0–9, _ and -. Changing it hides existing posts.',
 										'freeform-fields'
-								  )
+									)
 								: __(
 										'Up to 32 characters: a–z, 0–9, _ and -.',
 										'freeform-fields'
-								  ),
+									),
 							( key ) => {
 								setKeyTouched( true );
 								set( {
@@ -516,11 +516,11 @@ export function ContentTypeEditor() {
 								? __(
 										'Like pages (parents and children).',
 										'freeform-fields'
-								  )
+									)
 								: __(
 										'Like categories (parents and children).',
 										'freeform-fields'
-								  )
+									)
 						) }
 						{ toggle(
 							__( 'Show in REST API', 'freeform-fields' ),

@@ -122,11 +122,11 @@ export default function GroupEditor( { groupKey } ) {
 								? __(
 										'This field group is read from ACF and cannot be edited here. Migrate it in Tools to edit it.',
 										'freeform-fields'
-								  )
+									)
 								: __(
 										'This field group is registered in code and cannot be edited here.',
 										'freeform-fields'
-								  ),
+									),
 					} );
 				}
 				setGroup( data );
@@ -495,7 +495,7 @@ export default function GroupEditor( { groupKey } ) {
 									: __(
 											'Create field group',
 											'freeform-fields'
-									  ) }
+										) }
 							</Button>
 						</>
 					}
@@ -516,7 +516,7 @@ export default function GroupEditor( { groupKey } ) {
 											),
 											onClick: notice.undo,
 										},
-								  ]
+									]
 								: []
 						}
 					>
@@ -570,7 +570,7 @@ export default function GroupEditor( { groupKey } ) {
 														? []
 														: flatten(
 																group.fields
-														  )
+															)
 																.filter(
 																	( f ) =>
 																		f.sub_fields ||
@@ -587,11 +587,11 @@ export default function GroupEditor( { groupKey } ) {
 												? __(
 														'Expand all',
 														'freeform-fields'
-												  )
+													)
 												: __(
 														'Collapse all',
 														'freeform-fields'
-												  ) }
+													) }
 										</Button>
 									) }
 									{ ! readOnly && (

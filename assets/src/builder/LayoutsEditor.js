@@ -139,7 +139,7 @@ export default function LayoutsEditor( {
 													name: nameFromLabel(
 														label
 													),
-											  }
+												}
 											: { label }
 									)
 								}
