@@ -168,6 +168,57 @@ final class FieldGroupsApiTest extends TestCase {
 		$this->assertFalse( $restored->get_data()['active'], 'Restore keeps the previous (inactive) status.' );
 	}
 
+	public function test_trash_list_and_permanent_delete(): void {
+		$key = $this->request( 'POST', '/field-groups', self::group_input( array( 'title' => 'Old' ) ) )->get_data()['key'];
+		$this->assertSame( array(), $this->request( 'GET', '/field-groups/trash' )->get_data() );
+		$this->assertSame( 404, $this->request( 'DELETE', '/field-groups/' . $key . '?force=1' )->get_status(), 'Only trashed groups can be deleted for good.' );
+
+		$this->request( 'DELETE', '/field-groups/' . $key );
+		$trash = $this->request( 'GET', '/field-groups/trash' )->get_data();
+		$this->assertCount( 1, $trash );
+		$this->assertSame( $key, $trash[0]['key'], 'The key comes without the __trashed suffix.' );
+		$this->assertSame( 'Old', $trash[0]['title'] );
+
+		$request = new \WP_REST_Request( 'DELETE', '/wpff/v1/field-groups/' . $key );
+		$request->set_param( 'force', '1' );
+		$this->assertTrue( rest_get_server()->dispatch( $request )->get_data()['deleted'] );
+		$this->assertSame( array(), $this->request( 'GET', '/field-groups/trash' )->get_data() );
+		$this->assertNull( $this->plugin()->groups()->find_post( $key, true ) );
+	}
+
+	public function test_list_counts_nested_fields(): void {
+		$input           = self::group_input();
+		$input['fields'] = array(
+			array(
+				'label'      => 'Rows',
+				'name'       => 'rows',
+				'type'       => 'repeater',
+				'sub_fields' => array(
+					array(
+						'label' => 'A',
+						'name'  => 'a',
+						'type'  => 'text',
+					),
+					array(
+						'label'      => 'B',
+						'name'       => 'b',
+						'type'       => 'group',
+						'sub_fields' => array(
+							array(
+								'label' => 'C',
+								'name'  => 'c',
+								'type'  => 'text',
+							),
+						),
+					),
+				),
+			),
+		);
+		$key             = $this->request( 'POST', '/field-groups', $input )->get_data()['key'];
+		$listed          = array_column( $this->request( 'GET', '/field-groups' )->get_data(), null, 'key' );
+		$this->assertSame( 4, $listed[ $key ]['field_count'], 'Counts sub fields, as the builder does.' );
+	}
+
 	public function test_create_ignores_taken_key(): void {
 		$first  = $this->request( 'POST', '/field-groups', self::group_input() )->get_data();
 		$second = $this->request( 'POST', '/field-groups', self::group_input( array( 'key' => $first['key'] ) ) )->get_data();

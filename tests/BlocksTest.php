@@ -284,6 +284,12 @@ final class BlocksTest extends TestCase {
 		$this->assertSame( '<InnerBlocks />', do_blocks( '<!-- wp:' . $plain . ' /-->' ) );
 	}
 
+	public function test_bindings_unwrap_wysiwyg_paragraphs(): void {
+		$this->assertSame( 'One<br><br>Two', \FreeformFields\Blocks\Bindings::to_attribute( "<p>One</p>\n<p>Two</p>\n", 'content' ) );
+		$this->assertSame( 'Plain <b>text</b>', \FreeformFields\Blocks\Bindings::to_attribute( 'Plain <b>text</b>', 'content' ) );
+		$this->assertSame( '<p>Kept</p>', \FreeformFields\Blocks\Bindings::to_attribute( '<p>Kept</p>', 'alt' ), 'Only rich text content is unwrapped.' );
+	}
+
 	public function test_block_bindings_source(): void {
 		if ( ! function_exists( 'get_block_bindings_source' ) ) {
 			$this->markTestSkipped( 'Block Bindings need WordPress 6.5.' );

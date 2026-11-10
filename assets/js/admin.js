@@ -844,7 +844,11 @@
 		}
 	}
 
-	function showErrors( errors ) {
+	/**
+	 * @param {Object}  errors Messages keyed by field key or path.
+	 * @param {boolean} reveal Open and scroll to the first invalid field.
+	 */
+	function showErrors( errors, reveal = true ) {
 		clearErrors();
 		let first = null;
 		Object.keys( errors ).forEach( ( key ) => {
@@ -858,7 +862,7 @@
 			msg.hidden = false;
 			first = first || field;
 		} );
-		if ( first ) {
+		if ( first && reveal ) {
 			revealField( first );
 			first.scrollIntoView( { behavior: 'smooth', block: 'center' } );
 		}
@@ -1002,6 +1006,119 @@
 
 		$( document ).on( 'input change wpff:conditions', check );
 		check();
+		initBlockEditorValidation( editor, notices );
+	}
+
+	/**
+	 * Server-side checks (email, URL, number limits, custom `wpff/validate_value` filters) in the block
+	 * editor. The editor saves meta boxes in the background and cannot show the errors the server
+	 * returns, so a rejected value would be dropped without a word. The form is validated over AJAX
+	 * while the user edits it: saving is locked while a value is invalid, and the errors are shown
+	 * next to the fields and in an editor notice.
+	 *
+	 * @param {Object} editor  `core/editor` actions.
+	 * @param {Object} notices `core/notices` actions.
+	 */
+	function initBlockEditorValidation( editor, notices ) {
+		// Fields of the post's meta boxes; block fields are checked by their block.
+		const selector = '.wpff-field :input';
+		const inputs = () =>
+			$( selector ).filter(
+				( i, el ) => ! el.closest( '.wpff-block-form' )
+			);
+		let timer = null;
+		let request = null;
+		let seq = 0;
+		let locked = false;
+		let checking = false;
+
+		// Saving waits for a pending check, so a value typed just before clicking Save is checked too.
+		function setChecking( on ) {
+			if ( on && ! checking ) {
+				editor.lockPostSaving( 'wpff-checking' );
+			} else if ( ! on && checking ) {
+				editor.unlockPostSaving( 'wpff-checking' );
+			}
+			checking = on;
+		}
+
+		function schedule( delay ) {
+			setChecking( true );
+			clearTimeout( timer );
+			timer = setTimeout( validate, delay );
+		}
+
+		function setInvalid( errors ) {
+			const keys = Object.keys( errors );
+			if ( keys.length ) {
+				if ( ! locked ) {
+					editor.lockPostSaving( 'wpff-invalid' );
+					locked = true;
+				}
+				notices.createNotice(
+					'error',
+					__(
+						'Fix the highlighted fields to save.',
+						'freeform-fields'
+					) +
+						' ' +
+						keys.map( ( key ) => errors[ key ] ).join( ' ' ),
+					{ id: 'wpff-invalid', isDismissible: false }
+				);
+				showErrors( errors, false );
+			} else if ( locked ) {
+				editor.unlockPostSaving( 'wpff-invalid' );
+				notices.removeNotice( 'wpff-invalid' );
+				clearErrors();
+				locked = false;
+			}
+		}
+
+		function validate() {
+			const $inputs = inputs();
+			if ( ! $inputs.length ) {
+				setChecking( false );
+				return;
+			}
+			syncEditors();
+			const data = $inputs.serializeArray();
+			data.push(
+				{ name: 'action', value: 'wpff_validate' },
+				{ name: 'nonce', value: cfg.nonce },
+				{ name: 'object', value: cfg.object }
+			);
+			if ( request ) {
+				request.abort();
+			}
+			const token = ++seq;
+			request = $.post( cfg.ajaxUrl, $.param( data ) )
+				.done( function ( response ) {
+					// Required fields are handled by the instant check above.
+					const errors = {};
+					if ( response && response.success ) {
+						const all = response.data.errors || {};
+						const empty = emptyRequired();
+						Object.keys( all ).forEach( ( key ) => {
+							if ( ! empty[ key ] ) {
+								errors[ key ] = all[ key ];
+							}
+						} );
+					}
+					setInvalid( errors );
+				} )
+				.always( function () {
+					// An aborted request finishes after the next one has started.
+					if ( token === seq ) {
+						request = null;
+						setChecking( false );
+					}
+				} );
+		}
+
+		$( document ).on( 'input', selector, () => schedule( 500 ) );
+		$( document ).on( 'change', selector, () => schedule( 0 ) );
+		$( document ).on( 'wpff:conditions', () => schedule( 500 ) );
+		schedule( 0 );
 	}
 
 	/* =====================================================================

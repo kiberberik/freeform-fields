@@ -134,7 +134,7 @@ msgstr "Формы"
 #: src/Admin/BuilderData.php:90
 #: src/Fields/Types/Group.php:51
 #: src/Fields/Types/Repeater.php:59
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Block"
 msgstr "Блок"
 
@@ -155,13 +155,13 @@ msgstr "Форма пользователя"
 
 #: src/Admin/BuilderData.php:97
 #: src/Admin/BuilderData.php:102
-#: src/Admin/BuilderData.php:181
-#: src/Admin/BuilderData.php:209
-#: src/Admin/BuilderData.php:231
+#: src/Admin/BuilderData.php:201
+#: src/Admin/BuilderData.php:229
+#: src/Admin/BuilderData.php:251
 #: src/Fields/Types/File.php:57
 #: src/Fields/Types/Gallery.php:58
 #: src/Fields/Types/Image.php:64
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "All"
 msgstr "Все"
 
@@ -201,11 +201,11 @@ msgstr "Роль текущего пользователя"
 msgid "Other"
 msgstr "Другое"
 
-#: src/Admin/BuilderData.php:195
+#: src/Admin/BuilderData.php:215
 msgid "Default Template"
 msgstr "Шаблон по умолчанию"
 
-#: src/Admin/BuilderData.php:317
+#: src/Admin/BuilderData.php:337
 msgid "Super Admin"
 msgstr "Суперадминистратор"
 
@@ -213,8 +213,8 @@ msgstr "Суперадминистратор"
 #: src/Admin/FieldGroupsPage.php:56
 #: src/Plugin.php:153
 #: src/Plugin.php:423
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Field Groups"
 msgstr "Группы полей"
 
@@ -232,25 +232,25 @@ msgstr "Добавить"
 
 #: src/Admin/FieldGroupsPage.php:58
 #: src/Plugin.php:173
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Options Pages"
 msgstr "Страницы настроек"
 
 #: src/Admin/FieldGroupsPage.php:59
 #: src/Content/ContentTypes.php:93
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Post Types"
 msgstr "Типы записей"
 
 #: src/Admin/FieldGroupsPage.php:60
 #: src/Content/ContentTypes.php:93
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Taxonomies"
 msgstr "Таксономии"
 
 #: src/Admin/FieldGroupsPage.php:61
 #: src/Admin/FieldGroupsPage.php:171
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Tools"
 msgstr "Инструменты"
 
@@ -286,7 +286,7 @@ msgstr "Администраторы (manage_options)"
 
 #: src/Admin/FieldGroupsPage.php:144
 #: src/Front/Forms.php:287
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Title"
 msgstr "Заголовок"
 
@@ -327,7 +327,7 @@ msgid "Dashboard"
 msgstr "Консоль"
 
 #: src/Admin/FieldGroupsPage.php:165
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Posts"
 msgstr "Записи"
 
@@ -353,7 +353,7 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: src/Admin/FieldGroupsPage.php:172
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Settings"
 msgstr "Настройки"
 
@@ -554,13 +554,13 @@ msgstr "Формат возврата"
 
 #: src/Fields/Types/ChoiceField.php:52
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value"
 msgstr "Значение"
 
 #: src/Fields/Types/ChoiceField.php:53
-#: build/builder.js:7
-#: build/builder.js:12
+#: build/builder.js:10
+#: build/builder.js:15
 msgid "Label"
 msgstr "Подпись"
 
@@ -582,8 +582,8 @@ msgstr "Клон"
 
 #: src/Fields/Types/CloneField.php:48
 #: build/blocks.js:1
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Fields"
 msgstr "Поля"
 
@@ -592,7 +592,7 @@ msgid "Select a whole field group or single fields to reuse."
 msgstr "Выберите целую группу полей или отдельные поля для повторного использования."
 
 #: src/Fields/Types/CloneField.php:57
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Display"
 msgstr "Отображение"
 
@@ -802,12 +802,12 @@ msgid "Maximum Selection"
 msgstr "Максимум изображений"
 
 #: src/Fields/Types/Gallery.php:103
-#: assets/js/admin.js:1548
+#: assets/js/admin.js:1665
 msgid "Remove image"
 msgstr "Удалить изображение"
 
 #: src/Fields/Types/Gallery.php:107
-#: assets/js/admin.js:1509
+#: assets/js/admin.js:1626
 msgid "Add to gallery"
 msgstr "Добавить в галерею"
 
@@ -832,13 +832,13 @@ msgstr[1] "Выберите не более %d изображений."
 msgstr[2] "Выберите не более %d изображений."
 
 #: src/Fields/Types/Group.php:28
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Group"
 msgstr "Группа"
 
 #: src/Fields/Types/Group.php:52
 #: src/Fields/Types/Repeater.php:60
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Row"
 msgstr "Строка"
 
@@ -1029,12 +1029,12 @@ msgstr "Ползунок"
 #. translators: %s: option label.
 #: src/Fields/Types/RelationalField.php:108
 #: assets/js/admin.js:580
-#: assets/js/admin.js:1897
+#: assets/js/admin.js:2013
 msgid "Remove %s"
 msgstr "Удалить %s"
 
 #: src/Fields/Types/RelationalField.php:116
-#: assets/js/admin.js:1960
+#: assets/js/admin.js:2076
 #: build/builder.js:1
 msgid "Search…"
 msgstr "Поиск…"
@@ -1081,7 +1081,7 @@ msgid "Repeater"
 msgstr "Повторитель"
 
 #: src/Fields/Types/Repeater.php:58
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Table"
 msgstr "Таблица"
 
@@ -1155,12 +1155,12 @@ msgid "Placement"
 msgstr "Расположение"
 
 #: src/Fields/Types/Tab.php:40
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Top aligned"
 msgstr "Сверху"
 
 #: src/Fields/Types/Tab.php:41
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Left aligned"
 msgstr "Слева"
 
@@ -1353,7 +1353,7 @@ msgstr "Ключ хранения может содержать только a�
 
 #: src/Options/OptionsPageStore.php:132
 #: src/Rest/OptionsPagesController.php:159
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "This options page is registered in code and cannot be edited here."
 msgstr "Эта страница настроек зарегистрирована в коде, её нельзя изменить здесь."
 
@@ -1372,62 +1372,62 @@ msgid "Inactive"
 msgstr "Неактивна"
 
 #: src/Registry/GroupStore.php:56
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field group title is required."
 msgstr "Название группы полей обязательно."
 
 #: src/Registry/GroupStore.php:107
-#: src/Rest/FieldGroupsController.php:262
-#: build/builder.js:8
+#: src/Rest/FieldGroupsController.php:288
+#: build/builder.js:11
 msgid "This field group is registered in code and cannot be edited here."
 msgstr "Эта группа полей зарегистрирована в коде, её нельзя изменить здесь."
 
-#: src/Registry/GroupStore.php:204
+#: src/Registry/GroupStore.php:245
 msgid "No JSON file for this field group."
 msgstr "Для этой группы полей нет JSON-файла."
 
-#: src/Registry/GroupStore.php:218
-#: src/Rest/FieldGroupsController.php:258
+#: src/Registry/GroupStore.php:259
+#: src/Rest/FieldGroupsController.php:284
 msgid "Field group not found."
 msgstr "Группа полей не найдена."
 
 #. translators: %s: field group title.
 #. translators: %s: field label.
-#: src/Registry/GroupStore.php:222
-#: build/builder.js:9
+#: src/Registry/GroupStore.php:263
+#: build/builder.js:12
 msgid "%s (copy)"
 msgstr "%s (копия)"
 
 #. translators: %s: field name.
-#: src/Registry/GroupStore.php:346
+#: src/Registry/GroupStore.php:387
 msgid "Field name \"%s\" is used more than once here."
 msgstr "Имя поля «%s» используется здесь несколько раз."
 
 #. translators: %s: field type.
-#: src/Registry/GroupStore.php:375
+#: src/Registry/GroupStore.php:416
 msgid "Unknown field type \"%s\"."
 msgstr "Неизвестный тип поля «%s»."
 
-#: src/Registry/GroupStore.php:383
-#: build/builder.js:8
+#: src/Registry/GroupStore.php:424
+#: build/builder.js:11
 msgid "Field label is required."
 msgstr "Подпись поля обязательна."
 
-#: src/Registry/GroupStore.php:392
+#: src/Registry/GroupStore.php:433
 msgid "Field name is required and may contain only a-z, 0-9, _ and -."
 msgstr "Имя поля обязательно и может содержать только a–z, 0–9, _ и -."
 
-#: src/Registry/GroupStore.php:480
-#: build/builder.js:8
+#: src/Registry/GroupStore.php:521
+#: build/builder.js:11
 msgid "Layout label is required."
 msgstr "Подпись макета обязательна."
 
-#: src/Registry/GroupStore.php:486
+#: src/Registry/GroupStore.php:527
 msgid "Layout name is required and may contain only a-z, 0-9, _ and -."
 msgstr "Имя макета обязательно и может содержать только a–z, 0–9, _ и -."
 
 #. translators: %s: layout name.
-#: src/Registry/GroupStore.php:492
+#: src/Registry/GroupStore.php:533
 msgid "Layout name \"%s\" is used more than once."
 msgstr "Имя макета «%s» используется несколько раз."
 
@@ -1480,7 +1480,7 @@ msgstr "Поле «%1$s» пропущено (тип «%2$s» не поддер�
 #. translators: %s: field label.
 #: src/Validation/Validator.php:83
 #: src/Validation/Validator.php:144
-#: assets/js/admin.js:901
+#: assets/js/admin.js:905
 msgid "%s is required."
 msgstr "Поле «%s» обязательно."
 
@@ -1526,26 +1526,30 @@ msgstr "Загрузить ещё…"
 msgid "Could not load results."
 msgstr "Не удалось загрузить результаты."
 
-#: assets/js/admin.js:986
+#: assets/js/admin.js:990
 msgid "Fill in the required fields to save."
 msgstr "Заполните обязательные поля, чтобы сохранить."
 
+#: assets/js/admin.js:1060
+msgid "Fix the highlighted fields to save."
+msgstr "Исправьте выделенные поля, чтобы сохранить."
+
 #. translators: %d: maximum number of rows.
-#: assets/js/admin.js:1122
+#: assets/js/admin.js:1239
 msgid "At most %d rows are allowed."
 msgstr "Допускается не более %d строк."
 
 #. translators: %d: maximum number of this layout.
-#: assets/js/admin.js:1142
+#: assets/js/admin.js:1259
 msgid "This layout can be used at most %d times."
 msgstr "Этот макет можно использовать не более %d раз."
 
 #. translators: %d: minimum number of rows.
-#: assets/js/admin.js:1246
+#: assets/js/admin.js:1363
 msgid "At least %d rows are required."
 msgstr "Нужно хотя бы %d строк."
 
-#: assets/js/admin.js:1508
+#: assets/js/admin.js:1625
 msgid "Add Image to Gallery"
 msgstr "Добавить изображение в галерею"
 
@@ -1570,19 +1574,19 @@ msgid "No rules: this field group is not shown anywhere."
 msgstr "Нет правил: эта группа полей нигде не показывается."
 
 #: build/builder.js:1
-#: build/builder.js:4
 #: build/builder.js:7
+#: build/builder.js:10
 msgid "or"
 msgstr "или"
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Show if"
 msgstr "Показывать, если"
 
 #: build/builder.js:1
-#: build/builder.js:4
 #: build/builder.js:7
+#: build/builder.js:10
 msgid "and"
 msgstr "и"
 
@@ -1591,7 +1595,7 @@ msgid "Rule"
 msgstr "Правило"
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Operator"
 msgstr "Оператор"
 
@@ -1604,17 +1608,17 @@ msgid "is not equal to"
 msgstr "не равно"
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add \"and\" rule"
 msgstr "Добавить правило «и»"
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Remove rule"
 msgstr "Удалить правило"
 
 #: build/builder.js:1
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add rule group"
 msgstr "Добавить группу правил"
 
@@ -1622,694 +1626,694 @@ msgstr "Добавить группу правил"
 msgid "— No values —"
 msgstr "— Нет значений —"
 
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Undo"
 msgstr "Отменить"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Field group restored."
 msgstr "Группа полей восстановлена."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Location"
 msgstr "Размещение"
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Status"
 msgstr "Статус"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Sync available"
 msgstr "Доступна синхронизация"
 
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "Registered in code (read-only)"
 msgstr "Зарегистрирована в коде (только чтение)"
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Edit"
 msgstr "Изменить"
 
-#: build/builder.js:5
-#: build/builder.js:7
+#: build/builder.js:8
+#: build/builder.js:10
 msgid "Duplicate"
 msgstr "Дублировать"
 
 #. translators: 1: rule name, 2: value.
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "%1$s is %2$s"
 msgstr "%1$s — %2$s"
 
 #. translators: 1: rule name, 2: value.
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "%1$s is not %2$s"
 msgstr "%1$s — не %2$s"
 
 #. translators: %d: number of fields.
-#: build/builder.js:6
-#: build/builder.js:12
+#: build/builder.js:9
+#: build/builder.js:15
 msgid "%d field"
 msgid_plural "%d fields"
 msgstr[0] "%d поле"
 msgstr[1] "%d поля"
 msgstr[2] "%d полей"
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Active"
 msgstr "Активна"
 
-#: build/builder.js:4
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:7
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Inactive"
 msgstr "Неактивна"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Conditional Logic"
 msgstr "Условная логика"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Show this field only when other fields have certain values."
 msgstr "Показывать это поле, только когда другие поля имеют определённые значения."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add another field to this group to use conditions."
 msgstr "Добавьте в группу ещё одно поле, чтобы задать условия."
 
-#: build/builder.js:7
 #: build/builder.js:10
+#: build/builder.js:13
 msgid "Field"
 msgstr "Поле"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is equal to"
 msgstr "Значение равно"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is not equal to"
 msgstr "Значение не равно"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Has no value"
 msgstr "Нет значения"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Has any value"
 msgstr "Есть любое значение"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value contains"
 msgstr "Значение содержит"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value does not contain"
 msgstr "Значение не содержит"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is greater than"
 msgstr "Значение больше"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Value is less than"
 msgstr "Значение меньше"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Checked"
 msgstr "Отмечено"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Unchecked"
 msgstr "Не отмечено"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Layouts"
 msgstr "Макеты"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add at least one layout."
 msgstr "Добавьте хотя бы один макет."
 
-#: build/builder.js:6
-#: build/builder.js:7
+#: build/builder.js:9
 #: build/builder.js:10
+#: build/builder.js:13
 msgid "(no label)"
 msgstr "(без подписи)"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Move up"
 msgstr "Выше"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Move down"
 msgstr "Ниже"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Duplicate layout"
 msgstr "Дублировать макет"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Delete layout"
 msgstr "Удалить макет"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Name"
 msgstr "Имя"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Returned by get_row_layout()."
 msgstr "Возвращается функцией get_row_layout()."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Min"
 msgstr "Мин."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Max"
 msgstr "Макс."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add Layout"
 msgstr "Добавить макет"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Field Label"
 msgstr "Подпись поля"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Shown on the edit screen."
 msgstr "Показывается на экране редактирования."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Shown as the tab, section or message title."
 msgstr "Показывается как заголовок вкладки, раздела или сообщения."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Field Name"
 msgstr "Имя поля"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Used in code: get_field( 'name' ). Letters a-z, digits, _ and -."
 msgstr "Используется в коде: get_field( 'имя' ). Латинские буквы, цифры, _ и -."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Changing the name of a saved field hides values already stored under the old name."
 msgstr "Если изменить имя сохранённого поля, значения под старым именем перестанут показываться."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Field Type"
 msgstr "Тип поля"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Sub Fields"
 msgstr "Подполя"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Instructions"
 msgstr "Инструкции"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Shown to editors under the label."
 msgstr "Показываются редакторам под подписью."
 
-#: build/builder.js:7
-#: build/builder.js:8
+#: build/builder.js:10
+#: build/builder.js:11
 msgid "Required"
 msgstr "Обязательное"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Width (%)"
 msgstr "Ширина (%)"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Wrapper CSS class"
 msgstr "CSS-класс обёртки"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Wrapper ID"
 msgstr "ID обёртки"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field key:"
 msgstr "Ключ поля:"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "— None —"
 msgstr "— Нет —"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Please fix the highlighted problems and save again."
 msgstr "Исправьте отмеченные ошибки и сохраните снова."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Edit Field Group"
 msgstr "Изменить группу полей"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Unsaved changes"
 msgstr "Есть несохранённые изменения"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field name is required and may contain only a–z, 0–9, _ and -."
 msgstr "Имя поля обязательно и может содержать только a–z, 0–9, _ и -."
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "This field name is already used here."
 msgstr "Это имя поля здесь уже используется."
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "This layout name is already used."
 msgstr "Это имя макета уже используется."
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Layout name is required and may contain only a–z, 0–9, _ and -."
 msgstr "Имя макета обязательно и может содержать только a–z, 0–9, _ и -."
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Field group saved."
 msgstr "Группа полей сохранена."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Field Group Title"
 msgstr "Название группы полей"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Collapse all"
 msgstr "Свернуть все"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Expand all"
 msgstr "Развернуть все"
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Show in REST API"
 msgstr "Показывать в REST API"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Add these fields to WordPress REST responses (property \"acf\")."
 msgstr "Добавлять эти поля в ответы REST API WordPress (свойство «acf»)."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Inactive groups are not shown on edit screens."
 msgstr "Неактивные группы не показываются на экранах редактирования."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Position"
 msgstr "Положение"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "High (after title)"
 msgstr "Высоко (после заголовка)"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Normal (after content)"
 msgstr "Обычно (после содержимого)"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Side"
 msgstr "Сбоку"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Style"
 msgstr "Стиль"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Standard (meta box)"
 msgstr "Стандартный (метабокс)"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Seamless (no meta box)"
 msgstr "Бесшовный (без метабокса)"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Label Placement"
 msgstr "Расположение подписей"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Instruction Placement"
 msgstr "Расположение инструкций"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Below labels"
 msgstr "Под подписями"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Below fields"
 msgstr "Под полями"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Order No."
 msgstr "Порядковый номер"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Groups with a lower number appear first."
 msgstr "Группы с меньшим номером показываются раньше."
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Description"
 msgstr "Описание"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Shown in the field group list."
 msgstr "Показывается в списке групп полей."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "An options page adds an admin menu item with fields for site-wide settings. Show a field group on it with the location rule \"Options Page\"."
 msgstr "Страница настроек добавляет пункт меню админки с полями для общих настроек сайта. Покажите на ней группу полей с правилом «Страница настроек»."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Menu"
 msgstr "Меню"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Field groups"
 msgstr "Группы полей"
 
 #. translators: %s: page title.
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Delete the options page \"%s\"? Saved values are kept."
 msgstr "Удалить страницу настроек «%s»? Сохранённые значения останутся."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Options page deleted."
 msgstr "Страница настроек удалена."
 
-#: build/builder.js:7
 #: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Delete"
 msgstr "Удалить"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Edit Options Page"
 msgstr "Изменить страницу настроек"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Open page"
 msgstr "Открыть страницу"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Options page saved. Reload the admin to see menu changes."
 msgstr "Страница настроек сохранена. Обновите админку, чтобы увидеть изменения в меню."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Page Title"
 msgstr "Заголовок страницы"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Menu Title"
 msgstr "Название в меню"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Defaults to the page title."
 msgstr "По умолчанию — заголовок страницы."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Menu Slug"
 msgstr "Slug меню"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Used in the admin URL and in the \"Options Page\" location rule."
 msgstr "Используется в адресе страницы и в правиле «Страница настроек»."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Parent Menu"
 msgstr "Родительское меню"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Who can edit"
 msgstr "Кто может редактировать"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Storage key (post_id)"
 msgstr "Ключ хранения (post_id)"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Values are read with get_field( name, this key ). Default: options."
 msgstr "Значения читаются через get_field( имя, этот ключ ). По умолчанию: options."
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Menu Icon"
 msgstr "Иконка меню"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "A dashicons class (dashicons-admin-generic) or an image URL."
 msgstr "Класс dashicons (dashicons-admin-generic) или URL изображения."
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Menu Position"
 msgstr "Позиция в меню"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Update Button Label"
 msgstr "Текст кнопки сохранения"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Default: Update"
 msgstr "По умолчанию: Обновить"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Updated Message"
 msgstr "Сообщение после сохранения"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Default: Options Updated"
 msgstr "По умолчанию: Настройки сохранены"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Open first sub page"
 msgstr "Открывать первую подстраницу"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "When the page has sub pages, its menu item opens the first one."
 msgstr "Если у страницы есть подстраницы, пункт меню открывает первую из них."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Autoload values"
 msgstr "Автозагрузка значений"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Load values with every request. Use for small settings needed on most pages."
 msgstr "Загружать значения при каждом запросе. Подходит для небольших настроек, нужных на большинстве страниц."
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Choose field groups, then download them as JSON (to import elsewhere) or get PHP code to register them in a theme."
 msgstr "Выберите группы полей и скачайте их как JSON (для импорта в другом месте) или получите PHP-код для регистрации в теме."
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Select all"
 msgstr "Выбрать все"
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Export as JSON"
 msgstr "Экспорт в JSON"
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Generate PHP"
 msgstr "Сгенерировать PHP"
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "PHP code"
 msgstr "PHP-код"
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Paste into your theme's functions.php. Delete the database copies afterwards to avoid duplicates."
 msgstr "Вставьте в functions.php темы. Затем удалите копии из базы, чтобы избежать дублей."
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "This file is not valid JSON."
 msgstr "Это не корректный JSON-файл."
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "JSON file"
 msgstr "JSON-файл"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "These field groups were created with ACF. Importing keeps their keys, so values already saved by ACF keep working."
 msgstr "Эти группы полей созданы в ACF. При импорте ключи сохраняются, поэтому значения, уже сохранённые ACF, продолжат работать."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "already imported"
 msgstr "уже импортирована"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Import from ACF"
 msgstr "Импортировать из ACF"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "No field groups created with ACF were found in the database."
 msgstr "Группы полей, созданные в ACF, в базе не найдены."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Saved field groups are written to:"
 msgstr "Сохранённые группы полей записываются в:"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Local JSON is off. Create this folder (writable by the web server) to save field groups as JSON files:"
 msgstr "Local JSON выключен. Создайте эту папку (доступную веб-серверу на запись), чтобы сохранять группы полей в JSON-файлы:"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Field groups are loaded from:"
 msgstr "Группы полей загружаются из:"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Export Field Groups"
 msgstr "Экспорт групп полей"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Import Field Groups"
 msgstr "Импорт групп полей"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Migrate from ACF"
 msgstr "Перенос из ACF"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Local JSON"
 msgstr "Local JSON"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Key"
 msgstr "Ключ"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Terms"
 msgstr "Термины"
 
 #. translators: %s: label.
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Delete the post type \"%s\"? Its posts stay in the database but are hidden until it is registered again."
 msgstr "Удалить тип записи «%s»? Его записи останутся в базе, но будут скрыты, пока тип не зарегистрируют снова."
 
 #. translators: %s: label.
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Delete the taxonomy \"%s\"? Its terms stay in the database but are hidden until it is registered again."
 msgstr "Удалить таксономию «%s»? Её термины останутся в базе, но будут скрыты, пока таксономию не зарегистрируют снова."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Deleted."
 msgstr "Удалено."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Edit Post Type"
 msgstr "Изменить тип записи"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add Post Type"
 msgstr "Новый тип записи"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Edit Taxonomy"
 msgstr "Изменить таксономию"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add Taxonomy"
 msgstr "Новая таксономия"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Saved. Reload the admin to see it in the menu."
 msgstr "Сохранено. Обновите админку, чтобы увидеть изменения в меню."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Plural Label"
 msgstr "Подпись во множественном числе"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "e.g. Books"
 msgstr "например, Книги"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Singular Label"
 msgstr "Подпись в единственном числе"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "e.g. Book"
 msgstr "например, Книга"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Post Type Key"
 msgstr "Ключ типа записи"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Taxonomy Key"
 msgstr "Ключ таксономии"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Up to 20 characters: a–z, 0–9, _ and -. Changing it hides existing posts."
 msgstr "До 20 символов: a–z, 0–9, _ и -. После изменения существующие записи скроются."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Up to 32 characters: a–z, 0–9, _ and -."
 msgstr "До 32 символов: a–z, 0–9, _ и -."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "URL Slug"
 msgstr "Slug в URL"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Defaults to the key."
 msgstr "По умолчанию — ключ."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "A dashicons class, e.g. dashicons-book."
 msgstr "Класс dashicons, например dashicons-book."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Public"
 msgstr "Публичный"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Visible on the site and in the admin."
 msgstr "Виден на сайте и в админке."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Hierarchical"
 msgstr "Иерархический"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Like pages (parents and children)."
 msgstr "Как страницы (родители и дочерние)."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Like categories (parents and children)."
 msgstr "Как рубрики (родители и дочерние)."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Needed for the block editor."
 msgstr "Нужно для редактора блоков."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Archive"
 msgstr "Архив"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "A page listing all items."
 msgstr "Страница со списком всех записей."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Exclude from Search"
 msgstr "Исключить из поиска"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Admin Column"
 msgstr "Колонка в списке"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Show the terms in post lists."
 msgstr "Показывать термины в списках записей."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Supports"
 msgstr "Поддерживает"
 
@@ -2338,11 +2342,11 @@ msgstr "отзыв"
 msgid "WP Freeform Fields"
 msgstr "WP Freeform Fields"
 
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "Import a JSON export from WP Freeform Fields or from ACF. Groups with the same key are updated."
 msgstr "Импорт JSON-экспорта из WP Freeform Fields или из ACF. Группы с тем же ключом обновляются."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "With WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, wp wpff import-acf."
 msgstr "Через WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, wp wpff import-acf."
 
@@ -2469,28 +2473,28 @@ msgstr "Неизвестный объект."
 msgid "Options page \"%s\" already exists and was skipped."
 msgstr "Страница настроек «%s» уже существует и пропущена."
 
-#: assets/js/admin.js:1338
+#: assets/js/admin.js:1455
 msgid "Rows pagination"
 msgstr "Страницы строк"
 
-#: assets/js/admin.js:1344
+#: assets/js/admin.js:1461
 msgid "Previous"
 msgstr "Назад"
 
-#: assets/js/admin.js:1345
+#: assets/js/admin.js:1462
 msgid "Next"
 msgstr "Вперёд"
 
 #. translators: 1: current page, 2: number of pages.
-#: assets/js/admin.js:1355
+#: assets/js/admin.js:1472
 msgid "Page %1$d of %2$d"
 msgstr "Страница %1$d из %2$d"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Allow in Block Bindings"
 msgstr "Разрешить в Block Bindings"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Lets editors show this value in core blocks (paragraph, heading, image, button) on the site."
 msgstr "Позволяет выводить значение на сайте в стандартных блоках (абзац, заголовок, изображение, кнопка)."
 
@@ -2506,7 +2510,7 @@ msgstr "Определяю адрес…"
 msgid "Choose a result with the arrow keys or the mouse."
 msgstr "Выберите результат стрелками или мышью."
 
-#: assets/js/admin.js:2054
+#: assets/js/admin.js:2170
 #: build/builder.js:1
 #: build/map.js:1
 msgid "Nothing found."
@@ -2562,19 +2566,19 @@ msgid "Invalid form."
 msgstr "Неверная форма."
 
 #. translators: %d: number of PHP files.
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Theme check: %d PHP files use no ACF functions or hooks that WP Freeform Fields lacks."
 msgstr "Проверка темы: в %d PHP-файлах нет функций и хуков ACF, которых не хватает WP Freeform Fields."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Check your theme before deactivating ACF."
 msgstr "Проверьте тему, прежде чем отключать ACF."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "These functions are not provided by WP Freeform Fields. Calling them without ACF causes a fatal error:"
 msgstr "Этих функций нет в WP Freeform Fields. Их вызов без ACF приведёт к фатальной ошибке:"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "These ACF hooks are not fired by WP Freeform Fields, so the theme code attached to them will stop running:"
 msgstr "WP Freeform Fields не вызывает эти хуки ACF, поэтому привязанный к ним код темы перестанет выполняться:"
 
@@ -2593,237 +2597,237 @@ msgstr "Создана «%s»."
 msgid "“%s” synced from its JSON file."
 msgstr "«%s» синхронизирована из JSON-файла."
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Sets of custom fields and the screens they appear on."
 msgstr "Наборы произвольных полей и экраны, на которых они показываются."
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Add field group"
 msgstr "Добавить группу полей"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "No field groups yet"
 msgstr "Групп полей пока нет"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "A field group is a set of fields — price, gallery, author bio — shown on the screens you choose."
 msgstr "Группа полей — это набор полей (цена, галерея, биография автора), который показывается на выбранных вами экранах."
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Create your first field group"
 msgstr "Создать первую группу полей"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Filter field groups"
 msgstr "Фильтр групп полей"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Search groups"
 msgstr "Поиск групп"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Nothing found"
 msgstr "Ничего не найдено"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Try another search or filter."
 msgstr "Попробуйте другой запрос или фильтр."
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Field group"
 msgstr "Группа полей"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Shown on"
 msgstr "Где показывается"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Actions"
 msgstr "Действия"
 
-#: build/builder.js:4
-#: build/builder.js:10
+#: build/builder.js:7
+#: build/builder.js:13
 msgid "PHP"
 msgstr "PHP"
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Loaded from a JSON file"
 msgstr "Загружена из JSON-файла"
 
 #. translators: %s: field group title.
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Actions for “%s”"
 msgstr "Действия для «%s»"
 
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Sync from JSON"
 msgstr "Синхронизировать из JSON"
 
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Copy to an editable group"
 msgstr "Скопировать в редактируемую группу"
 
-#: build/builder.js:5
+#: build/builder.js:8
 msgid "Move to Trash"
 msgstr "Удалить в корзину"
 
-#: build/builder.js:6
+#: build/builder.js:9
 msgid "Drag fields here, or pick a type in the “Add field” panel."
 msgstr "Перетащите сюда поля или выберите тип на панели «Добавить поле»."
 
-#: build/builder.js:6
+#: build/builder.js:9
 msgid "No fields yet. Drag a field type here from the “Add field” panel, or click one to add it."
 msgstr "Полей пока нет. Перетащите сюда тип поля с панели «Добавить поле» или нажмите на него."
 
 #. translators: 1: field label, 2: field type.
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "%1$s, %2$s field"
 msgstr "%1$s, поле «%2$s»"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Drag to move"
 msgstr "Перетащите, чтобы переместить"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Show sub fields"
 msgstr "Показать подполя"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Hide sub fields"
 msgstr "Скрыть подполя"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Conditional"
 msgstr "С условием"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "More actions"
 msgstr "Другие действия"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Move out of the parent field"
 msgstr "Вынести из родительского поля"
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "Add a layout in the field settings to place fields in it."
 msgstr "Добавьте макет в настройках поля, чтобы размещать в нём поля."
 
-#: build/builder.js:7
+#: build/builder.js:10
 msgid "General"
 msgstr "Основное"
 
 #. translators: %s: field type label.
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "%s settings"
 msgstr "Настройки: %s"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Validation & presentation"
 msgstr "Проверка и отображение"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Conditional logic"
 msgstr "Условная логика"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Search field types"
 msgstr "Поиск типов полей"
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "Click to add after the selected field, or drag into place."
 msgstr "Нажмите, чтобы добавить после выбранного поля, или перетащите в нужное место."
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "No field types found."
 msgstr "Типы полей не найдены."
 
 #. translators: %s: field label.
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Deleted “%s”."
 msgstr "Удалено «%s»."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "New Field Group"
 msgstr "Новая группа полей"
 
-#: build/builder.js:10
-#: build/builder.js:12
+#: build/builder.js:13
+#: build/builder.js:15
 msgid "Save changes"
 msgstr "Сохранить изменения"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Create field group"
 msgstr "Создать группу полей"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Field group title, e.g. Product details"
 msgstr "Название группы, например «Характеристики товара»"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Add field"
 msgstr "Добавить поле"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Select a field in the list to edit its settings."
 msgstr "Выберите поле в списке, чтобы изменить его настройки."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Presentation"
 msgstr "Отображение"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Group key:"
 msgstr "Ключ группы:"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Add options page"
 msgstr "Добавить страницу настроек"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "No options pages yet"
 msgstr "Страниц настроек пока нет"
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "Use one for things like a phone number, social links or a footer text that the whole site shares."
 msgstr "Подходит для общих данных сайта: телефона, ссылок на соцсети, текста в подвале."
 
-#: build/builder.js:10
+#: build/builder.js:13
 msgid "New Options Page"
 msgstr "Новая страница настроек"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Export, import and move field groups between sites, or switch from ACF."
 msgstr "Экспорт, импорт и перенос групп полей между сайтами, переход с ACF."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Content types like Products or Events, each with its own admin menu."
 msgstr "Типы контента, например «Товары» или «События», каждый со своим пунктом меню."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Ways to group content, like Genres or Locations."
 msgstr "Способы группировать контент, например «Жанры» или «Города»."
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add post type"
 msgstr "Добавить тип записи"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "Add taxonomy"
 msgstr "Добавить таксономию"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "No post types yet"
 msgstr "Типов записей пока нет"
 
-#: build/builder.js:12
+#: build/builder.js:15
 msgid "No taxonomies yet"
 msgstr "Таксономий пока нет"
 
-#: assets/js/admin.js:1924
+#: assets/js/admin.js:2040
 msgid "Select…"
 msgstr "Выберите…"
 
-#: assets/js/admin.js:1963
+#: assets/js/admin.js:2079
 #: build/builder.js:1
 msgid "Search options"
 msgstr "Поиск вариантов"
@@ -2841,16 +2845,16 @@ msgstr[2] "%1$d групп полей всё ещё читаются из таб
 msgid "To switch: run %s, check the report, then deactivate ACF. Until then, edit screens show ACF's forms for the groups both plugins have."
 msgstr "Чтобы перейти: запустите %s, проверьте отчёт и отключите ACF. До этого для групп, которые есть в обоих плагинах, на экранах редактирования показываются формы ACF."
 
-#: build/builder.js:4
+#: build/builder.js:7
 msgid "Read from ACF (read-only). Migrate it in Tools."
 msgstr "Читается из ACF (только чтение). Перенесите её в «Инструментах»."
 
-#: build/builder.js:8
+#: build/builder.js:11
 msgid "This field group is read from ACF and cannot be edited here. Migrate it in Tools to edit it."
 msgstr "Эта группа полей читается из ACF и не редактируется здесь. Чтобы её изменить, перенесите её в «Инструментах»."
 
 #. translators: %d: number of imported items (field groups, options pages, post types).
-#: build/builder.js:11
+#: build/builder.js:14
 msgid "%d item imported."
 msgid_plural "%d items imported."
 msgstr[0] "Импортирован %d элемент."
@@ -2870,3 +2874,34 @@ msgstr "https://kiberberik.link"
 #: src/Integrations/AcfToRestApi.php:127
 msgid "No field with that name."
 msgstr "Поля с таким именем нет."
+
+#. translators: %s: field group title.
+#: build/builder.js:5
+msgid "“%s” restored."
+msgstr "«%s» восстановлена."
+
+#. translators: %s: field group title.
+#: build/builder.js:6
+msgid "Delete “%s” permanently? This cannot be undone. Values saved in posts are kept."
+msgstr "Удалить «%s» навсегда? Это нельзя отменить. Значения, сохранённые в записях, останутся."
+
+#. translators: %s: field group title.
+#: build/builder.js:7
+msgid "“%s” deleted permanently."
+msgstr "«%s» удалена навсегда."
+
+#: build/builder.js:7
+msgid "Trash"
+msgstr "Корзина"
+
+#: build/builder.js:7
+msgid "Moved to Trash"
+msgstr "Удалена в корзину"
+
+#: build/builder.js:7
+msgid "Restore"
+msgstr "Восстановить"
+
+#: build/builder.js:7
+msgid "Delete permanently"
+msgstr "Удалить навсегда"

@@ -168,10 +168,30 @@ final class BuilderData {
 			'active'      => (bool) $group['active'],
 			'source'      => $is_local ? 'php' : ( in_array( $group['local'] ?? '', array( 'json', 'acf' ), true ) ? $group['local'] : 'db' ),
 			'sync'        => ! $is_local && \FreeformFields\Registry\LocalJson::needs_sync( $group ),
-			'field_count' => count( $group['fields'] ),
+			'field_count' => self::count_fields( $group['fields'] ),
 			'location'    => $group['location'],
 			'menu_order'  => $group['menu_order'],
 		);
+	}
+
+	/**
+	 * Counts fields with their sub fields and layout fields, as the builder does.
+	 *
+	 * @param array<int, array<string, mixed>> $fields Fields.
+	 */
+	public static function count_fields( array $fields ): int {
+		$count = 0;
+		foreach ( $fields as $field ) {
+			++$count;
+			if ( isset( $field['layouts'] ) && is_array( $field['layouts'] ) ) {
+				foreach ( $field['layouts'] as $layout ) {
+					$count += self::count_fields( is_array( $layout['sub_fields'] ?? null ) ? $layout['sub_fields'] : array() );
+				}
+			} elseif ( isset( $field['sub_fields'] ) && is_array( $field['sub_fields'] ) ) {
+				$count += self::count_fields( $field['sub_fields'] );
+			}
+		}
+		return $count;
 	}
 
 	/**

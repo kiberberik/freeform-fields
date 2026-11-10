@@ -293,6 +293,22 @@ if ( blocksApi.registerBlockBindingsSource ) {
 			} );
 			return values;
 		},
+		// Fields for the picker in the block's Attributes panel (WordPress 6.9+).
+		getFieldsList( { context } ) {
+			const postType = context?.postType;
+			return ( cfg.bindings || [] )
+				.filter(
+					( field ) =>
+						! field.postTypes.length ||
+						! postType ||
+						field.postTypes.includes( postType )
+				)
+				.map( ( field ) => ( {
+					label: field.label,
+					type: 'string',
+					args: { key: field.key },
+				} ) );
+		},
 		canUserEditValue: () => false,
 	} );
 }
