@@ -656,49 +656,54 @@ export default function GroupEditor( { groupKey } ) {
 								</button>
 							) ) }
 						</div>
-						<fieldset
-							disabled={ readOnly && 'add' !== tab }
-							className="wpff-inspector__body"
-						>
-							{ 'add' === tab && (
-								<TypePalette
-									onAdd={ ( type ) => addType( type ) }
-									disabled={ readOnly }
-								/>
-							) }
-							{ 'field' === tab &&
-								( current ? (
-									<FieldSettings
-										key={ current.field.key }
-										field={ current.field }
-										path={ current.path }
-										errors={ errors }
-										siblings={ getAt(
-											group,
-											current.listPath
-										) }
-										onChange={ ( f ) =>
-											update(
-												replaceField(
-													group,
-													current.field.key,
-													f
-												)
-											)
-										}
+						<div className="wpff-inspector__body">
+							<fieldset
+								disabled={ readOnly && 'add' !== tab }
+								className="wpff-inspector__fieldset"
+							>
+								{ 'add' === tab && (
+									<TypePalette
+										onAdd={ ( type ) => addType( type ) }
+										disabled={ readOnly }
 									/>
-								) : (
-									<p className="wpff-inspector__empty">
-										{ __(
-											'Select a field in the list to edit its settings.',
-											'freeform-fields'
-										) }
-									</p>
-								) ) }
-							{ 'group' === tab && (
-								<GroupSettings group={ group } set={ set } />
-							) }
-						</fieldset>
+								) }
+								{ 'field' === tab &&
+									( current ? (
+										<FieldSettings
+											key={ current.field.key }
+											field={ current.field }
+											path={ current.path }
+											errors={ errors }
+											siblings={ getAt(
+												group,
+												current.listPath
+											) }
+											onChange={ ( f ) =>
+												update(
+													replaceField(
+														group,
+														current.field.key,
+														f
+													)
+												)
+											}
+										/>
+									) : (
+										<p className="wpff-inspector__empty">
+											{ __(
+												'Select a field in the list to edit its settings.',
+												'freeform-fields'
+											) }
+										</p>
+									) ) }
+								{ 'group' === tab && (
+									<GroupSettings
+										group={ group }
+										set={ set }
+									/>
+								) }
+							</fieldset>
+						</div>
 					</aside>
 				</div>
 			</div>

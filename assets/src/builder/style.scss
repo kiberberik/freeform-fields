@@ -864,11 +864,20 @@
 }
 
 .wpff-inspector__body {
+	// The scroller is a div, not the fieldset: Chrome won't scroll a fieldset.
+	// min-height: 0 lets this flex item shrink so it scrolls instead of being
+	// clipped by the inspector's max-height.
 	min-width: 0;
-	flex: 1;
+	min-height: 0;
+	flex: 1 1 auto;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.wpff-inspector__fieldset {
+	min-width: 0;
 	margin: 0;
 	padding: 0;
-	overflow-y: auto;
 	border: 0;
 }
 
