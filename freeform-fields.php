@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name:       WP Freeform Fields
+ * Plugin URI:        https://wpff.kiberberik.link
  * Description:       Free custom fields for WordPress: field groups, repeaters, flexible content, options pages and PHP blocks. Compatible with ACF data and template functions.
  * Version:           1.2.2
  * Requires at least: 6.5
