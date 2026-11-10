@@ -2,7 +2,7 @@
 
 **A free, open-source custom fields plugin for WordPress, inspired by ACF PRO and compatible with its data.**
 
-[Русская версия](README.ru.md) · [Developer guide](docs/developer-guide.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
+[Website and docs](https://wpff.kiberberik.link) · [Русская версия](README.ru.md) · [Developer guide](docs/developer-guide.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
 WP Freeform Fields adds field groups, repeaters, flexible content, options pages and PHP-rendered blocks to WordPress. Everything is free under the GPL: there is no "Pro" version.
 
