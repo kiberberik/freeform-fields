@@ -22,8 +22,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * `args.object` reads other objects: `term` is the term of a taxonomy archive (category, tag or
  * custom taxonomy template), and an options page's storage key (`options`, or the page's own
- * `post_id`) reads that page's values. Without it, outside a post (for example the header of an
- * archive template), the archive's term is used.
+ * `post_id`) reads that page's values. Without it, blocks of a taxonomy archive outside the
+ * Query Loop read the archive's term; blocks inside the loop read their post.
  */
 final class Bindings {
 
@@ -31,8 +31,37 @@ final class Bindings {
 
 	public function __construct( private Plugin $plugin ) {}
 
+	/**
+	 * How many Query Loop post templates are rendering right now. Blocks inside one read their
+	 * post; the Post Template block gives inner blocks only postId and postType as context,
+	 * so the loop cannot be told from the context itself.
+	 */
+	private static int $loop_depth = 0;
+
 	public function register(): void {
 		add_action( 'init', array( $this, 'register_source' ) );
+		add_filter( 'pre_render_block', array( self::class, 'enter_loop' ), 10, 2 );
+		add_filter( 'render_block_core/post-template', array( self::class, 'leave_loop' ) );
+	}
+
+	/**
+	 * @param string|null          $pre    Short-circuit output.
+	 * @param array<string, mixed> $parsed Parsed block.
+	 * @return string|null
+	 */
+	public static function enter_loop( $pre, $parsed ) {
+		if ( null === $pre && is_array( $parsed ) && 'core/post-template' === ( $parsed['blockName'] ?? '' ) ) {
+			++self::$loop_depth;
+		}
+		return $pre;
+	}
+
+	/**
+	 * @param string $content Rendered Post Template block.
+	 */
+	public static function leave_loop( $content ) {
+		self::$loop_depth = max( 0, self::$loop_depth - 1 );
+		return $content;
 	}
 
 	public function register_source(): void {
@@ -94,15 +123,16 @@ final class Bindings {
 			}
 			return null;
 		}
-		$post_id = $block instanceof \WP_Block && isset( $block->context['postId'] ) ? (int) $block->context['postId'] : 0;
-		if ( ! $post_id ) {
-			// Outside a post, on a taxonomy archive: the archive's term.
+		$context = $block instanceof \WP_Block ? $block->context : array();
+		// On a taxonomy archive, blocks outside the Query Loop show the archive's term. (Templates
+		// pass them the first post of the page as postId, so postId alone cannot tell.)
+		if ( 0 === self::$loop_depth ) {
 			$term = self::archive_term();
 			if ( null !== $term ) {
 				return $term;
 			}
-			$post_id = (int) get_the_ID();
 		}
+		$post_id = isset( $context['postId'] ) ? (int) $context['postId'] : (int) get_the_ID();
 		return $post_id && self::can_read( $post_id ) ? $post_id : null;
 	}
 

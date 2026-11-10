@@ -445,7 +445,12 @@ final class BlocksTest extends TestCase {
 				)
 			)
 		);
-		$this->assertStringContainsString( 'Beyond the stars', $bind( array( 'key' => 'genre_slogan' ) ), 'Outside a post, an archive reads its term.' );
+		$post = $this->make_post();
+		$this->assertStringContainsString( 'Beyond the stars', $bind( array( 'key' => 'genre_slogan' ), array( 'postId' => $post ) ), 'Outside the Query Loop, an archive reads its term even with a postId.' );
+		\FreeformFields\Blocks\Bindings::enter_loop( null, array( 'blockName' => 'core/post-template' ) );
+		$inside = $bind( array( 'key' => 'genre_slogan' ), array( 'postId' => $post ) );
+		\FreeformFields\Blocks\Bindings::leave_loop( '' );
+		$this->assertStringContainsString( '>Old<', $inside, 'Inside the Query Loop, blocks read their post.' );
 		$wp_query = $saved; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$this->assertStringContainsString(
 			'>Old<',
