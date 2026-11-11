@@ -152,6 +152,7 @@ endwhile;
 | `wpff/options_autoload` | filter | автозагрузка значений страницы настроек |
 | `wpff/capability` | filter | право на управление группами (по умолчанию `manage_options`) |
 | `wpff/acf_compat` | filter | включать ли функции с именами ACF |
+| `wpff/form_lifetime` | filter | сколько секунд фронтенд-форма действительна после показа (по умолчанию двое суток) |
 | `wpff/updates/enabled` | filter | проверять ли обновления в релизах GitHub (по умолчанию `true`) |
 | `wpff/updates/manifest_url` | filter | адрес манифеста обновлений (по умолчанию `update.json` последнего релиза) |
 
