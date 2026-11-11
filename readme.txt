@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,11 @@ Yes. Each field group has a translation option (same fields, different fields, o
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.4.3 =
+* Security: front-end forms can no longer change posts the visitor may not edit, and their settings are tied to the visitor and expire; block data from authors is validated like the block's form; the "ACF to REST API" output and Password fields no longer reveal private data.
+* Faster pages: no posts-table scan on every request, cached oEmbeds, and one query for the images and posts of all repeater rows.
+* Fixes for media fields outside posts, nested flexible content limits and options pages read from ACF.
 
 = 1.4.2 =
 * "Check again" on the Updates screen finds a new version right away (it could take up to 12 hours).

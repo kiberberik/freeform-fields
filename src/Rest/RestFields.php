@@ -202,6 +202,9 @@ final class RestFields {
 		$format = 'standard' === $request->get_param( 'acf_format' );
 		$values = array();
 		foreach ( $this->fields_for( $screen ) as $name => $field ) {
+			if ( 'password' === $field['type'] ) {
+				continue; // Stored in plain text; writable through REST, never readable.
+			}
 			$value           = $this->plugin->values()->load( $field, $ref );
 			$values[ $name ] = $format ? $this->rest_safe( $this->plugin->values()->format( $value, $field, $ref ), $field ) : $this->rest_light( $value, $field );
 		}
@@ -212,16 +215,21 @@ final class RestFields {
 	 * Reduces formatted values to what the requester may see: no raw WP_Post / WP_User objects,
 	 * only readable posts and attachments, user details only for users who may list users.
 	 *
-	 * @param mixed                $value Formatted value.
-	 * @param array<string, mixed> $field Field.
+	 * With `$compat` (the acf-to-rest-api emulation), readable posts keep their full shape and
+	 * users keep the ACF array shape, minus private details: the original plugin's consumers
+	 * expect those, but never a WP_User (its `data` holds the password hash).
+	 *
+	 * @param mixed                $value  Formatted value.
+	 * @param array<string, mixed> $field  Field.
+	 * @param bool                 $compat Keep ACF's shapes for readable items.
 	 * @return mixed
 	 */
-	private function rest_safe( $value, array $field ) {
+	public function rest_safe( $value, array $field, bool $compat = false ) {
 		$kind = $this->plugin->values()->kind_of( $field );
 		if ( 'group' === $kind && is_array( $value ) ) {
 			foreach ( $field['sub_fields'] as $sub ) {
 				if ( array_key_exists( $sub['name'], $value ) ) {
-					$value[ $sub['name'] ] = $this->rest_safe( $value[ $sub['name'] ], $sub );
+					$value[ $sub['name'] ] = $this->rest_safe( $value[ $sub['name'] ], $sub, $compat );
 				}
 			}
 			return $value;
@@ -231,7 +239,7 @@ final class RestFields {
 				$subs = 'layouts' === $kind ? ( ValueManager::find_layout( $field, (string) ( $row['acf_fc_layout'] ?? '' ) )['sub_fields'] ?? array() ) : $field['sub_fields'];
 				foreach ( $subs as $sub ) {
 					if ( is_array( $row ) && array_key_exists( $sub['name'], $row ) ) {
-						$value[ $i ][ $sub['name'] ] = $this->rest_safe( $row[ $sub['name'] ], $sub );
+						$value[ $i ][ $sub['name'] ] = $this->rest_safe( $row[ $sub['name'] ], $sub, $compat );
 					}
 				}
 			}
@@ -239,13 +247,16 @@ final class RestFields {
 		}
 
 		$list = is_array( $value ) && array_is_list( $value ) && in_array( $field['type'], array( 'post_object', 'relationship', 'page_link', 'user', 'gallery', 'taxonomy' ), true );
-		$one  = function ( $item ) use ( $field ) {
+		$one  = function ( $item ) use ( $field, $compat ) {
 			switch ( $field['type'] ) {
 				case 'post_object':
 				case 'relationship':
 					$post = $item instanceof \WP_Post ? $item : get_post( (int) $item );
 					if ( ! $post || ! self::can_read( $post ) ) {
 						return null;
+					}
+					if ( $compat ) {
+						return $item;
 					}
 					return 'id' === ( $field['return_format'] ?? '' ) ? $post->ID : array(
 						'ID'         => $post->ID,
@@ -264,6 +275,26 @@ final class RestFields {
 					}
 					if ( 'id' === ( $field['return_format'] ?? '' ) ) {
 						return $user->ID;
+					}
+					if ( $compat ) {
+						$out = array(
+							'ID'               => $user->ID,
+							'user_firstname'   => $user->first_name,
+							'user_lastname'    => $user->last_name,
+							'nickname'         => $user->nickname,
+							'user_nicename'    => $user->user_nicename,
+							'display_name'     => $user->display_name,
+							'user_url'         => $user->user_url,
+							'user_description' => $user->description,
+							'user_avatar'      => get_avatar( $user->ID ),
+						);
+						if ( current_user_can( 'list_users' ) ) {
+							$out += array(
+								'user_email'      => $user->user_email,
+								'user_registered' => $user->user_registered,
+							);
+						}
+						return $out;
 					}
 					$out = array(
 						'ID'           => $user->ID,

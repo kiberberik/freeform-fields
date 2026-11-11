@@ -1,20 +1,31 @@
 /**
  * Layouts of a Flexible Content field: each with a label, name, display and its own sub fields.
  */
+import type { ComponentType } from 'react';
 import { __ } from '@wordpress/i18n';
 import { Button, TextControl } from '@wordpress/components';
 import { arrowDown, arrowUp, copy, trash } from '@wordpress/icons';
 import { NumberInput } from './fieldsShared';
 import { cleanName, nameFromLabel, rekeyFields, uid } from './utils';
 import Select from './Select';
+import type { Layout } from '../types';
+import type { BuilderErrors, SubFieldListProps } from './types';
+
+interface LayoutsEditorProps {
+	layouts: Layout[];
+	path: string;
+	errors: BuilderErrors;
+	onChange: ( layouts: Layout[] ) => void;
+	SubFieldList?: ComponentType< SubFieldListProps >;
+}
 
 /**
- * @param {Object}   props
- * @param {Array}    props.layouts      Layouts.
- * @param {string}   props.path         Error path of the field, e.g. 'fields.3'.
- * @param {Object}   props.errors       All errors by full path.
- * @param {Function} props.onChange     Receives the new layouts.
- * @param {Function} props.SubFieldList FieldList component.
+ * @param props
+ * @param props.layouts      Layouts.
+ * @param props.path         Error path of the field, e.g. 'fields.3'.
+ * @param props.errors       All errors by full path.
+ * @param props.onChange     Receives the new layouts.
+ * @param props.SubFieldList FieldList component.
  */
 export default function LayoutsEditor( {
 	layouts,
@@ -22,13 +33,13 @@ export default function LayoutsEditor( {
 	errors,
 	onChange,
 	SubFieldList,
-} ) {
-	const update = ( i, patch ) =>
+}: LayoutsEditorProps ) {
+	const update = ( i: number, patch: Partial< Layout > ) =>
 		onChange(
 			layouts.map( ( l, j ) => ( j === i ? { ...l, ...patch } : l ) )
 		);
 
-	const move = ( i, delta ) => {
+	const move = ( i: number, delta: number ) => {
 		const next = [ ...layouts ];
 		const [ item ] = next.splice( i, 1 );
 		next.splice( i + delta, 0, item );
@@ -50,7 +61,7 @@ export default function LayoutsEditor( {
 			},
 		] );
 
-	const duplicate = ( i ) => {
+	const duplicate = ( i: number ) => {
 		const source = layouts[ i ];
 		const next = [ ...layouts ];
 		next.splice( i + 1, 0, {

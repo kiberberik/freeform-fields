@@ -2,6 +2,7 @@
  * Building blocks of the settings screens (post types, taxonomies, options pages):
  * titled sections, toggle rows, the menu icon picker and the menu preview.
  */
+import type { ReactNode } from 'react';
 import { useMemo, useState } from '@wordpress/element';
 import { useInstanceId } from '@wordpress/compose';
 import { __, _n, sprintf } from '@wordpress/i18n';
@@ -15,15 +16,48 @@ import {
 } from '@wordpress/components';
 import { DASHICONS } from './dashicons';
 
+interface SettingsSectionProps {
+	title: ReactNode;
+	description?: ReactNode;
+	children?: ReactNode;
+}
+
+/** One row of ToggleRows. */
+export interface ToggleRowItem {
+	label: string;
+	help?: ReactNode;
+	checked?: unknown;
+	onChange: ( checked: boolean ) => void;
+	hidden?: boolean;
+}
+
+interface IconPickerProps {
+	label: string;
+	value: string | undefined;
+	onChange: ( value: string ) => void;
+	help?: ReactNode;
+	allowUrl?: boolean;
+}
+
+interface MenuPreviewProps {
+	icon?: string;
+	label?: string;
+	under?: ReactNode;
+}
+
 /**
  * A titled panel with a short explanation and its controls.
  *
- * @param {Object} props
- * @param {string} props.title         Section title.
- * @param {string} [props.description] One line under the title.
- * @param {*}      props.children      Controls.
+ * @param props
+ * @param props.title       Section title.
+ * @param props.description One line under the title.
+ * @param props.children    Controls.
  */
-export function SettingsSection( { title, description, children } ) {
+export function SettingsSection( {
+	title,
+	description,
+	children,
+}: SettingsSectionProps ) {
 	return (
 		<section className="wpff-panel wpff-settings-section">
 			<header className="wpff-settings-section__header">
@@ -38,20 +72,20 @@ export function SettingsSection( { title, description, children } ) {
 /**
  * Two columns of controls that stack on narrow screens.
  *
- * @param {Object} props
- * @param {*}      props.children Controls.
+ * @param props
+ * @param props.children Controls.
  */
-export function SettingsGrid( { children } ) {
+export function SettingsGrid( { children }: { children?: ReactNode } ) {
 	return <div className="wpff-settings-grid">{ children }</div>;
 }
 
 /**
  * Toggles as rows: label and explanation on the left, the switch on the right.
  *
- * @param {Object} props
- * @param {Array}  props.items [{ label, help, checked, onChange, hidden }].
+ * @param props
+ * @param props.items [{ label, help, checked, onChange, hidden }].
  */
-export function ToggleRows( { items } ) {
+export function ToggleRows( { items }: { items: ToggleRowItem[] } ) {
 	return (
 		<div className="wpff-toggle-rows">
 			{ items
@@ -74,17 +108,18 @@ export function ToggleRows( { items } ) {
 /**
  * Whether a menu icon value is a dashicon (as opposed to an image URL or data URI).
  *
- * @param {string} value Icon value.
+ * @param value Icon value.
  */
-const isDashicon = ( value ) => /^dashicons-[a-z0-9-]+$/.test( value || '' );
+const isDashicon = ( value: string | undefined ) =>
+	/^dashicons-[a-z0-9-]+$/.test( value || '' );
 
 /**
  * The icon as WordPress shows it in the menu: a dashicon or an image.
  *
- * @param {Object} props
- * @param {string} props.value Dashicons class, image URL or data URI.
+ * @param props
+ * @param props.value Dashicons class, image URL or data URI.
  */
-export function MenuIcon( { value } ) {
+export function MenuIcon( { value }: { value: string | undefined } ) {
 	if ( isDashicon( value ) ) {
 		return <span className={ `dashicons ${ value }` } aria-hidden="true" />;
 	}
@@ -102,14 +137,20 @@ export function MenuIcon( { value } ) {
 /**
  * Menu icon: pick a dashicon from a searchable grid, or type a class or an image URL.
  *
- * @param {Object}   props
- * @param {string}   props.label      Label.
- * @param {string}   props.value      Current value.
- * @param {Function} props.onChange   Called with the new value.
- * @param {string}   [props.help]     Help text.
- * @param {boolean}  [props.allowUrl] Whether image URLs are accepted (options pages).
+ * @param props
+ * @param props.label    Label.
+ * @param props.value    Current value.
+ * @param props.onChange Called with the new value.
+ * @param props.help     Help text.
+ * @param props.allowUrl Whether image URLs are accepted (options pages).
  */
-export function IconPicker( { label, value, onChange, help, allowUrl } ) {
+export function IconPicker( {
+	label,
+	value,
+	onChange,
+	help,
+	allowUrl,
+}: IconPickerProps ) {
 	const id = useInstanceId( IconPicker, 'wpff-icon-picker' );
 	const [ search, setSearch ] = useState( '' );
 	const query = search
@@ -239,12 +280,12 @@ export function IconPicker( { label, value, onChange, help, allowUrl } ) {
 /**
  * How the item will look in the admin menu: icon and label on the dark menu bar.
  *
- * @param {Object} props
- * @param {string} props.icon    Menu icon value.
- * @param {string} props.label   Menu label.
- * @param {string} [props.under] Parent menu name when the item is a sub item.
+ * @param props
+ * @param props.icon  Menu icon value.
+ * @param props.label Menu label.
+ * @param props.under Parent menu name when the item is a sub item.
  */
-export function MenuPreview( { icon, label, under } ) {
+export function MenuPreview( { icon, label, under }: MenuPreviewProps ) {
 	const name = label || __( '(no title)', 'freeform-fields' );
 	return (
 		<div className="wpff-menu-preview" aria-hidden="true">
@@ -269,11 +310,17 @@ export function MenuPreview( { icon, label, under } ) {
 /**
  * Sidebar card: a title and its content.
  *
- * @param {Object} props
- * @param {string} props.title    Card title.
- * @param {*}      props.children Content.
+ * @param props
+ * @param props.title    Card title.
+ * @param props.children Content.
  */
-export function SideCard( { title, children } ) {
+export function SideCard( {
+	title,
+	children,
+}: {
+	title: ReactNode;
+	children?: ReactNode;
+} ) {
 	return (
 		<div className="wpff-panel wpff-side-card">
 			<h2 className="wpff-side-card__title">{ title }</h2>

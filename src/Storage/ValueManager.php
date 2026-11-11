@@ -28,6 +28,13 @@ final class ValueManager {
 	 */
 	private int $depth = 0;
 
+	/**
+	 * Nesting depth of row formatting; the outermost rows prime the caches for all of them.
+	 *
+	 * @var int
+	 */
+	private int $priming = 0;
+
 	public function __construct(
 		private FieldRegistry $fields,
 		private FieldTypeRegistry $types
@@ -564,13 +571,18 @@ final class ValueManager {
 		if ( 'group' === $kind && is_array( $value ) ) {
 			$value = $this->format_subs( $value, $field, $field['sub_fields'], $ref );
 		} elseif ( ( 'rows' === $kind || 'layouts' === $kind ) && is_array( $value ) ) {
-			foreach ( array_values( $value ) as $i => $row ) {
-				$subs = $field['sub_fields'] ?? array();
-				if ( 'layouts' === $kind ) {
-					$layout = self::find_layout( $field, (string) ( $row['acf_fc_layout'] ?? '' ) );
-					$subs   = $layout ? $layout['sub_fields'] : array();
+			if ( 0 === $this->priming ) {
+				// One query for the media and posts of every row, instead of a few per row.
+				$ids = array_values( array_unique( array_filter( self::linked_ids( $value, $field ) ) ) );
+				if ( count( $ids ) > 1 ) {
+					_prime_post_caches( $ids, false, true );
 				}
-				$value[ $i ] = $this->format_subs( $row, self::row_parent( $field, $i ), $subs, $ref );
+			}
+			++$this->priming;
+			try {
+				$value = $this->format_rows( $value, $field, $kind, $ref );
+			} finally {
+				--$this->priming;
 			}
 		}
 		if ( null === $kind ) {
@@ -581,6 +593,59 @@ final class ValueManager {
 			$value = $handler->format_value( $value, $id, $field );
 		}
 		return self::apply_field_filters( 'wpff/format_value', $value, $field, $id );
+	}
+
+	/**
+	 * @param array<int|string, mixed> $value Loaded rows.
+	 * @param array<string, mixed>     $field Repeater or flexible content field.
+	 * @param string                   $kind  `rows` or `layouts`.
+	 * @param ObjectRef                $ref   Object.
+	 * @return array<int|string, mixed>
+	 */
+	private function format_rows( array $value, array $field, string $kind, ObjectRef $ref ): array {
+		foreach ( array_values( $value ) as $i => $row ) {
+			$subs = $field['sub_fields'] ?? array();
+			if ( 'layouts' === $kind ) {
+				$layout = self::find_layout( $field, (string) ( $row['acf_fc_layout'] ?? '' ) );
+				$subs   = $layout ? $layout['sub_fields'] : array();
+			}
+			$value[ $i ] = $this->format_subs( $row, self::row_parent( $field, $i ), $subs, $ref );
+		}
+		return $value;
+	}
+
+	/**
+	 * IDs of the attachments and posts picked anywhere inside a loaded value.
+	 *
+	 * @param mixed                $value Loaded value.
+	 * @param array<string, mixed> $field Field.
+	 * @return array<int, int>
+	 */
+	private static function linked_ids( $value, array $field ): array {
+		$type = (string) ( $field['type'] ?? '' );
+		if ( in_array( $type, array( 'image', 'file', 'gallery', 'post_object', 'relationship' ), true ) ) {
+			return array_map( 'absint', array_filter( (array) $value, 'is_numeric' ) );
+		}
+		if ( ! is_array( $value ) || ( empty( $field['sub_fields'] ) && empty( $field['layouts'] ) ) ) {
+			return array();
+		}
+		$ids  = array();
+		$rows = in_array( $type, array( 'repeater', 'flexible_content' ), true ) ? $value : array( $value );
+		foreach ( $rows as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+			$subs = $field['sub_fields'] ?? array();
+			if ( 'flexible_content' === $type ) {
+				$subs = self::find_layout( $field, (string) ( $row['acf_fc_layout'] ?? '' ) )['sub_fields'] ?? array();
+			}
+			foreach ( $subs as $sub ) {
+				if ( array_key_exists( $sub['name'], $row ) ) {
+					$ids = array_merge( $ids, self::linked_ids( $row[ $sub['name'] ], $sub ) );
+				}
+			}
+		}
+		return $ids;
 	}
 
 	/**

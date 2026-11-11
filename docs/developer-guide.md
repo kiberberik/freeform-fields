@@ -212,6 +212,7 @@ The form settings travel signed: a visitor cannot point the form at another post
 | `wpff/options_autoload` | filter | Whether options page values are autoloaded. |
 | `wpff/capability` | filter | Capability needed to manage field groups. Default: `manage_options`. |
 | `wpff/acf_compat` | filter | Whether to define functions with ACF's names. |
+| `wpff/form_lifetime` | filter | How long a front-end form stays valid after it is shown, in seconds. Default: two days. |
 | `wpff/updates/enabled` | filter | Whether to check GitHub releases for plugin updates. Default `true`. |
 | `wpff/updates/manifest_url` | filter | URL of the update manifest. Default: `update.json` of the latest release. |
 | `wpff/fields/google_map/api_key` | filter | Google Maps API key. Return `''` to use OpenStreetMap. |

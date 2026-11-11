@@ -40,7 +40,7 @@ import {
 	video,
 } from '@wordpress/icons';
 
-const ICONS = {
+const ICONS: Record< string, typeof blockDefault > = {
 	text: typography,
 	textarea: paragraph,
 	number: math,
@@ -79,9 +79,9 @@ const ICONS = {
 };
 
 /**
- * @param {string} name Field type name.
- * @return {Object} Icon element.
+ * @param name Field type name.
+ * @return Icon element.
  */
-export function typeIcon( name ) {
+export function typeIcon( name: string ): typeof blockDefault {
 	return ICONS[ name ] || blockDefault;
 }

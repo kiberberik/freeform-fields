@@ -32,7 +32,7 @@ wp --path=.dev/wp server --port=8889
 
 The admin login for the dev site is in `.dev/credentials`.
 
-Use `npm start` to rebuild the builder and block scripts on every change.
+Use `npm start` to rebuild the scripts on every change. All scripts are TypeScript in `assets/src` (builder, blocks, map field, field forms); shared types live in `assets/src/types.ts` and `assets/src/globals.d.ts`.
 
 ## Checks
 
@@ -51,12 +51,17 @@ npm run lint:js
 ```
 
 ```bash
+npm run typecheck
+```
+
+```bash
 npm run build
 ```
 
 - `composer test` runs PHPUnit against a real WordPress, with a throwaway SQLite database.
 - `composer lint` runs the WordPress Coding Standards (PHPCS).
 - `npm run lint:js` runs ESLint and Prettier through `@wordpress/scripts`.
+- `npm run typecheck` runs the TypeScript compiler in strict mode (no output; webpack builds the scripts).
 
 ## Code style
 

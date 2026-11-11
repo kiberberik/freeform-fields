@@ -31,13 +31,18 @@ final class Assets {
 
 	public function register_assets(): void {
 		wp_register_style( self::HANDLE, WPFF_URL . 'assets/css/admin.css', array( 'dashicons' ), WPFF_VERSION );
+		$asset_file = WPFF_PATH . 'build/admin.asset.php';
+		$asset      = is_readable( $asset_file ) ? require $asset_file : array(
+			'dependencies' => array( 'jquery', 'wp-i18n' ),
+			'version'      => WPFF_VERSION,
+		);
 		wp_register_script(
 			self::HANDLE,
-			WPFF_URL . 'assets/js/admin.js',
+			WPFF_URL . 'build/admin.js',
 			// wp-data (and with it React) is only needed by the `wpff/fields` store in the admin;
-			// front-end forms work without it.
-			is_admin() ? array( 'jquery', 'wp-i18n', 'wp-data' ) : array( 'jquery', 'wp-i18n' ),
-			WPFF_VERSION,
+			// front-end forms work without it, so the script reads it from `wp.data` when present.
+			array_values( array_unique( array_merge( $asset['dependencies'], is_admin() ? array( 'wp-data' ) : array() ) ) ),
+			$asset['version'],
 			array( 'in_footer' => true )
 		);
 		wp_set_script_translations( self::HANDLE, 'freeform-fields', WPFF_PATH . 'languages' );

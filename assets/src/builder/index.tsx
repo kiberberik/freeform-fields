@@ -10,7 +10,7 @@ import { ContentTypeEditor, ContentTypeList } from './ContentTypes';
 import './style.scss';
 
 function App() {
-	const { route, groupKey, optionsKey } = window.wpffBuilder;
+	const { route, groupKey, optionsKey } = window.wpffBuilder!;
 	if ( 'content' === route ) {
 		return <ContentTypeList />;
 	}

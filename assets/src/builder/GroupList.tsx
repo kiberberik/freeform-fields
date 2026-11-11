@@ -35,12 +35,34 @@ import {
 import { describeLocation } from './LocationRules';
 import { modeLabels, multilingual } from './MultilingualSetup';
 import { EmptyState, PageHeader, Pill } from './ui';
+import type { GroupSummary, Location } from '../types';
+import type { TrashedGroup } from './types';
+
+interface NoticeState {
+	status: 'success' | 'error';
+	text: string;
+	undoKey?: string;
+}
+
+/** Filter tab: id, label, count. */
+type FilterTab = [ string, string, number ];
+
+interface GroupActions {
+	trash: ( group: GroupSummary ) => void;
+	duplicate: ( group: GroupSummary ) => void;
+	sync: ( group: GroupSummary ) => void;
+}
+
+interface TrashActions {
+	restore: ( group: TrashedGroup ) => void;
+	remove: ( group: TrashedGroup ) => void;
+}
 
 export default function GroupList() {
-	const cfg = window.wpffBuilder;
-	const [ groups, setGroups ] = useState( null );
-	const [ trashed, setTrashed ] = useState( [] );
-	const [ notice, setNotice ] = useState( null );
+	const cfg = window.wpffBuilder!;
+	const [ groups, setGroups ] = useState< GroupSummary[] | null >( null );
+	const [ trashed, setTrashed ] = useState< TrashedGroup[] >( [] );
+	const [ notice, setNotice ] = useState< NoticeState | null >( null );
 	const [ busy, setBusy ] = useState( '' );
 	const [ filter, setFilter ] = useState( 'all' );
 	const [ search, setSearch ] = useState( '' );
@@ -62,7 +84,11 @@ export default function GroupList() {
 		load();
 	}, [] );
 
-	const run = ( key, action, success ) => {
+	const run = < T, >(
+		key: string,
+		action: ( key: string ) => Promise< T >,
+		success: ( result: T ) => NoticeState
+	) => {
 		setBusy( key );
 		action( key )
 			.then( ( result ) => {
@@ -73,7 +99,7 @@ export default function GroupList() {
 			.finally( () => setBusy( '' ) );
 	};
 
-	const actions = {
+	const actions: GroupActions = {
 		trash: ( group ) =>
 			run( group.key, trashGroup, () => ( {
 				status: 'success',
@@ -104,7 +130,7 @@ export default function GroupList() {
 			} ) ),
 	};
 
-	const trashActions = {
+	const trashActions: TrashActions = {
 		restore: ( group ) =>
 			run( group.key, restoreGroup, () => ( {
 				status: 'success',
@@ -139,32 +165,38 @@ export default function GroupList() {
 		},
 	};
 
-	const onUndo = ( key ) =>
+	const onUndo = ( key: string ) =>
 		run( key, restoreGroup, () => ( {
 			status: 'success',
 			text: __( 'Field group restored.', 'freeform-fields' ),
 		} ) );
 
 	const filters = groups
-		? [
-				[ 'all', __( 'All', 'freeform-fields' ), groups.length ],
+		? (
 				[
-					'active',
-					__( 'Active', 'freeform-fields' ),
-					groups.filter( ( g ) => g.active ).length,
-				],
-				[
-					'inactive',
-					__( 'Inactive', 'freeform-fields' ),
-					groups.filter( ( g ) => ! g.active ).length,
-				],
-				[
-					'sync',
-					__( 'Sync available', 'freeform-fields' ),
-					groups.filter( ( g ) => g.sync ).length,
-				],
-				[ 'trash', __( 'Trash', 'freeform-fields' ), trashed.length ],
-			].filter( ( [ id, , count ] ) => 'all' === id || count > 0 )
+					[ 'all', __( 'All', 'freeform-fields' ), groups.length ],
+					[
+						'active',
+						__( 'Active', 'freeform-fields' ),
+						groups.filter( ( g ) => g.active ).length,
+					],
+					[
+						'inactive',
+						__( 'Inactive', 'freeform-fields' ),
+						groups.filter( ( g ) => ! g.active ).length,
+					],
+					[
+						'sync',
+						__( 'Sync available', 'freeform-fields' ),
+						groups.filter( ( g ) => g.sync ).length,
+					],
+					[
+						'trash',
+						__( 'Trash', 'freeform-fields' ),
+						trashed.length,
+					],
+				] as FilterTab[]
+			 ).filter( ( [ id, , count ] ) => 'all' === id || count > 0 )
 		: [];
 
 	const query = search.trim().toLowerCase();
@@ -216,7 +248,8 @@ export default function GroupList() {
 							? [
 									{
 										label: __( 'Undo', 'freeform-fields' ),
-										onClick: () => onUndo( notice.undoKey ),
+										onClick: () =>
+											onUndo( notice.undoKey! ),
 									},
 								]
 							: []
@@ -374,15 +407,21 @@ export default function GroupList() {
 	);
 }
 
+interface TrashTableProps {
+	items: TrashedGroup[];
+	busy: string;
+	actions: TrashActions;
+}
+
 /**
  * Trashed groups with Restore and Delete permanently.
  *
- * @param {Object} props
- * @param {Array}  props.items   Trashed groups: key, title, trashed (timestamp).
- * @param {string} props.busy    Key of the group being changed.
- * @param {Object} props.actions restore( group ), remove( group ).
+ * @param props
+ * @param props.items   Trashed groups: key, title, trashed (timestamp).
+ * @param props.busy    Key of the group being changed.
+ * @param props.actions restore( group ), remove( group ).
  */
-function TrashTable( { items, busy, actions } ) {
+function TrashTable( { items, busy, actions }: TrashTableProps ) {
 	if ( ! items.length ) {
 		return (
 			<EmptyState
@@ -463,10 +502,10 @@ function TrashTable( { items, busy, actions } ) {
 /**
  * Location rules as chips: one chip per OR-group.
  *
- * @param {Object} props
- * @param {Array}  props.location Rules.
+ * @param props
+ * @param props.location Rules.
  */
-function LocationChips( { location } ) {
+function LocationChips( { location }: { location: Location } ) {
 	const groups = ( location || [] )
 		.map( ( rules ) => describeLocation( [ rules ] ) )
 		.filter( Boolean );
@@ -484,7 +523,7 @@ function LocationChips( { location } ) {
 	);
 }
 
-function sourceHint( source ) {
+function sourceHint( source: string ) {
 	if ( 'acf' === source ) {
 		return __(
 			'Read from ACF (read-only). Migrate it in Tools.',
@@ -497,15 +536,23 @@ function sourceHint( source ) {
 	return __( 'Loaded from a JSON file', 'freeform-fields' );
 }
 
-function GroupRow( { group, busy, actions } ) {
-	const cfg = window.wpffBuilder;
+interface GroupRowProps {
+	group: GroupSummary;
+	busy: boolean;
+	actions: GroupActions;
+}
+
+function GroupRow( { group, busy, actions }: GroupRowProps ) {
+	const cfg = window.wpffBuilder!;
 	const editUrl = `${ cfg.listUrl }&group=${ group.key }`;
 	const isLocal = 'php' === group.source || 'acf' === group.source;
-	const source = {
-		php: __( 'PHP', 'freeform-fields' ),
-		json: 'JSON',
-		acf: 'ACF',
-	}[ group.source ];
+	const source = (
+		{
+			php: __( 'PHP', 'freeform-fields' ),
+			json: 'JSON',
+			acf: 'ACF',
+		} as Partial< Record< GroupSummary[ 'source' ], string > >
+	 )[ group.source ];
 
 	return (
 		<tr className={ busy ? 'is-busy' : '' }>
@@ -537,7 +584,7 @@ function GroupRow( { group, busy, actions } ) {
 			</td>
 			<td className="wpff-table__num">{ group.field_count }</td>
 			{ multilingual() && (
-				<td>{ modeLabels()[ group.translation ] || '' }</td>
+				<td>{ modeLabels()[ group.translation ?? '' ] || '' }</td>
 			) }
 			<td>
 				{ group.sync && (

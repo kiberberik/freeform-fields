@@ -4,43 +4,60 @@
  * A list path names a list of fields: `fields`, `fields.2.sub_fields`,
  * `fields.3.layouts.0.sub_fields`. Error paths use the same scheme ('fields.2.sub_fields.0.name').
  */
+import type { Field, FieldGroup } from '../types';
+import type { ChildList, FieldLocation } from './types';
 
 /**
- * @param {Object} root Group.
- * @param {string} path Dot path.
- * @return {*} Value.
+ * The caller names the type it expects at the path.
+ *
+ * @param root Group.
+ * @param path Dot path.
+ * @return Value.
  */
-export function getAt( root, path ) {
+export function getAt< T = unknown >( root: unknown, path: string ): T {
 	return path
 		.split( '.' )
-		.reduce( ( node, part ) => ( node ? node[ part ] : undefined ), root );
+		.reduce< unknown >(
+			( node, part ) =>
+				node
+					? ( node as Record< string, unknown > )[ part ]
+					: undefined,
+			root
+		) as T;
 }
 
 /**
  * Copy of root with the value at path replaced.
  *
- * @param {Object} root  Group or any nested object.
- * @param {string} path  Dot path.
- * @param {*}      value New value.
- * @return {Object} New root.
+ * @param root  Group or any nested object.
+ * @param path  Dot path.
+ * @param value New value.
+ * @return New root.
  */
-export function setAt( root, path, value ) {
+export function setAt< T extends object >(
+	root: T,
+	path: string,
+	value: unknown
+): T {
 	const [ head, ...rest ] = path.split( '.' );
-	const copy = Array.isArray( root ) ? [ ...root ] : { ...root };
+	const source = root as Record< string, unknown >;
+	const copy = (
+		Array.isArray( root ) ? [ ...root ] : { ...root }
+	) as Record< string, unknown >;
 	copy[ head ] = rest.length
-		? setAt( root[ head ] ?? {}, rest.join( '.' ), value )
+		? setAt( ( source[ head ] ?? {} ) as object, rest.join( '.' ), value )
 		: value;
-	return copy;
+	return copy as T;
 }
 
 /**
  * Child lists of a field: sub fields, or each flexible layout's sub fields.
  *
- * @param {Object} field Field.
- * @param {string} path  Path of the field, e.g. 'fields.2'.
- * @return {Array<{path: string, fields: Array, layout?: Object, layoutIndex?: number}>} Lists.
+ * @param field Field.
+ * @param path  Path of the field, e.g. 'fields.2'.
+ * @return Lists.
  */
-export function childLists( field, path ) {
+export function childLists( field: Field, path: string ): ChildList[] {
 	if ( Array.isArray( field.layouts ) ) {
 		return field.layouts.map( ( layout, i ) => ( {
 			path: `${ path }.layouts.${ i }.sub_fields`,
@@ -58,12 +75,16 @@ export function childLists( field, path ) {
 /**
  * Finds a field anywhere in the tree.
  *
- * @param {Array}  fields   List to search.
- * @param {string} key      Field key.
- * @param {string} listPath Path of `fields`.
- * @return {{field: Object, listPath: string, index: number, path: string}|null} Location.
+ * @param fields   List to search.
+ * @param key      Field key.
+ * @param listPath Path of `fields`.
+ * @return Location.
  */
-export function findField( fields, key, listPath = 'fields' ) {
+export function findField(
+	fields: Field[],
+	key: string,
+	listPath = 'fields'
+): FieldLocation | null {
 	for ( let i = 0; i < fields.length; i++ ) {
 		const field = fields[ i ];
 		const path = `${ listPath }.${ i }`;
@@ -81,29 +102,39 @@ export function findField( fields, key, listPath = 'fields' ) {
 }
 
 /**
- * @param {Object} group    Group.
- * @param {string} listPath List path.
- * @param {number} index    Position.
- * @param {Object} field    Field to insert.
- * @return {Object} New group.
+ * @param group    Group.
+ * @param listPath List path.
+ * @param index    Position.
+ * @param field    Field to insert.
+ * @return New group.
  */
-export function insertAt( group, listPath, index, field ) {
-	const list = [ ...( getAt( group, listPath ) || [] ) ];
+export function insertAt< G extends FieldGroup >(
+	group: G,
+	listPath: string,
+	index: number,
+	field: Field
+): G {
+	const list = [
+		...( getAt< Field[] | undefined >( group, listPath ) || [] ),
+	];
 	list.splice( Math.max( 0, Math.min( index, list.length ) ), 0, field );
 	return setAt( group, listPath, list );
 }
 
 /**
- * @param {Object} group Group.
- * @param {string} key   Field key.
- * @return {{group: Object, field: Object|null, listPath: string, index: number}} Result.
+ * @param group Group.
+ * @param key   Field key.
+ * @return Result.
  */
-export function removeField( group, key ) {
+export function removeField< G extends FieldGroup >(
+	group: G,
+	key: string
+): { group: G; field: Field | null; listPath: string; index: number } {
 	const found = findField( group.fields, key );
 	if ( ! found ) {
 		return { group, field: null, listPath: '', index: -1 };
 	}
-	const list = getAt( group, found.listPath ).filter(
+	const list = getAt< Field[] >( group, found.listPath ).filter(
 		( _, i ) => i !== found.index
 	);
 	return {
@@ -115,12 +146,16 @@ export function removeField( group, key ) {
 }
 
 /**
- * @param {Object} group Group.
- * @param {string} key   Field key.
- * @param {Object} field Replacement.
- * @return {Object} New group.
+ * @param group Group.
+ * @param key   Field key.
+ * @param field Replacement.
+ * @return New group.
  */
-export function replaceField( group, key, field ) {
+export function replaceField< G extends FieldGroup >(
+	group: G,
+	key: string,
+	field: Field
+): G {
 	const found = findField( group.fields, key );
 	return found ? setAt( group, found.path, field ) : group;
 }
@@ -128,13 +163,18 @@ export function replaceField( group, key, field ) {
 /**
  * Moves a field to a list position. Dropping a field into its own sub fields is refused.
  *
- * @param {Object} group    Group.
- * @param {string} key      Field key.
- * @param {string} listPath Target list.
- * @param {number} index    Target position in the list as it is now (before removal).
- * @return {Object} New group.
+ * @param group    Group.
+ * @param key      Field key.
+ * @param listPath Target list.
+ * @param index    Target position in the list as it is now (before removal).
+ * @return New group.
  */
-export function moveField( group, key, listPath, index ) {
+export function moveField< G extends FieldGroup >(
+	group: G,
+	key: string,
+	listPath: string,
+	index: number
+): G {
 	const from = findField( group.fields, key );
 	if ( ! from || listPath.startsWith( `${ from.path }.` ) ) {
 		return group;
@@ -152,12 +192,16 @@ export function moveField( group, key, listPath, index ) {
 /**
  * Fixes a path after the item at `removedIndex` of `removedList` was removed.
  *
- * @param {string} path         Path to fix.
- * @param {string} removedList  List the item was removed from.
- * @param {number} removedIndex Removed position.
- * @return {string} Path.
+ * @param path         Path to fix.
+ * @param removedList  List the item was removed from.
+ * @param removedIndex Removed position.
+ * @return Path.
  */
-function adjustPath( path, removedList, removedIndex ) {
+function adjustPath(
+	path: string,
+	removedList: string,
+	removedIndex: number
+): string {
 	const prefix = `${ removedList }.`;
 	if ( ! path.startsWith( prefix ) ) {
 		return path;
@@ -173,10 +217,10 @@ function adjustPath( path, removedList, removedIndex ) {
 /**
  * Every field in the tree, depth first.
  *
- * @param {Array} fields Fields.
- * @return {Array} Fields.
+ * @param fields Fields.
+ * @return Fields.
  */
-export function flatten( fields ) {
+export function flatten( fields: Field[] ): Field[] {
 	return fields.flatMap( ( f, i ) => [
 		f,
 		...childLists( f, String( i ) ).flatMap( ( l ) => flatten( l.fields ) ),
