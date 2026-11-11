@@ -31,7 +31,7 @@ fi
 # 3. Fresh build of the scripts (build/ is not in git).
 [ -d node_modules ] || npm ci
 npm run build --silent >/dev/null
-for f in builder.js blocks.js map.js builder.asset.php blocks.asset.php map.asset.php; do
+for f in builder.js blocks.js map.js admin.js builder.asset.php blocks.asset.php map.asset.php admin.asset.php; do
 	[ -f "build/$f" ] || fail "build/$f is missing after npm run build"
 done
 

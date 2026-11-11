@@ -1,6 +1,7 @@
 /**
  * Settings form for one field.
  */
+import type { ComponentType, ReactNode } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import {
 	CheckboxControl,
@@ -23,16 +24,51 @@ import {
 import Select from './Select';
 import { TypeIcon } from './ui';
 import { FieldTranslation } from './MultilingualSetup';
+import type { Field, TypeSetting } from '../types';
+import type { BuilderErrors, SubFieldListProps } from './types';
+
+interface FieldSettingsProps {
+	field: Field;
+	path: string;
+	errors: BuilderErrors;
+	siblings: Field[];
+	onChange: ( field: Field ) => void;
+	SubFieldList?: ComponentType< SubFieldListProps >;
+	translationMode?: string | null;
+}
+
+interface SettingControlProps {
+	setting: TypeSetting;
+	value: unknown;
+	onChange: ( value: unknown ) => void;
+	field: Field;
+}
+
+interface MultiSelectControlProps {
+	label: string;
+	help?: ReactNode;
+	options: Record< string, string >;
+	value: unknown;
+	onChange: ( value: string[] ) => void;
+}
+
+interface LinesControlProps {
+	label: string;
+	help?: string;
+	value: unknown;
+	onChange: ( value: string[] ) => void;
+	__nextHasNoMarginBottom?: boolean;
+}
 
 /**
- * @param {Object}   props
- * @param {Object}   props.field           Field.
- * @param {string}   props.path            Error path of the field, e.g. 'fields.2'.
- * @param {Object}   props.errors          All errors by full path.
- * @param {Array}    props.siblings        Fields in the same list (for conditional logic).
- * @param {Function} props.onChange        Receives the new field.
- * @param {Function} props.SubFieldList    FieldList component, passed in to avoid a circular import.
- * @param {string}   props.translationMode Group translation mode on multilingual sites, else null.
+ * @param props
+ * @param props.field           Field.
+ * @param props.path            Error path of the field, e.g. 'fields.2'.
+ * @param props.errors          All errors by full path.
+ * @param props.siblings        Fields in the same list (for conditional logic).
+ * @param props.onChange        Receives the new field.
+ * @param props.SubFieldList    FieldList component, passed in to avoid a circular import.
+ * @param props.translationMode Group translation mode on multilingual sites, else null.
  */
 export default function FieldSettings( {
 	field,
@@ -42,14 +78,15 @@ export default function FieldSettings( {
 	onChange,
 	SubFieldList,
 	translationMode = null,
-} ) {
-	const types = window.wpffBuilder.fieldTypes;
+}: FieldSettingsProps ) {
+	const types = window.wpffBuilder!.fieldTypes;
 	const type = typeOf( field.type );
-	const own = ( prop ) => errors[ `${ path }.${ prop }` ];
+	const own = ( prop: string ) => errors[ `${ path }.${ prop }` ];
 	const hasValue = ! type || type.hasValue;
 
-	const set = ( patch ) => onChange( { ...field, ...patch } );
-	const labelRef = useRef();
+	const set = ( patch: Partial< Field > ) =>
+		onChange( { ...field, ...patch } );
+	const labelRef = useRef< HTMLInputElement >( null );
 
 	// A field just added from the palette starts with its label focused.
 	useEffect( () => {
@@ -59,8 +96,8 @@ export default function FieldSettings( {
 		// eslint-disable-next-line react-hooks/exhaustive-deps -- once per field.
 	}, [ field.key ] );
 
-	const onLabel = ( label ) => {
-		const patch = { label };
+	const onLabel = ( label: string ) => {
+		const patch: Partial< Field > = { label };
 		// The name follows the label until the user edits it, only for fields that were never saved.
 		if ( hasValue && field._isNew && ! field._nameTouched ) {
 			patch.name = nameFromLabel( label );
@@ -136,7 +173,7 @@ export default function FieldSettings( {
 							icon: <TypeIcon type={ t.name } size={ 24 } />,
 						} ) ) }
 						onChange={ ( name ) =>
-							onChange( changeType( field, typeOf( name ) ) )
+							onChange( changeType( field, typeOf( name )! ) )
 						}
 						help={ own( 'type' ) }
 					/>
@@ -157,7 +194,7 @@ export default function FieldSettings( {
 					title={ sprintf(
 						/* translators: %s: field type label. */
 						__( '%s settings', 'freeform-fields' ),
-						type.label
+						type!.label
 					) }
 				>
 					<div className="wpff-field-settings__grid">
@@ -213,7 +250,7 @@ export default function FieldSettings( {
 					<div className="wpff-field-settings__grid">
 						<TextareaControl
 							label={ __( 'Instructions', 'freeform-fields' ) }
-							value={ field.instructions }
+							value={ field.instructions as string }
 							onChange={ ( instructions ) =>
 								set( { instructions } )
 							}
@@ -253,7 +290,7 @@ export default function FieldSettings( {
 						) }
 						<NumberInput
 							label={ __( 'Width (%)', 'freeform-fields' ) }
-							value={ field.wrapper.width }
+							value={ field.wrapper!.width }
 							min={ 0 }
 							max={ 100 }
 							onChange={ ( width ) =>
@@ -271,7 +308,7 @@ export default function FieldSettings( {
 								'Wrapper CSS class',
 								'freeform-fields'
 							) }
-							value={ field.wrapper.class }
+							value={ field.wrapper!.class as string }
 							onChange={ ( cls ) =>
 								set( {
 									wrapper: { ...field.wrapper, class: cls },
@@ -282,7 +319,7 @@ export default function FieldSettings( {
 						/>
 						<TextControl
 							label={ __( 'Wrapper ID', 'freeform-fields' ) }
-							value={ field.wrapper.id }
+							value={ field.wrapper!.id as string }
 							onChange={ ( id ) =>
 								set( { wrapper: { ...field.wrapper, id } } )
 							}
@@ -313,7 +350,7 @@ export default function FieldSettings( {
 	);
 }
 
-function isVisible( setting, field ) {
+function isVisible( setting: TypeSetting, field: Field ): boolean {
 	if ( ! setting.show_if ) {
 		return true;
 	}
@@ -325,7 +362,12 @@ function isVisible( setting, field ) {
 	} );
 }
 
-function SettingControl( { setting, value, onChange, field } ) {
+function SettingControl( {
+	setting,
+	value,
+	onChange,
+	field,
+}: SettingControlProps ) {
 	const common = {
 		label: setting.label,
 		help: setting.help,
@@ -346,7 +388,7 @@ function SettingControl( { setting, value, onChange, field } ) {
 				<NumberInput
 					label={ setting.label }
 					help={ setting.help }
-					value={ value ?? '' }
+					value={ ( value ?? '' ) as string }
 					onChange={ ( v ) => onChange( v ?? '' ) }
 					__next40pxDefaultSize
 				/>
@@ -355,7 +397,7 @@ function SettingControl( { setting, value, onChange, field } ) {
 			return (
 				<Select
 					{ ...common }
-					value={ value ?? '' }
+					value={ ( value ?? '' ) as string }
 					options={ Object.entries( setting.options || {} ).map(
 						( [ v, label ] ) => ( { value: v, label } )
 					) }
@@ -367,7 +409,7 @@ function SettingControl( { setting, value, onChange, field } ) {
 			return (
 				<Select
 					{ ...common }
-					value={ value ?? '' }
+					value={ ( value ?? '' ) as string }
 					options={ [
 						{
 							value: '',
@@ -397,7 +439,7 @@ function SettingControl( { setting, value, onChange, field } ) {
 			return (
 				<TextareaControl
 					{ ...common }
-					value={ value ?? '' }
+					value={ ( value ?? '' ) as string }
 					onChange={ onChange }
 					rows={ 3 }
 				/>
@@ -423,7 +465,7 @@ function SettingControl( { setting, value, onChange, field } ) {
 			return (
 				<TextControl
 					{ ...common }
-					value={ value ?? '' }
+					value={ ( value ?? '' ) as string }
 					onChange={ onChange }
 					__next40pxDefaultSize
 				/>
@@ -434,15 +476,21 @@ function SettingControl( { setting, value, onChange, field } ) {
 /**
  * Checkbox list storing the checked option keys.
  *
- * @param {Object}   props          Props.
- * @param {string}   props.label    Label.
- * @param {string}   props.help     Help text.
- * @param {Object}   props.options  Options { key: label }.
- * @param {Array}    props.value    Checked keys.
- * @param {Function} props.onChange Receives the new list.
+ * @param props          Props.
+ * @param props.label    Label.
+ * @param props.help     Help text.
+ * @param props.options  Options { key: label }.
+ * @param props.value    Checked keys.
+ * @param props.onChange Receives the new list.
  */
-function MultiSelectControl( { label, help, options, value, onChange } ) {
-	const checked = Array.isArray( value ) ? value : [];
+function MultiSelectControl( {
+	label,
+	help,
+	options,
+	value,
+	onChange,
+}: MultiSelectControlProps ) {
+	const checked: string[] = Array.isArray( value ) ? value : [];
 	return (
 		<fieldset className="wpff-multiselect">
 			<legend className="components-base-control__label">
@@ -475,12 +523,12 @@ function MultiSelectControl( { label, help, options, value, onChange } ) {
 /**
  * Textarea editing a list: one value per line.
  *
- * @param {Object}   props          Props.
- * @param {Array}    props.value    Current list.
- * @param {Function} props.onChange Receives the new list.
+ * @param props          Props.
+ * @param props.value    Current list.
+ * @param props.onChange Receives the new list.
  */
-function LinesControl( { value, onChange, ...props } ) {
-	const toText = ( v ) =>
+function LinesControl( { value, onChange, ...props }: LinesControlProps ) {
+	const toText = ( v: unknown ) =>
 		Array.isArray( v ) ? v.join( '\n' ) : String( v ?? '' );
 	const [ text, setText ] = useState( toText( value ) );
 	return (

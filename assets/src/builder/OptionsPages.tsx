@@ -25,17 +25,51 @@ import {
 	SideCard,
 	ToggleRows,
 } from './settings';
+import type { ComponentProps } from 'react';
 
-const base = () => `${ window.wpffBuilder.restPath }/options-pages`;
+/** An options page as the REST API returns it (OptionsPageStore / OptionsPages). */
+interface OptionsPage {
+	page_title: string;
+	menu_title: string;
+	menu_slug: string;
+	parent_slug: string;
+	capability: string;
+	/** Number from the server (null when unset); '' or a string while editing. */
+	position: number | string | null;
+	icon_url: string;
+	redirect: boolean;
+	post_id: string;
+	autoload: boolean;
+	update_button: string;
+	updated_message: string;
+	description: string;
+	active: boolean;
+	source?: 'php' | 'acf' | 'db';
+}
+
+/** A row of the list: the page and the titles of the groups shown on it. */
+interface OptionsPageRow extends OptionsPage {
+	field_groups: string[];
+}
+
+interface NoticeState {
+	status: 'success' | 'error' | 'warning';
+	text: string;
+}
+
+/** Page settings edited with a plain text input. */
+type TextProp = 'menu_title' | 'post_id' | 'update_button' | 'updated_message';
+
+const base = () => `${ window.wpffBuilder!.restPath }/options-pages`;
 
 /**
  * Slug like the server's sanitize_title() for latin text; Cyrillic is transliterated.
  *
- * @param {string} text Title.
- * @return {string} Slug.
+ * @param text Title.
+ * @return Slug.
  */
-function slugify( text ) {
-	const map = {
+function slugify( text: string ): string {
+	const map: Record< string, string > = {
 		а: 'a',
 		б: 'b',
 		в: 'v',
@@ -80,12 +114,12 @@ function slugify( text ) {
 }
 
 export function OptionsPageList() {
-	const cfg = window.wpffBuilder;
-	const [ pages, setPages ] = useState( null );
-	const [ notice, setNotice ] = useState( null );
+	const cfg = window.wpffBuilder!;
+	const [ pages, setPages ] = useState< OptionsPageRow[] | null >( null );
+	const [ notice, setNotice ] = useState< NoticeState | null >( null );
 
 	const load = () =>
-		apiFetch( { path: base() } )
+		apiFetch< OptionsPageRow[] >( { path: base() } )
 			.then( setPages )
 			.catch( ( e ) =>
 				setNotice( { status: 'error', text: e.message } )
@@ -95,7 +129,7 @@ export function OptionsPageList() {
 		load();
 	}, [] );
 
-	const remove = ( page ) => {
+	const remove = ( page: OptionsPageRow ) => {
 		if (
 			// eslint-disable-next-line no-alert -- a native confirm is enough for this rare action.
 			! window.confirm(
@@ -295,7 +329,7 @@ export function OptionsPageList() {
 	);
 }
 
-const EMPTY_PAGE = {
+const EMPTY_PAGE: OptionsPage = {
 	page_title: '',
 	menu_title: '',
 	menu_slug: '',
@@ -312,19 +346,26 @@ const EMPTY_PAGE = {
 	active: true,
 };
 
-export function OptionsPageEditor( { slug } ) {
-	const cfg = window.wpffBuilder;
+interface OptionsPageEditorProps {
+	/** Menu slug of the page, or 'new'. */
+	slug: string;
+}
+
+export function OptionsPageEditor( { slug }: OptionsPageEditorProps ) {
+	const cfg = window.wpffBuilder!;
 	const isNew = 'new' === slug;
-	const [ page, setPage ] = useState( isNew ? { ...EMPTY_PAGE } : null );
+	const [ page, setPage ] = useState< OptionsPage | null >(
+		isNew ? { ...EMPTY_PAGE } : null
+	);
 	const [ currentSlug, setCurrentSlug ] = useState( isNew ? '' : slug );
 	const [ slugTouched, setSlugTouched ] = useState( ! isNew );
-	const [ errors, setErrors ] = useState( {} );
-	const [ notice, setNotice ] = useState( null );
+	const [ errors, setErrors ] = useState< Record< string, string > >( {} );
+	const [ notice, setNotice ] = useState< NoticeState | null >( null );
 	const [ saving, setSaving ] = useState( false );
 
 	useEffect( () => {
 		if ( ! isNew ) {
-			apiFetch( { path: `${ base() }/${ slug }` } )
+			apiFetch< OptionsPage >( { path: `${ base() }/${ slug }` } )
 				.then( ( data ) => {
 					if ( 'php' === data.source || 'acf' === data.source ) {
 						setNotice( {
@@ -351,7 +392,8 @@ export function OptionsPageEditor( { slug } ) {
 		);
 	}
 
-	const set = ( patch ) => setPage( { ...page, ...patch } );
+	const set = ( patch: Partial< OptionsPage > ) =>
+		setPage( { ...page, ...patch } );
 	const readOnly = 'php' === page.source;
 
 	const save = () => {
@@ -359,12 +401,16 @@ export function OptionsPageEditor( { slug } ) {
 		setErrors( {} );
 		setNotice( null );
 		const request = currentSlug
-			? apiFetch( {
+			? apiFetch< OptionsPage >( {
 					path: `${ base() }/${ currentSlug }`,
 					method: 'PUT',
 					data: page,
 				} )
-			: apiFetch( { path: base(), method: 'POST', data: page } );
+			: apiFetch< OptionsPage >( {
+					path: base(),
+					method: 'POST',
+					data: page,
+				} );
 		request
 			.then( ( data ) => {
 				setPage( { ...data, position: data.position ?? '' } );
@@ -390,7 +436,12 @@ export function OptionsPageEditor( { slug } ) {
 			.finally( () => setSaving( false ) );
 	};
 
-	const text = ( label, prop, help, extra = {} ) => (
+	const text = (
+		label: string,
+		prop: TextProp,
+		help: string,
+		extra: Partial< ComponentProps< typeof TextControl > > = {}
+	) => (
 		<TextControl
 			label={ label }
 			value={ page[ prop ] ?? '' }

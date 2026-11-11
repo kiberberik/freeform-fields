@@ -21,18 +21,32 @@ import {
 	useState,
 } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import type { ComponentType } from 'react';
 import ServerSideRender from '@wordpress/server-side-render';
+import type { BlocksSettings, FieldsApi } from '../globals';
 
-const cfg = window.wpffBlocks || { blocks: [], restPath: '/wpff/v1' };
+const cfg: BlocksSettings = window.wpffBlocks || {
+	blocks: [],
+	restPath: '/wpff/v1',
+	bindings: [],
+};
+
+/** Block attributes: the field values (`data`) plus whatever the block registers. */
+type Attributes = Record< string, unknown > & {
+	data?: Record< string, unknown >;
+};
+
+/** A nested level of serialized form values. */
+type Tree = Record< string, unknown > | unknown[];
 
 /**
  * Form inputs (`wpff[field_x][row][field_y]`) as a nested object, keyed like the server expects.
  *
- * @param {Element} container Form container.
- * @return {Object} Values keyed by field key.
+ * @param container Form container.
+ * @return Values keyed by field key.
  */
-export function serialize( container ) {
-	const out = {};
+export function serialize( container: Element ): Record< string, unknown > {
+	const out: Record< string, unknown > = {};
 	window
 		.jQuery( container )
 		.find( ':input' )
@@ -42,51 +56,56 @@ export function serialize( container ) {
 			if ( 'wpff' !== parts.shift() ) {
 				return;
 			}
-			let node = out;
+			let node: Tree = out;
 			parts.forEach( ( part, i ) => {
 				const last = i === parts.length - 1;
 				const nextIsList = ! last && '' === parts[ i + 1 ];
 				if ( '' === part ) {
-					node.push( value );
+					( node as unknown[] ).push( value );
 					return;
 				}
+				// Only a level followed by `[]` is a list; this one is keyed.
+				const obj = node as Record< string, unknown >;
 				if ( last ) {
-					node[ part ] = value;
+					obj[ part ] = value;
 				} else {
 					if (
-						typeof node[ part ] !== 'object' ||
-						null === node[ part ]
+						typeof obj[ part ] !== 'object' ||
+						null === obj[ part ]
 					) {
-						node[ part ] = nextIsList ? [] : {};
-					} else if (
-						nextIsList &&
-						! Array.isArray( node[ part ] )
-					) {
+						obj[ part ] = nextIsList ? [] : {};
+					} else if ( nextIsList && ! Array.isArray( obj[ part ] ) ) {
 						// A hidden "empty" input came first; the list replaces it.
-						node[ part ] = [];
+						obj[ part ] = [];
 					}
-					node = node[ part ];
+					node = obj[ part ] as Tree;
 				}
 			} );
 		} );
 	return out;
 }
 
-function FieldsForm( { name, data, onData } ) {
-	const ref = useRef();
-	const [ html, setHtml ] = useState( null );
+interface FieldsFormProps {
+	name: string;
+	data: Record< string, unknown >;
+	onData: ( data: Record< string, unknown > ) => void;
+}
+
+function FieldsForm( { name, data, onData }: FieldsFormProps ) {
+	const ref = useRef< HTMLDivElement >( null );
+	const [ html, setHtml ] = useState< string | null >( null );
 	const [ error, setError ] = useState( '' );
 
 	// Load the form once per block; later data changes come from the form itself.
 	useEffect( () => {
 		let active = true;
-		apiFetch( {
+		apiFetch< { html: string } >( {
 			path: `${ cfg.restPath }/blocks/form`,
 			method: 'POST',
 			data: { name, data },
 		} )
 			.then( ( response ) => active && setHtml( response.html ) )
-			.catch( ( e ) => active && setError( e.message ) );
+			.catch( ( e: Error ) => active && setError( e.message ) );
 		return () => {
 			active = false;
 		};
@@ -99,16 +118,20 @@ function FieldsForm( { name, data, onData } ) {
 			return;
 		}
 		const $ = window.jQuery;
-		const api = window.wpff;
+		// Lent by the field form script, a dependency of this one.
+		const api = window.wpff as FieldsApi;
 		container.innerHTML = html;
 		api.initFieldsIn( container );
 
-		let timer = null;
+		let timer: ReturnType< typeof setTimeout > | undefined;
 		const update = () => {
 			clearTimeout( timer );
 			timer = setTimeout( () => {
 				api.syncEditors();
-				apiFetch( {
+				apiFetch< {
+					data: Record< string, unknown >;
+					errors: Record< string, string >;
+				} >( {
 					path: `${ cfg.restPath }/blocks/data`,
 					method: 'POST',
 					data: { name, values: serialize( container ) },
@@ -121,7 +144,7 @@ function FieldsForm( { name, data, onData } ) {
 							api.clearErrors();
 						}
 					} )
-					.catch( ( e ) => setError( e.message ) );
+					.catch( ( e: Error ) => setError( e.message ) );
 			}, 400 );
 		};
 		$( container ).on( 'input change', update );
@@ -152,20 +175,26 @@ function FieldsForm( { name, data, onData } ) {
  * Preview for blocks with inner blocks: the server-rendered template, with an editable
  * InnerBlocks area portaled into the placeholder that replaces `<InnerBlocks />`.
  *
- * @param {Object} props            Props.
- * @param {string} props.name       Block name.
- * @param {Object} props.attributes Block attributes.
+ * @param props            Props.
+ * @param props.name       Block name.
+ * @param props.attributes Block attributes.
  */
-function InnerBlocksPreview( { name, attributes } ) {
-	const ref = useRef();
-	const [ html, setHtml ] = useState( null );
-	const [ target, setTarget ] = useState( null );
+function InnerBlocksPreview( {
+	name,
+	attributes,
+}: {
+	name: string;
+	attributes: Attributes;
+} ) {
+	const ref = useRef< HTMLDivElement >( null );
+	const [ html, setHtml ] = useState< string | null >( null );
+	const [ target, setTarget ] = useState< HTMLElement | null >( null );
 	const key = JSON.stringify( attributes );
 
 	useEffect( () => {
 		let active = true;
 		const timer = setTimeout( () => {
-			apiFetch( {
+			apiFetch< { rendered?: string } >( {
 				path: `/wp/v2/block-renderer/${ name }?context=edit`,
 				method: 'POST',
 				data: { attributes },
@@ -183,13 +212,18 @@ function InnerBlocksPreview( { name, attributes } ) {
 	// The placeholder is recreated with every new preview: find it again.
 	useLayoutEffect( () => {
 		setTarget(
-			ref.current?.querySelector( '[data-wpff-inner-blocks]' ) || null
+			ref.current?.querySelector< HTMLElement >(
+				'[data-wpff-inner-blocks]'
+			) || null
 		);
 	}, [ html ] );
 
-	let props = {};
+	let props: Record< string, unknown > = {};
 	try {
-		props = target ? JSON.parse( target.dataset.wpffInnerBlocks ) : {};
+		// The attribute exists: the selector above matched it.
+		props = target
+			? JSON.parse( target.dataset.wpffInnerBlocks as string )
+			: {};
 	} catch {}
 
 	return (
@@ -207,9 +241,13 @@ function InnerBlocksPreview( { name, attributes } ) {
 	);
 }
 
-function Edit( { name, attributes, setAttributes, isSelected } ) {
+/** Edit props: the block editor also passes the block `name`, missing from BlockEditProps. */
+type EditProps = blocksApi.BlockEditProps< Attributes > & { name: string };
+
+function Edit( { name, attributes, setAttributes, isSelected }: EditProps ) {
 	const blockProps = useBlockProps();
-	const info = cfg.blocks.find( ( b ) => b.name === name ) || {};
+	const info: Partial< BlocksSettings[ 'blocks' ][ number ] > =
+		cfg.blocks.find( ( b ) => b.name === name ) || {};
 
 	return (
 		<div { ...blockProps }>
@@ -262,15 +300,24 @@ function Edit( { name, attributes, setAttributes, isSelected } ) {
 
 cfg.blocks.forEach( ( block ) => {
 	const existing = blocksApi.getBlockType( block.name );
-	if ( existing && existing.edit && existing.edit.wpff ) {
+	if (
+		existing &&
+		existing.edit &&
+		( existing.edit as { wpff?: boolean } ).wpff
+	) {
 		return;
 	}
-	Edit.wpff = true;
-	blocksApi.registerBlockType( block.name, {
-		edit: Edit,
+	( Edit as typeof Edit & { wpff?: boolean } ).wpff = true;
+	const settings: Partial< blocksApi.BlockConfiguration< Attributes > > = {
+		edit: Edit as ComponentType< blocksApi.BlockEditProps< Attributes > >,
 		// Inner blocks are saved in the post content; the template is rendered by PHP.
 		save: block.innerBlocks ? () => <InnerBlocks.Content /> : () => null,
-	} );
+	};
+	// Title, category and attributes come from the block's PHP registration.
+	blocksApi.registerBlockType< Attributes >(
+		block.name,
+		settings as Omit< blocksApi.BlockConfiguration< Attributes >, 'name' >
+	);
 } );
 
 // Editor side of the `wpff/field` Block Bindings source (WordPress 6.7+): shows the value
@@ -280,9 +327,17 @@ if ( blocksApi.registerBlockBindingsSource ) {
 		name: 'wpff/field',
 		label: __( 'Custom field', 'freeform-fields' ),
 		usesContext: [ 'postId', 'postType' ],
-		getValues( { select, bindings } ) {
+		getValues( {
+			select,
+			bindings,
+		}: {
+			select: (
+				store: string
+			) => { getFieldValue?: ( key: string ) => unknown } | undefined;
+			bindings: Record< string, { args?: { key?: string } } >;
+		} ) {
 			const store = select( 'wpff/fields' );
-			const values = {};
+			const values: Record< string, string > = {};
 			Object.entries( bindings ).forEach( ( [ attribute, binding ] ) => {
 				const key = binding.args?.key || '';
 				const value = store?.getFieldValue?.( key );
@@ -295,7 +350,8 @@ if ( blocksApi.registerBlockBindingsSource ) {
 		},
 		// Fields for the picker in the block's Attributes panel (WordPress 6.9+).
 		getFieldsList( { context } ) {
-			const postType = context?.postType;
+			const postType = context?.postType as string | undefined;
+			// PHP prints this list (BlockEditor::bindable_fields()); globals types it as unknown.
 			return ( cfg.bindings || [] )
 				.filter(
 					( field ) =>

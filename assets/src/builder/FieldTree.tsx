@@ -24,26 +24,47 @@ import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { TypeIcon } from './ui';
 import { childLists } from './tree';
 import { typeOf } from './utils';
+import type { Field } from '../types';
+import type { DragData, DropData, TreeState } from './types';
+
+interface FieldListProps {
+	fields: Field[];
+	path: string;
+	depth?: number;
+}
+
+interface FieldNodeProps {
+	field: Field;
+	index: number;
+	listPath: string;
+	siblingsCount: number;
+	previous: Field | undefined;
+	depth: number;
+}
 
 /**
  * Shared state of the tree: selection, errors, drop target and actions.
  */
-export const TreeContext = createContext( {} );
+export const TreeContext = createContext< TreeState >( {} as TreeState );
 
 /**
- * @param {Object} props
- * @param {Array}  props.fields Fields of this list.
- * @param {string} props.path   List path ('fields', 'fields.2.sub_fields', …).
- * @param {number} props.depth  Nesting level.
+ * @param props
+ * @param props.fields Fields of this list.
+ * @param props.path   List path ('fields', 'fields.2.sub_fields', …).
+ * @param props.depth  Nesting level.
  */
-export function FieldList( { fields, path, depth = 0 } ) {
+export function FieldList( { fields, path, depth = 0 }: FieldListProps ) {
 	const { drop, readOnly } = useContext( TreeContext );
 	const { setNodeRef, isOver } = useDroppable( {
 		id: `list:${ path }`,
-		data: { kind: 'list', listPath: path, length: fields.length },
+		data: {
+			kind: 'list',
+			listPath: path,
+			length: fields.length,
+		} satisfies DropData,
 		disabled: readOnly,
 	} );
-	const line = ( i ) =>
+	const line = ( i: number ) =>
 		drop && drop.listPath === path && drop.index === i ? (
 			<div className="wpff-drop-line" key={ `line-${ i }` } />
 		) : null;
@@ -97,7 +118,7 @@ function FieldNode( {
 	siblingsCount,
 	previous,
 	depth,
-} ) {
+}: FieldNodeProps ) {
 	const ctx = useContext( TreeContext );
 	const path = `${ listPath }.${ index }`;
 	const type = typeOf( field.type );
@@ -117,12 +138,17 @@ function FieldNode( {
 
 	const drag = useDraggable( {
 		id: `field:${ field.key }`,
-		data: { kind: 'field', key: field.key, field },
+		data: { kind: 'field', key: field.key, field } satisfies DragData,
 		disabled: ctx.readOnly,
 	} );
 	const dropRow = useDroppable( {
 		id: `row:${ field.key }`,
-		data: { kind: 'row', key: field.key, listPath, index },
+		data: {
+			kind: 'row',
+			key: field.key,
+			listPath,
+			index,
+		} satisfies DropData,
 		disabled: ctx.readOnly,
 	} );
 
@@ -415,10 +441,10 @@ function FieldNode( {
 /**
  * What follows the pointer while dragging.
  *
- * @param {Object} props
- * @param {Object} props.data Drag data: a field, or a type from the palette.
+ * @param props
+ * @param props.data Drag data: a field, or a type from the palette.
  */
-export function DragPreview( { data } ) {
+export function DragPreview( { data }: { data: DragData | null } ) {
 	if ( ! data ) {
 		return null;
 	}
