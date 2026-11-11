@@ -68,7 +68,7 @@ class File extends AbstractField {
 	}
 
 	public function render_input( array $field ): void {
-		$id   = absint( is_scalar( $field['value'] ) ? $field['value'] : 0 );
+		$id   = self::shown_attachment( $field['value'], $field );
 		$file = $id ? get_post( $id ) : null;
 		$url  = $file ? (string) wp_get_attachment_url( $id ) : '';
 

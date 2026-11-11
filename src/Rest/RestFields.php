@@ -76,6 +76,10 @@ final class RestFields {
 				return null;
 			}
 			foreach ( $field['sub_fields'] as $sub ) {
+				if ( 'password' === ( $sub['type'] ?? '' ) ) {
+					unset( $value[ $sub['name'] ] ); // Never readable, at any depth.
+					continue;
+				}
 				if ( array_key_exists( $sub['name'], $value ) ) {
 					$value[ $sub['name'] ] = $this->rest_light( $value[ $sub['name'] ], $sub );
 				}
@@ -89,6 +93,10 @@ final class RestFields {
 			foreach ( array_values( $value ) as $i => $row ) {
 				$subs = 'layouts' === $kind ? ( ValueManager::find_layout( $field, (string) ( $row['acf_fc_layout'] ?? '' ) )['sub_fields'] ?? array() ) : $field['sub_fields'];
 				foreach ( $subs as $sub ) {
+					if ( is_array( $row ) && 'password' === ( $sub['type'] ?? '' ) ) {
+						unset( $row[ $sub['name'] ] );
+						continue;
+					}
 					if ( is_array( $row ) && array_key_exists( $sub['name'], $row ) ) {
 						$row[ $sub['name'] ] = $this->rest_light( $row[ $sub['name'] ], $sub );
 					}
@@ -228,6 +236,10 @@ final class RestFields {
 		$kind = $this->plugin->values()->kind_of( $field );
 		if ( 'group' === $kind && is_array( $value ) ) {
 			foreach ( $field['sub_fields'] as $sub ) {
+				if ( 'password' === ( $sub['type'] ?? '' ) ) {
+					unset( $value[ $sub['name'] ] ); // Never readable, at any depth.
+					continue;
+				}
 				if ( array_key_exists( $sub['name'], $value ) ) {
 					$value[ $sub['name'] ] = $this->rest_safe( $value[ $sub['name'] ], $sub, $compat );
 				}
@@ -238,6 +250,10 @@ final class RestFields {
 			foreach ( $value as $i => $row ) {
 				$subs = 'layouts' === $kind ? ( ValueManager::find_layout( $field, (string) ( $row['acf_fc_layout'] ?? '' ) )['sub_fields'] ?? array() ) : $field['sub_fields'];
 				foreach ( $subs as $sub ) {
+					if ( is_array( $row ) && 'password' === ( $sub['type'] ?? '' ) ) {
+						unset( $value[ $i ][ $sub['name'] ] );
+						continue;
+					}
 					if ( is_array( $row ) && array_key_exists( $sub['name'], $row ) ) {
 						$value[ $i ][ $sub['name'] ] = $this->rest_safe( $row[ $sub['name'] ], $sub, $compat );
 					}
@@ -333,6 +349,8 @@ final class RestFields {
 
 	/**
 	 * Whether the requester may read a post: published (and not protected), or readable by capability.
+	 * Password-protected posts also need edit_post, like the post's own acf/v3 route
+	 * (AcfToRestApi::can_read): the compat shape would otherwise serialize the content and password.
 	 *
 	 * @param \WP_Post|null $post Post.
 	 */
@@ -345,6 +363,9 @@ final class RestFields {
 		}
 		if ( 'publish' === $post->post_status && '' === $post->post_password ) {
 			return true;
+		}
+		if ( '' !== $post->post_password && ! current_user_can( 'edit_post', $post->ID ) ) {
+			return false;
 		}
 		return current_user_can( 'read_post', $post->ID );
 	}

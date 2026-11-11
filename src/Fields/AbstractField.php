@@ -213,6 +213,20 @@ abstract class AbstractField {
 	}
 
 	/**
+	 * Attachment ID to show in an input, or 0 when it is not an attachment the user may see.
+	 * Inputs can be rendered from unvalidated data (the block form endpoint), so the URL of
+	 * a media file must not be printed for an ID the user could not have selected.
+	 *
+	 * @param mixed                $id    Value.
+	 * @param array<string, mixed> $field Field.
+	 */
+	protected static function shown_attachment( $id, array $field ): int {
+		$id   = absint( is_scalar( $id ) ? $id : 0 );
+		$post = $id ? get_post( $id ) : null;
+		return $post && 'attachment' === $post->post_type && self::can_show_post( $post, $field ) ? $id : 0;
+	}
+
+	/**
 	 * Builds one settings() item.
 	 *
 	 * @param string               $name    Setting key.
