@@ -22,15 +22,17 @@ import {
 } from './utils';
 import Select from './Select';
 import { TypeIcon } from './ui';
+import { FieldTranslation } from './MultilingualSetup';
 
 /**
  * @param {Object}   props
- * @param {Object}   props.field        Field.
- * @param {string}   props.path         Error path of the field, e.g. 'fields.2'.
- * @param {Object}   props.errors       All errors by full path.
- * @param {Array}    props.siblings     Fields in the same list (for conditional logic).
- * @param {Function} props.onChange     Receives the new field.
- * @param {Function} props.SubFieldList FieldList component, passed in to avoid a circular import.
+ * @param {Object}   props.field           Field.
+ * @param {string}   props.path            Error path of the field, e.g. 'fields.2'.
+ * @param {Object}   props.errors          All errors by full path.
+ * @param {Array}    props.siblings        Fields in the same list (for conditional logic).
+ * @param {Function} props.onChange        Receives the new field.
+ * @param {Function} props.SubFieldList    FieldList component, passed in to avoid a circular import.
+ * @param {string}   props.translationMode Group translation mode on multilingual sites, else null.
  */
 export default function FieldSettings( {
 	field,
@@ -39,6 +41,7 @@ export default function FieldSettings( {
 	siblings,
 	onChange,
 	SubFieldList,
+	translationMode = null,
 } ) {
 	const types = window.wpffBuilder.fieldTypes;
 	const type = typeOf( field.type );
@@ -137,6 +140,15 @@ export default function FieldSettings( {
 						}
 						help={ own( 'type' ) }
 					/>
+					{ translationMode && hasValue && (
+						<FieldTranslation
+							field={ field }
+							mode={ translationMode }
+							onChange={ ( pref ) =>
+								set( { wpml_cf_preferences: pref } )
+							}
+						/>
+					) }
 				</div>
 			</PanelBody>
 

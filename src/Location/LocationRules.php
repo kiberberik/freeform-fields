@@ -7,6 +7,8 @@
 
 namespace FreeformFields\Location;
 
+use FreeformFields\Multilingual\Multilingual;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -187,15 +189,16 @@ final class LocationRules {
 
 		$this->matchers = array(
 			'post_type'         => static fn( $rule, $screen ) => $screen['post_type'] === $value_of( $rule ) || 'all' === $value_of( $rule ),
-			'post'              => static fn( $rule, $screen ) => (int) $screen['post_id'] === (int) $value_of( $rule ),
-			'page'              => static fn( $rule, $screen ) => (int) $screen['post_id'] === (int) $value_of( $rule ),
+			// A rule on one page also matches its translations on multilingual sites.
+			'post'              => static fn( $rule, $screen ) => Multilingual::same_post( (int) $screen['post_id'], (int) $value_of( $rule ) ),
+			'page'              => static fn( $rule, $screen ) => Multilingual::same_post( (int) $screen['post_id'], (int) $value_of( $rule ) ),
 			'post_template'     => $template,
 			'page_template'     => $template,
 			'post_status'       => static fn( $rule, $screen ) => ( $screen['post_status'] ?? '' ) === $value_of( $rule ),
 			'post_format'       => static fn( $rule, $screen ) => ( $screen['post_format'] ?? 'standard' ) === $value_of( $rule ),
 			'post_category'     => $term_rule,
 			'post_taxonomy'     => $term_rule,
-			'page_parent'       => static fn( $rule, $screen ) => (int) ( $screen['post_parent'] ?? 0 ) === (int) $value_of( $rule ),
+			'page_parent'       => static fn( $rule, $screen ) => Multilingual::same_post( (int) ( $screen['post_parent'] ?? 0 ), (int) $value_of( $rule ) ),
 			'page_type'         => static function ( $rule, $screen ) use ( $value_of ): bool {
 				$id     = (int) $screen['post_id'];
 				$parent = (int) ( $screen['post_parent'] ?? 0 );

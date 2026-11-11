@@ -215,6 +215,8 @@ final class OptionsPages {
 				'orderby'          => 'menu_order title',
 				'order'            => 'ASC',
 				'suppress_filters' => false,
+				// Never limited to one language (Polylang).
+				'lang'             => '',
 			)
 		);
 		$pages = array();

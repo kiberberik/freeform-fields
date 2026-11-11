@@ -176,6 +176,10 @@ export function newGroup() {
 		active: true,
 		description: '',
 		show_in_rest: 0,
+		// New groups on multilingual sites start with "same fields across languages".
+		...( window.wpffBuilder?.multilingual
+			? { acfml_field_group_mode: 'translation' }
+			: {} ),
 	};
 }
 

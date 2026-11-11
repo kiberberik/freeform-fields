@@ -90,7 +90,11 @@ final class MetaStore {
 		}
 		if ( 'option' === $ref->type ) {
 			self::prime_options( (string) $ref->id );
-			return get_option( $this->option_name( $ref, $name ), null );
+			$value = get_option( $this->option_name( $ref, $name ), null );
+			if ( null === $value && $ref->fallback ) {
+				return $this->get( $ref->fallback, $name );
+			}
+			return $value;
 		}
 		if ( ! metadata_exists( $ref->type, (int) $ref->id, $name ) ) {
 			return null;
@@ -179,7 +183,8 @@ final class MetaStore {
 					$refs[ substr( $row->option_name, strlen( $prefix ) ) ] = $row->option_value;
 				}
 			}
-			return $refs;
+			// Values this language has not set yet come from the fallback (default language).
+			return $ref->fallback ? $refs + $this->references( $ref->fallback ) : $refs;
 		}
 
 		$all = get_metadata( $ref->type, (int) $ref->id );

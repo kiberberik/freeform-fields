@@ -75,7 +75,7 @@ final class TermScreen {
 		$ref = new ObjectRef( 'term', $term->term_id );
 		foreach ( $groups as $group ) {
 			// The edit form is one table; a heading row separates groups.
-			printf( '<tr class="wpff-term-group-title"><th colspan="2"><h2>%s</h2></th></tr>', esc_html( $group['title'] ) );
+			printf( '<tr class="wpff-term-group-title"><th colspan="2"><h2>%s</h2></th></tr>', esc_html( \FreeformFields\Multilingual\Multilingual::group_title( $group ) ) );
 			$this->renderer()->render_group( $group, $ref, 'table' );
 		}
 	}
