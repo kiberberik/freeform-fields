@@ -370,10 +370,16 @@ export function OptionsPageEditor( { slug }: OptionsPageEditorProps ) {
 					if ( 'php' === data.source || 'acf' === data.source ) {
 						setNotice( {
 							status: 'warning',
-							text: __(
-								'This options page is registered in code and cannot be edited here.',
-								'freeform-fields'
-							),
+							text:
+								'acf' === data.source
+									? __(
+											'This options page is read from ACF and cannot be edited here. Migrate it in Tools to edit it.',
+											'freeform-fields'
+										)
+									: __(
+											'This options page is registered in code and cannot be edited here.',
+											'freeform-fields'
+										),
 						} );
 					}
 					setPage( { ...data, position: data.position ?? '' } );
@@ -394,7 +400,8 @@ export function OptionsPageEditor( { slug }: OptionsPageEditorProps ) {
 
 	const set = ( patch: Partial< OptionsPage > ) =>
 		setPage( { ...page, ...patch } );
-	const readOnly = 'php' === page.source;
+	// ACF's own pages are saved by migrating them in Tools; the server has no stored page to update.
+	const readOnly = 'php' === page.source || 'acf' === page.source;
 
 	const save = () => {
 		setSaving( true );

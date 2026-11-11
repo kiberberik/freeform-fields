@@ -46,7 +46,7 @@ interface Attachment {
 
 interface MediaLibrary {
 	type?: string;
-	uploadedTo?: AdminSettings[ 'postId' ];
+	uploadedTo?: number;
 }
 
 interface MediaFrame {
@@ -93,7 +93,8 @@ interface StoreState {
 
 /** The parts of `window.wp` this script reads; each one may be missing (front-end forms). */
 interface WpGlobal {
-	media: ( options: {
+	/** Missing where wp_enqueue_media() did not run. */
+	media?: ( options: {
 		title: string;
 		button: { text: string };
 		library: MediaLibrary;
@@ -501,16 +502,55 @@ $( document ).on(
  * Media: image and file
  * ================================================================== */
 
+/**
+ * ID of the post being edited, or 0 on term, user and new-post forms. PHP prints it as a
+ * string, so "0" must not count as a post.
+ */
+function currentPostId(): number {
+	const id = Number( cfg.postId );
+	return id > 0 ? id : 0;
+}
+
+/**
+ * Library filter for a field's "Library" setting: only files uploaded to this post, when there is one.
+ *
+ * @param setting The field's `data-library` value.
+ * @param type    Attachment type to show, or ''.
+ */
+function mediaLibrary( setting: unknown, type: string ): MediaLibrary {
+	const library: MediaLibrary = type ? { type } : {};
+	if ( 'uploadedTo' === setting && currentPostId() ) {
+		library.uploadedTo = currentPostId();
+	}
+	return library;
+}
+
+/**
+ * The media modal, or null where WordPress did not load it (front-end forms for visitors
+ * who may not upload files); then the visitor is told why nothing opens.
+ */
+function mediaModal(): NonNullable< WpGlobal[ 'media' ] > | null {
+	if ( 'function' === typeof wp.media ) {
+		return wp.media;
+	}
+	// eslint-disable-next-line no-alert -- the field has no other place to explain this.
+	window.alert(
+		__( 'You are not allowed to choose files here.', 'freeform-fields' )
+	);
+	return null;
+}
+
 function openMedia(
 	$wrap: JQuery< HTMLElement >,
 	type: string,
 	onSelect: ( attachment: Attachment ) => void
 ): void {
-	const library: MediaLibrary = type ? { type } : {};
-	if ( 'uploadedTo' === $wrap.data( 'library' ) && cfg.postId ) {
-		library.uploadedTo = cfg.postId;
+	const media = mediaModal();
+	if ( ! media ) {
+		return;
 	}
-	const frame = wp.media( {
+	const library = mediaLibrary( $wrap.data( 'library' ), type );
+	const frame = media( {
 		title:
 			'image' === type
 				? __( 'Select Image', 'freeform-fields' )
@@ -1474,6 +1514,17 @@ function rowError( field: Element, message: string ): void {
 	}
 }
 
+/**
+ * Layout name of a flexible content row (its own input, not one of a nested field's rows).
+ *
+ * @param row Row.
+ */
+function rowLayout( row: Element ): string | undefined {
+	return row.querySelector< HTMLInputElement >(
+		':scope > .wpff-row__body > .wpff-row__layout'
+	)?.value;
+}
+
 function canAdd( field: HTMLElement, layout?: string ): boolean {
 	const max = parseInt( field.dataset.max ?? '', 10 ) || 0;
 	const rows = rowsOf( field );
@@ -1490,16 +1541,12 @@ function canAdd( field: HTMLElement, layout?: string ): boolean {
 	}
 	if ( layout ) {
 		const item = field.querySelector< HTMLElement >(
-			`.wpff-flexible__menu [data-layout="${ layout }"]`
+			`:scope > .wpff-flexible__footer > .wpff-flexible__menu [data-layout="${ layout }"]`
 		);
 		const layoutMax = item
 			? parseInt( item.dataset.max ?? '', 10 ) || 0
 			: 0;
-		const used = rows.filter(
-			( r ) =>
-				r.querySelector< HTMLInputElement >( '.wpff-row__layout' )
-					?.value === layout
-		).length;
+		const used = rows.filter( ( r ) => rowLayout( r ) === layout ).length;
 		if ( layoutMax && used >= layoutMax ) {
 			rowError(
 				field,
@@ -1551,13 +1598,7 @@ function removeEditors( root: ParentNode ): void {
 
 function duplicateRow( row: HTMLElement ): void {
 	const field = row.closest< HTMLElement >( '.wpff-rows-field' )!;
-	if (
-		! canAdd(
-			field,
-			row.querySelector< HTMLInputElement >( ':scope .wpff-row__layout' )
-				?.value
-		)
-	) {
+	if ( ! canAdd( field, rowLayout( row ) ) ) {
 		return;
 	}
 	syncEditors();
@@ -1831,7 +1872,9 @@ $( document ).on(
 			const field = this.closest( '.wpff-rows-field' )!;
 			toggleLayoutMenu( field, false );
 			field
-				.querySelector< HTMLElement >( '.wpff-flexible__add' )!
+				.querySelector< HTMLElement >(
+					':scope > .wpff-flexible__footer > .wpff-flexible__add'
+				)!
 				.focus();
 		}
 	}
@@ -1918,11 +1961,12 @@ $( document ).on(
 		e.preventDefault();
 		const gallery = this.closest< HTMLElement >( '.wpff-gallery' )!;
 		const max = parseInt( gallery.dataset.max ?? '', 10 ) || 0;
-		const library: MediaLibrary = { type: 'image' };
-		if ( 'uploadedTo' === gallery.dataset.library && cfg.postId ) {
-			library.uploadedTo = cfg.postId;
+		const media = mediaModal();
+		if ( ! media ) {
+			return;
 		}
-		const frame = wp.media( {
+		const library = mediaLibrary( gallery.dataset.library, 'image' );
+		const frame = media( {
 			title: __( 'Add Image to Gallery', 'freeform-fields' ),
 			button: { text: __( 'Add to gallery', 'freeform-fields' ) },
 			library,
