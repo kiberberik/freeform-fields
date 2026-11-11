@@ -2,6 +2,7 @@
  * Field group editor: the field tree on the left, an inspector on the right
  * (add field / selected field / group settings), drag and drop throughout.
  */
+import type { ReactNode } from 'react';
 import { useCallback, useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import {
@@ -19,6 +20,12 @@ import {
 	pointerWithin,
 	useSensor,
 	useSensors,
+} from '@dnd-kit/core';
+import type {
+	CollisionDetection,
+	DragMoveEvent,
+	DragStartEvent,
+	UniqueIdentifier,
 } from '@dnd-kit/core';
 import { NumberInput } from './fieldsShared';
 import { createGroup, errorsFromResponse, getGroup, updateGroup } from './api';
@@ -45,15 +52,36 @@ import {
 } from './utils';
 import Select from './Select';
 import { MultilingualSetup, modeOf, multilingual } from './MultilingualSetup';
+import type { GroupPatch } from './MultilingualSetup';
+import type { Field, FieldType, RestError } from '../types';
+import type {
+	BuilderErrors,
+	DragData,
+	DropData,
+	DropTarget,
+	EditorGroup,
+	TreeState,
+} from './types';
+
+interface EditorNotice {
+	status: 'warning' | 'error' | 'success' | 'info';
+	text: ReactNode;
+	undo?: () => void;
+}
+
+interface GroupSettingsProps {
+	group: EditorGroup;
+	set: ( patch: Partial< EditorGroup > ) => void;
+}
 
 /**
  * Pointer collisions, innermost droppable first, so nested lists win over their parents.
  *
- * @param {Object} args Collision arguments.
- * @return {Array} Collisions.
+ * @param args Collision arguments.
+ * @return Collisions.
  */
-function innermost( args ) {
-	const area = ( id ) => {
+function innermost( args: Parameters< CollisionDetection >[ 0 ] ) {
+	const area = ( id: UniqueIdentifier ) => {
 		const r = args.droppableRects.get( id );
 		return r ? r.width * r.height : Infinity;
 	};
@@ -65,15 +93,18 @@ function innermost( args ) {
 /**
  * Path of the field an error belongs to ('fields.2.sub_fields.0.name' → 'fields.2.sub_fields.0').
  *
- * @param {Object} group Group.
- * @param {string} path  Error path.
- * @return {string|null} Field path.
+ * @param group Group.
+ * @param path  Error path.
+ * @return Field path.
  */
-function fieldPathOf( group, path ) {
+function fieldPathOf( group: EditorGroup, path: string ): string | null {
 	const parts = path.split( '.' );
 	for ( let n = parts.length; n > 1; n-- ) {
 		const candidate = parts.slice( 0, n ).join( '.' );
-		const node = getAt( group, candidate );
+		const node = getAt< { key?: unknown } | null | undefined >(
+			group,
+			candidate
+		);
 		if (
 			node &&
 			'object' === typeof node &&
@@ -86,20 +117,22 @@ function fieldPathOf( group, path ) {
 	return null;
 }
 
-export default function GroupEditor( { groupKey } ) {
-	const cfg = window.wpffBuilder;
+export default function GroupEditor( { groupKey }: { groupKey: string } ) {
+	const cfg = window.wpffBuilder!;
 	const isNew = ! groupKey;
 
-	const [ group, setGroup ] = useState( isNew ? newGroup() : null );
-	const [ saved, setSaved ] = useState( isNew ? null : '' );
+	const [ group, setGroup ] = useState< EditorGroup | null >(
+		isNew ? newGroup() : null
+	);
+	const [ saved, setSaved ] = useState< string | null >( isNew ? null : '' );
 	const [ selected, setSelected ] = useState( '' );
 	const [ tab, setTab ] = useState( 'add' );
-	const [ collapsed, setCollapsed ] = useState( [] );
-	const [ errors, setErrors ] = useState( {} );
-	const [ notice, setNotice ] = useState( null );
+	const [ collapsed, setCollapsed ] = useState< string[] >( [] );
+	const [ errors, setErrors ] = useState< BuilderErrors >( {} );
+	const [ notice, setNotice ] = useState< EditorNotice | null >( null );
 	const [ saving, setSaving ] = useState( false );
 	const [ exists, setExists ] = useState( ! isNew );
-	const inspectorRef = useRef( null );
+	const inspectorRef = useRef< HTMLElement >( null );
 	const hasGroup = null !== group;
 
 	// The sticky inspector fits the window from where it is: before it sticks (page not
@@ -134,10 +167,10 @@ export default function GroupEditor( { groupKey } ) {
 			observer?.disconnect();
 		};
 	}, [ hasGroup ] );
-	const [ drop, setDrop ] = useState( null );
-	const [ dragging, setDragging ] = useState( null );
-	const titleRef = useRef();
-	const saveRef = useRef();
+	const [ drop, setDrop ] = useState< DropTarget | null >( null );
+	const [ dragging, setDragging ] = useState< DragData | null >( null );
+	const titleRef = useRef< HTMLInputElement >( null );
+	const saveRef = useRef< ( () => void ) | undefined >( undefined );
 
 	const sensors = useSensors(
 		useSensor( PointerSensor, { activationConstraint: { distance: 4 } } )
@@ -169,7 +202,7 @@ export default function GroupEditor( { groupKey } ) {
 				setSaved( JSON.stringify( toPayload( data ) ) );
 				setTab( data.fields.length ? 'group' : 'add' );
 			} )
-			.catch( ( e ) =>
+			.catch( ( e: RestError ) =>
 				setNotice( { status: 'error', text: e.message } )
 			);
 	}, [ groupKey, isNew ] );
@@ -178,13 +211,13 @@ export default function GroupEditor( { groupKey } ) {
 
 	// Warn before leaving with unsaved changes; Ctrl/Cmd+S saves.
 	useEffect( () => {
-		const beforeUnload = ( e ) => {
+		const beforeUnload = ( e: BeforeUnloadEvent ) => {
 			if ( dirty ) {
 				e.preventDefault();
 				e.returnValue = '';
 			}
 		};
-		const keydown = ( e ) => {
+		const keydown = ( e: KeyboardEvent ) => {
 			if ( ( e.metaKey || e.ctrlKey ) && 's' === e.key.toLowerCase() ) {
 				e.preventDefault();
 				saveRef.current?.();
@@ -199,7 +232,7 @@ export default function GroupEditor( { groupKey } ) {
 	}, [ dirty ] );
 
 	const update = useCallback(
-		( next ) => {
+		( next: EditorGroup ) => {
 			setGroup( next );
 			if ( Object.keys( errors ).length ) {
 				setErrors( {} );
@@ -219,18 +252,19 @@ export default function GroupEditor( { groupKey } ) {
 	}
 
 	const readOnly = 'php' === group.source || 'acf' === group.source;
-	const set = ( patch ) => update( { ...group, ...patch } );
+	const set = ( patch: Partial< EditorGroup > | GroupPatch ) =>
+		update( { ...group, ...patch } );
 	const current = selected ? findField( group.fields, selected ) : null;
 	const fieldCount = flatten( group.fields ).length;
 
-	const select = ( key ) => {
+	const select = ( key: string ) => {
 		setSelected( key );
 		setTab( key ? 'field' : 'group' );
 	};
 
 	/* ---- Tree actions ---------------------------------------------- */
 
-	const addType = ( type, listPath, index ) => {
+	const addType = ( type: FieldType, listPath?: string, index?: number ) => {
 		const field = newField( type );
 		let target = listPath;
 		let at = index;
@@ -239,12 +273,12 @@ export default function GroupEditor( { groupKey } ) {
 			target = current ? current.listPath : 'fields';
 			at = current ? current.index + 1 : group.fields.length;
 		}
-		update( insertAt( group, target, at, field ) );
+		update( insertAt( group, target, at!, field ) );
 		setSelected( field.key );
 		setTab( 'field' );
 	};
 
-	const duplicate = ( key ) => {
+	const duplicate = ( key: string ) => {
 		const found = findField( group.fields, key );
 		if ( ! found ) {
 			return;
@@ -264,7 +298,7 @@ export default function GroupEditor( { groupKey } ) {
 		select( copy.key );
 	};
 
-	const remove = ( key ) => {
+	const remove = ( key: string ) => {
 		const at = findField( group.fields, key );
 		const result = removeField( group, key );
 		if ( ! at || ! result.field ) {
@@ -287,17 +321,17 @@ export default function GroupEditor( { groupKey } ) {
 			),
 			undo: () => {
 				setGroup( ( g ) =>
-					insertAt( g, result.listPath, result.index, result.field )
+					insertAt( g!, result.listPath, result.index, result.field! )
 				);
 				setNotice( null );
 			},
 		} );
 	};
 
-	const move = ( key, listPath, index ) =>
+	const move = ( key: string, listPath: string, index: number ) =>
 		update( moveField( group, key, listPath, index ) );
 
-	const moveOut = ( key ) => {
+	const moveOut = ( key: string ) => {
 		const found = findField( group.fields, key );
 		const parentPath = found && fieldPathOf( group, found.listPath );
 		if ( ! parentPath ) {
@@ -305,12 +339,12 @@ export default function GroupEditor( { groupKey } ) {
 		}
 		const parent = findField(
 			group.fields,
-			getAt( group, parentPath ).key
+			getAt< Field >( group, parentPath ).key
 		);
-		move( key, parent.listPath, parent.index + 1 );
+		move( key, parent!.listPath, parent!.index + 1 );
 	};
 
-	const toggleCollapsed = ( key ) =>
+	const toggleCollapsed = ( key: string ) =>
 		setCollapsed( ( list ) =>
 			list.includes( key )
 				? list.filter( ( k ) => k !== key )
@@ -319,12 +353,15 @@ export default function GroupEditor( { groupKey } ) {
 
 	/* ---- Drag and drop ------------------------------------------------ */
 
-	const targetOf = ( { active, over } ) => {
+	const targetOf = ( {
+		active,
+		over,
+	}: Pick< DragMoveEvent, 'active' | 'over' > ): DropTarget | null => {
 		if ( ! over ) {
 			return null;
 		}
-		const data = over.data.current;
-		let target = null;
+		const data = over.data.current as DropData;
+		let target: DropTarget | null = null;
 		if ( 'list' === data.kind ) {
 			target = { listPath: data.listPath, index: data.length };
 		} else if ( 'row' === data.kind ) {
@@ -337,7 +374,7 @@ export default function GroupEditor( { groupKey } ) {
 				index: data.index + ( after ? 1 : 0 ),
 			};
 		}
-		const dragged = active.data.current;
+		const dragged = active.data.current as DragData;
 		if ( target && 'field' === dragged.kind ) {
 			const from = findField( group.fields, dragged.key );
 			// Not into itself or its own sub fields, and not onto its own place.
@@ -354,9 +391,10 @@ export default function GroupEditor( { groupKey } ) {
 		return target;
 	};
 
-	const onDragStart = ( { active } ) => setDragging( active.data.current );
-	const onDragOver = ( event ) => setDrop( targetOf( event ) );
-	const onDragMove = ( event ) => {
+	const onDragStart = ( { active }: DragStartEvent ) =>
+		setDragging( active.data.current as DragData );
+	const onDragOver = ( event: DragMoveEvent ) => setDrop( targetOf( event ) );
+	const onDragMove = ( event: DragMoveEvent ) => {
 		const next = targetOf( event );
 		if (
 			next?.listPath !== drop?.listPath ||
@@ -365,9 +403,9 @@ export default function GroupEditor( { groupKey } ) {
 			setDrop( next );
 		}
 	};
-	const onDragEnd = ( event ) => {
+	const onDragEnd = ( event: DragMoveEvent ) => {
 		const target = targetOf( event );
-		const dragged = event.active.data.current;
+		const dragged = event.active.data.current as DragData;
 		setDrop( null );
 		setDragging( null );
 		if ( ! target ) {
@@ -386,7 +424,7 @@ export default function GroupEditor( { groupKey } ) {
 
 	/* ---- Saving ------------------------------------------------------- */
 
-	const showErrors = ( found ) => {
+	const showErrors = ( found: BuilderErrors ) => {
 		setErrors( found );
 		setNotice( {
 			status: 'error',
@@ -399,7 +437,7 @@ export default function GroupEditor( { groupKey } ) {
 			.map( ( path ) => fieldPathOf( group, path ) )
 			.find( Boolean );
 		if ( first ) {
-			const field = getAt( group, first );
+			const field = getAt< Field >( group, first );
 			setSelected( field.key );
 			setTab( 'field' );
 			// Expand every ancestor of the field.
@@ -452,7 +490,7 @@ export default function GroupEditor( { groupKey } ) {
 					);
 				}
 			} )
-			.catch( ( e ) => {
+			.catch( ( e: RestError ) => {
 				const serverErrors = errorsFromResponse( e );
 				if ( Object.keys( serverErrors ).length ) {
 					showErrors( serverErrors );
@@ -466,7 +504,7 @@ export default function GroupEditor( { groupKey } ) {
 
 	/* ---- Render ------------------------------------------------------- */
 
-	const tree = {
+	const tree: TreeState = {
 		selected,
 		select,
 		errors,
@@ -715,7 +753,7 @@ export default function GroupEditor( { groupKey } ) {
 											field={ current.field }
 											path={ current.path }
 											errors={ errors }
-											siblings={ getAt(
+											siblings={ getAt< Field[] >(
 												group,
 												current.listPath
 											) }
@@ -760,11 +798,16 @@ export default function GroupEditor( { groupKey } ) {
 	);
 }
 
-function GroupSettings( { group, set } ) {
-	const select = ( label, prop, options, help ) => (
+function GroupSettings( { group, set }: GroupSettingsProps ) {
+	const select = (
+		label: string,
+		prop: string,
+		options: Array< [ string, string ] >,
+		help?: ReactNode
+	) => (
 		<Select
 			label={ label }
-			value={ group[ prop ] }
+			value={ group[ prop ] as string | undefined }
 			options={ options.map( ( [ value, text ] ) => ( {
 				value,
 				label: text,
@@ -846,7 +889,7 @@ function GroupSettings( { group, set } ) {
 					'Shown in the field group list.',
 					'freeform-fields'
 				) }
-				value={ group.description }
+				value={ group.description as string }
 				onChange={ ( description ) => set( { description } ) }
 				rows={ 2 }
 				__nextHasNoMarginBottom

@@ -1,8 +1,10 @@
 /**
  * Helpers shared by the builder components.
  */
+import type { Choices, Field, FieldGroup, FieldType, Layout } from '../types';
+import type { BuilderErrors } from './types';
 
-const CYRILLIC = {
+const CYRILLIC: Record< string, string > = {
 	а: 'a',
 	б: 'b',
 	в: 'v',
@@ -51,10 +53,10 @@ const CYRILLIC = {
 /**
  * Field name from a label: transliterated, lowercase, words joined by `_`.
  *
- * @param {string} label Field label.
- * @return {string} Name.
+ * @param label Field label.
+ * @return Name.
  */
-export function nameFromLabel( label ) {
+export function nameFromLabel( label: unknown ): string {
 	return String( label )
 		.toLowerCase()
 		.split( '' )
@@ -69,10 +71,10 @@ export function nameFromLabel( label ) {
 /**
  * Same rule as the server: lowercase letters, digits, `_` and `-`.
  *
- * @param {string} name Raw name.
- * @return {string} Clean name.
+ * @param name Raw name.
+ * @return Clean name.
  */
-export function cleanName( name ) {
+export function cleanName( name: unknown ): string {
 	return String( name )
 		.toLowerCase()
 		.replace( /[^a-z0-9_-]/g, '' );
@@ -81,9 +83,9 @@ export function cleanName( name ) {
 /**
  * Random 13-character id, like the server's keys.
  *
- * @return {string} Id.
+ * @return Id.
  */
-export function uid() {
+export function uid(): string {
 	const bytes = new Uint8Array( 8 );
 	window.crypto.getRandomValues( bytes );
 	return Array.from( bytes, ( b ) => b.toString( 16 ).padStart( 2, '0' ) )
@@ -94,10 +96,10 @@ export function uid() {
 /**
  * A new field of a type, with the type's default settings.
  *
- * @param {Object} type Field type description from the server.
- * @return {Object} Field.
+ * @param type Field type description from the server.
+ * @return Field.
  */
-export function newField( type ) {
+export function newField( type: FieldType ): Field {
 	return {
 		...( type.defaults || {} ),
 		key: `field_${ uid() }`,
@@ -122,11 +124,11 @@ export function newField( type ) {
 /**
  * Switches a field to another type, keeping common settings.
  *
- * @param {Object} field Field.
- * @param {Object} type  New type description.
- * @return {Object} Field.
+ * @param field Field.
+ * @param type  New type description.
+ * @return Field.
  */
-export function changeType( field, type ) {
+export function changeType( field: Field, type: FieldType ): Field {
 	const common = [
 		'key',
 		'label',
@@ -140,7 +142,7 @@ export function changeType( field, type ) {
 		'_isNew',
 		'_nameTouched',
 	];
-	const kept = {};
+	const kept: Record< string, unknown > = {};
 	common.forEach( ( prop ) => {
 		if ( prop in field ) {
 			kept[ prop ] = field[ prop ];
@@ -159,9 +161,9 @@ export function changeType( field, type ) {
 /**
  * A new, empty group.
  *
- * @return {Object} Group.
+ * @return Group.
  */
-export function newGroup() {
+export function newGroup(): FieldGroup {
 	return {
 		key: `group_${ uid() }`,
 		title: '',
@@ -186,22 +188,22 @@ export function newGroup() {
 /**
  * Field type description by name.
  *
- * @param {string} name Type name.
- * @return {Object|undefined} Type.
+ * @param name Type name.
+ * @return Type.
  */
-export function typeOf( name ) {
-	return window.wpffBuilder.fieldTypes.find( ( t ) => t.name === name );
+export function typeOf( name: string ): FieldType | undefined {
+	return window.wpffBuilder!.fieldTypes.find( ( t ) => t.name === name );
 }
 
 /**
  * Copies fields (and sub fields) with new keys; conditions follow the new keys.
  *
- * @param {Array} fields Fields.
- * @return {Array} Copies.
+ * @param fields Fields.
+ * @return Copies.
  */
-export function rekeyFields( fields ) {
-	const map = {};
-	const rekey = ( list ) =>
+export function rekeyFields( fields: Field[] ): Field[] {
+	const map: Record< string, string > = {};
+	const rekey = ( list: Field[] ): Field[] =>
 		list.map( ( field ) => {
 			const key = `field_${ uid() }`;
 			map[ field.key ] = key;
@@ -218,7 +220,7 @@ export function rekeyFields( fields ) {
 			}
 			return copy;
 		} );
-	const remap = ( list ) =>
+	const remap = ( list: Field[] ): Field[] =>
 		list.map( ( field ) => {
 			const copy = { ...field };
 			if ( Array.isArray( field.conditional_logic ) ) {
@@ -239,8 +241,8 @@ export function rekeyFields( fields ) {
 					sub_fields: remap( layout.sub_fields || [] ),
 				} ) );
 			}
-			if ( field.collapsed && map[ field.collapsed ] ) {
-				copy.collapsed = map[ field.collapsed ];
+			if ( field.collapsed && map[ field.collapsed as string ] ) {
+				copy.collapsed = map[ field.collapsed as string ];
 			}
 			return copy;
 		} );
@@ -250,11 +252,11 @@ export function rekeyFields( fields ) {
 /**
  * Removes client-only props (starting with `_`) before saving, recursively.
  *
- * @param {Object} group Group.
- * @return {Object} Group ready for the API.
+ * @param group Group.
+ * @return Group ready for the API.
  */
-export function toPayload( group ) {
-	const clean = ( fields ) =>
+export function toPayload< G extends FieldGroup >( group: G ): G {
+	const clean = ( fields: Field[] ): Field[] =>
 		fields.map( ( field ) => {
 			const copy = { ...field };
 			Object.keys( copy ).forEach( ( k ) => {
@@ -266,7 +268,7 @@ export function toPayload( group ) {
 				copy.sub_fields = clean( copy.sub_fields );
 			}
 			if ( Array.isArray( copy.layouts ) ) {
-				copy.layouts = copy.layouts.map( ( layout ) => {
+				copy.layouts = copy.layouts.map( ( layout ): Layout => {
 					const { _isNew, _nameTouched, ...rest } = layout;
 					return {
 						...rest,
@@ -282,20 +284,23 @@ export function toPayload( group ) {
 /**
  * Client-side checks mirroring the server's, keyed by error path.
  *
- * @param {Object}   group Group.
- * @param {Function} __    Translate function.
- * @return {Object} Errors: { 'title': msg, 'fields.0.name': msg, 'fields.1.sub_fields.0.label': msg }.
+ * @param group Group.
+ * @param __    Translate function.
+ * @return Errors: { 'title': msg, 'fields.0.name': msg, 'fields.1.sub_fields.0.label': msg }.
  */
-export function validateGroup( group, __ ) {
-	const errors = {};
+export function validateGroup(
+	group: FieldGroup,
+	__: ( text: string, domain: string ) => string
+): BuilderErrors {
+	const errors: BuilderErrors = {};
 	if ( ! group.title.trim() ) {
 		errors.title = __(
 			'Field group title is required.',
 			'freeform-fields'
 		);
 	}
-	const checkList = ( fields, path ) => {
-		const seen = {};
+	const checkList = ( fields: Field[], path: string ) => {
+		const seen: Record< string, boolean > = {};
 		fields.forEach( ( field, i ) => {
 			const type = typeOf( field.type );
 			const hasValue = ! type || type.hasValue;
@@ -324,7 +329,7 @@ export function validateGroup( group, __ ) {
 				checkList( field.sub_fields, `${ path }.${ i }.sub_fields` );
 			}
 			if ( Array.isArray( field.layouts ) ) {
-				const layoutNames = {};
+				const layoutNames: Record< string, boolean > = {};
 				field.layouts.forEach( ( layout, l ) => {
 					const lpath = `${ path }.${ i }.layouts.${ l }`;
 					if ( ! layout.label.trim() ) {
@@ -360,14 +365,14 @@ export function validateGroup( group, __ ) {
 /**
  * Choices from an object or "value : Label" lines, as an object.
  *
- * @param {Object|string} choices Choices.
- * @return {Object} { value: label }.
+ * @param choices Choices.
+ * @return Choices: { value: label }.
  */
-export function parseChoices( choices ) {
+export function parseChoices( choices: unknown ): Choices {
 	if ( 'string' !== typeof choices ) {
-		return choices || {};
+		return ( choices as Choices | null | undefined ) || {};
 	}
-	const out = {};
+	const out: Choices = {};
 	choices.split( /\r\n|\r|\n/ ).forEach( ( line ) => {
 		line = line.trim();
 		if ( ! line ) {
@@ -386,14 +391,14 @@ export function parseChoices( choices ) {
 /**
  * Choices object -> "value : Label" lines, and back.
  *
- * @param {Object|string} choices Choices.
- * @return {string} Lines.
+ * @param choices Choices.
+ * @return Lines.
  */
-export function choicesToText( choices ) {
+export function choicesToText( choices: unknown ): string {
 	if ( 'string' === typeof choices ) {
 		return choices;
 	}
-	return Object.entries( choices || {} )
+	return Object.entries( ( choices as Choices | null | undefined ) || {} )
 		.map( ( [ value, label ] ) =>
 			value === label ? value : `${ value } : ${ label }`
 		)
