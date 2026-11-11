@@ -425,7 +425,8 @@ final class GroupStore {
 		}
 
 		$label = sanitize_text_field( (string) ( $raw['label'] ?? '' ) );
-		if ( '' === $label ) {
+		// Like ACF, tabs, messages and accordions may go without a label.
+		if ( '' === $label && ( ! $handler || $handler->has_value() ) ) {
 			$errors[] = array(
 				'path'    => "{$path}.label",
 				'message' => __( 'Field label is required.', 'freeform-fields' ),
