@@ -74,7 +74,7 @@ class Image extends AbstractField {
 	}
 
 	public function render_input( array $field ): void {
-		$id      = absint( is_scalar( $field['value'] ) ? $field['value'] : 0 );
+		$id      = self::shown_attachment( $field['value'], $field );
 		$preview = $id ? wp_get_attachment_image_url( $id, $field['preview_size'] ) : '';
 
 		printf(
