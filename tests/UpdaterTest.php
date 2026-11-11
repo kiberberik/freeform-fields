@@ -108,6 +108,42 @@ final class UpdaterTest extends TestCase {
 		$this->assertSame( 2, $this->requests );
 	}
 
+	public function test_check_again_fetches_the_manifest_again(): void {
+		$this->serve( $this->manifest() );
+		$this->check();
+		set_site_transient( 'update_plugins', (object) array( 'last_checked' => time() ) );
+
+		$updater = new Updater();
+		// Without the flag (a plain visit to the Updates screen) the cache stays.
+		$updater->check_again();
+		$this->check();
+		$this->assertSame( 1, $this->requests );
+
+		$_GET['force-check'] = '1';
+		try {
+			$updater->check_again();
+		} finally {
+			unset( $_GET['force-check'] );
+		}
+		$this->assertFalse( get_site_transient( 'update_plugins' ) );
+		$this->check();
+		$this->assertSame( 2, $this->requests );
+	}
+
+	public function test_check_again_needs_the_update_capability(): void {
+		$this->serve( $this->manifest() );
+		$this->check();
+		wp_set_current_user( 0 );
+		$_GET['force-check'] = '1';
+		try {
+			( new Updater() )->check_again();
+		} finally {
+			unset( $_GET['force-check'] );
+		}
+		$this->check();
+		$this->assertSame( 1, $this->requests );
+	}
+
 	public function test_failures_offer_nothing_and_are_cached(): void {
 		$this->response = new \WP_Error( 'http_request_failed', 'timeout' );
 		$this->assertFalse( $this->check() );
