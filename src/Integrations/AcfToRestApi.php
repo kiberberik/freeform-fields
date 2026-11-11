@@ -10,6 +10,7 @@ namespace FreeformFields\Integrations;
 use FreeformFields\Admin\FormSupport;
 use FreeformFields\Admin\UserScreen;
 use FreeformFields\Plugin;
+use FreeformFields\Rest\RestFields;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -35,6 +36,8 @@ final class AcfToRestApi {
 	public const PLUGIN = 'acf-to-rest-api/class-acf-to-rest-api.php';
 
 	public const NAMESPACE = 'acf/v3';
+
+	private ?RestFields $rest = null;
 
 	public function __construct( private Plugin $plugin ) {}
 
@@ -126,7 +129,7 @@ final class AcfToRestApi {
 			if ( ! isset( $allowed[ $field ] ) ) {
 				return new \WP_Error( 'rest_not_found', __( 'No field with that name.', 'freeform-fields' ), array( 'status' => 404 ) );
 			}
-			return rest_ensure_response( array( $field => wpff_get_field( $field, $object_id ) ) );
+			return rest_ensure_response( array( $field => $this->safe( wpff_get_field( $field, $object_id ), $allowed[ $field ] ) ) );
 		}
 		return rest_ensure_response( array( 'acf' => $this->fields( $object_id, $allowed ) ) );
 	}
@@ -145,13 +148,27 @@ final class AcfToRestApi {
 		}
 		$values = wpff_get_fields( $object_id );
 		$values = is_array( $values ) ? array_intersect_key( $values, $allowed ) : array();
-		if ( array() !== $values ) {
-			return $values;
+		if ( array() === $values ) {
+			foreach ( array_keys( $allowed ) as $name ) {
+				$values[ $name ] = wpff_get_field( $name, $object_id );
+			}
 		}
-		foreach ( array_keys( $allowed ) as $name ) {
-			$values[ $name ] = wpff_get_field( $name, $object_id );
+		foreach ( $values as $name => $value ) {
+			$values[ $name ] = $this->safe( $value, $allowed[ $name ] );
 		}
 		return $values;
+	}
+
+	/**
+	 * Drops linked posts the requester may not read and private user details, at any depth.
+	 *
+	 * @param mixed                $value Formatted value.
+	 * @param array<string, mixed> $field Field.
+	 * @return mixed
+	 */
+	private function safe( $value, array $field ) {
+		$this->rest ??= new RestFields( $this->plugin );
+		return $this->rest->rest_safe( $value, $field, true );
 	}
 
 	/**

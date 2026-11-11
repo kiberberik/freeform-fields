@@ -105,6 +105,7 @@ final class Plugin {
 		add_action( 'init', array( $this, 'init' ), 5 );
 		add_filter( 'wpff/options_autoload', array( $this, 'options_autoload' ), 10, 2 );
 		$this->blocks->register_hooks();
+		\FreeformFields\Registry\AcfStamp::register();
 		$this->local_json->register();
 		$this->content_types->register();
 		$this->multilingual->register();
