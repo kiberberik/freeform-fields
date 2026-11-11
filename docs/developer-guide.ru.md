@@ -153,6 +153,9 @@ endwhile;
 | `wpff/capability` | filter | право на управление группами (по умолчанию `manage_options`) |
 | `wpff/acf_compat` | filter | включать ли функции с именами ACF |
 | `wpff/form_lifetime` | filter | сколько секунд фронтенд-форма действительна после показа (по умолчанию двое суток) |
+| `wpff/cache_values` | filter | `( $cache, $post_id )`; значения, прочитанные через `get_field()` / `get_fields()`, хранятся до конца запроса и сбрасываются при изменении meta и опций. Верните `false`, если ваш код меняет значения в обход хуков meta и опций WordPress |
+| `wpff/cache_field_groups` | filter | хранить ли группы из админки (и файлы Local JSON) в объектном кеше между запросами (по умолчанию `true`; полезно с Redis или Memcached) |
+| `wpff/format/readable_post` | filter | `( $readable, $post, $field )`; возвращать ли выбранную запись или вложение в полях Post Object, Relationship, Page Link, Image, File и Gallery. По умолчанию — опубликованные записи и вложения, не загруженные в приватную запись; остальные только если текущий пользователь может их читать |
 | `wpff/updates/enabled` | filter | проверять ли обновления в релизах GitHub (по умолчанию `true`) |
 | `wpff/updates/manifest_url` | filter | адрес манифеста обновлений (по умолчанию `update.json` последнего релиза) |
 

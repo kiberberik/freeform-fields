@@ -213,6 +213,9 @@ The form settings travel signed: a visitor cannot point the form at another post
 | `wpff/capability` | filter | Capability needed to manage field groups. Default: `manage_options`. |
 | `wpff/acf_compat` | filter | Whether to define functions with ACF's names. |
 | `wpff/form_lifetime` | filter | How long a front-end form stays valid after it is shown, in seconds. Default: two days. |
+| `wpff/cache_values` | filter | `( $cache, $post_id )`. Values read with `get_field()` / `get_fields()` are kept for the rest of the request and cleared when meta or options change. Return `false` if your code changes stored values in ways WordPress's meta and option hooks do not report. |
+| `wpff/cache_field_groups` | filter | Whether field groups saved in the admin (and Local JSON files) are kept in the object cache between requests. Default `true`; useful with Redis or Memcached. |
+| `wpff/format/readable_post` | filter | `( $readable, $post, $field )`. Whether a picked post or attachment is returned by Post Object, Relationship, Page Link, Image, File and Gallery fields. Default: published posts, and attachments not uploaded to a private post; others only when the current user can read them. |
 | `wpff/updates/enabled` | filter | Whether to check GitHub releases for plugin updates. Default `true`. |
 | `wpff/updates/manifest_url` | filter | URL of the update manifest. Default: `update.json` of the latest release. |
 | `wpff/fields/google_map/api_key` | filter | Google Maps API key. Return `''` to use OpenStreetMap. |

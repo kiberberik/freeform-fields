@@ -90,7 +90,7 @@ class Gallery extends AbstractField {
 		printf( '<input type="hidden" name="%s" value="" />', esc_attr( $field['input_name'] ) );
 		echo '<ul class="wpff-gallery__items">';
 		foreach ( self::ids( $field['value'] ) as $id ) {
-			$src = wp_get_attachment_image_url( $id, 'thumbnail' );
+			$src = self::shown_attachment( $id, $field ) ? wp_get_attachment_image_url( $id, 'thumbnail' ) : '';
 			if ( ! $src ) {
 				continue;
 			}
@@ -143,7 +143,8 @@ class Gallery extends AbstractField {
 			_prime_post_caches( $ids, false, true ); // One query for all images instead of two per image.
 		}
 		foreach ( $ids as $id ) {
-			if ( 'attachment' !== get_post_type( $id ) ) {
+			$post = get_post( $id );
+			if ( ! $post || 'attachment' !== $post->post_type || ! self::can_show_post( $post, $field ) ) {
 				continue;
 			}
 			switch ( $field['return_format'] ) {
