@@ -176,6 +176,10 @@ export function newGroup() {
 		active: true,
 		description: '',
 		show_in_rest: 0,
+		// New groups on multilingual sites start with "same fields across languages".
+		...( window.wpffBuilder?.multilingual
+			? { acfml_field_group_mode: 'translation' }
+			: {} ),
 	};
 }
 
@@ -295,7 +299,8 @@ export function validateGroup( group, __ ) {
 		fields.forEach( ( field, i ) => {
 			const type = typeOf( field.type );
 			const hasValue = ! type || type.hasValue;
-			if ( ! field.label.trim() ) {
+			// Like ACF, tabs, messages and accordions may go without a label.
+			if ( hasValue && ! field.label.trim() ) {
 				errors[ `${ path }.${ i }.label` ] = __(
 					'Field label is required.',
 					'freeform-fields'

@@ -19,12 +19,15 @@ defined( 'ABSPATH' ) || exit;
 final class ObjectRef {
 
 	/**
-	 * @param string     $type One of post, term, user, comment, option.
-	 * @param int|string $id   Numeric id, or the option prefix for options.
+	 * @param string         $type     One of post, term, user, comment, option.
+	 * @param int|string     $id       Numeric id, or the option prefix for options.
+	 * @param ObjectRef|null $fallback Read when this object has no value of its own
+	 *                                 (options of a language without their own values).
 	 */
 	public function __construct(
 		public readonly string $type,
-		public readonly int|string $id
+		public readonly int|string $id,
+		public readonly ?ObjectRef $fallback = null
 	) {}
 
 	/**
@@ -55,7 +58,8 @@ final class ObjectRef {
 			return null;
 		}
 		if ( 'option' === $post_id || 'options' === $post_id ) {
-			return new self( 'option', 'options' );
+			// One set of values per language on multilingual sites (`options_{lang}`, as ACF stores them).
+			return \FreeformFields\Multilingual\Multilingual::options_ref( 'options' );
 		}
 		if ( str_starts_with( $post_id, 'block_' ) ) {
 			return new self( 'block', $post_id );
@@ -71,7 +75,7 @@ final class ObjectRef {
 			}
 		}
 		// Any other string is treated as a custom options prefix, as ACF does.
-		return new self( 'option', $post_id );
+		return \FreeformFields\Multilingual\Multilingual::options_ref( $post_id );
 	}
 
 	/**

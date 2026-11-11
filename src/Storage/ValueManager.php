@@ -170,13 +170,15 @@ final class ValueManager {
 		if ( ! $field ) {
 			return null;
 		}
+		// Like ACF, the settings returned have been through load_field (translated labels, filled choices…).
+		$loaded = Hooks::load_field( $field );
 		if ( $ref ) {
-			$value          = $this->load( $field, $ref );
-			$field['value'] = $format ? $this->format( $value, $field, $ref ) : $this->acf_raw( $value, $field );
+			$value           = $this->load( $field, $ref );
+			$loaded['value'] = $format ? $this->format( $value, $field, $ref ) : $this->acf_raw( $value, $field );
 		} else {
-			$field['value'] = null;
+			$loaded['value'] = null;
 		}
-		return $field;
+		return $loaded;
 	}
 
 	/**
@@ -570,6 +572,10 @@ final class ValueManager {
 				}
 				$value[ $i ] = $this->format_subs( $row, self::row_parent( $field, $i ), $subs, $ref );
 			}
+		}
+		if ( null === $kind ) {
+			// Picked posts, terms and media show their translation in the current language.
+			$value = \FreeformFields\Multilingual\Multilingual::localize( $value, $field );
 		}
 		if ( $handler ) {
 			$value = $handler->format_value( $value, $id, $field );

@@ -62,6 +62,7 @@ final class Plugin {
 	private BlockRegistry $blocks;
 	private LocalJson $local_json;
 	private ContentTypes $content_types;
+	private \FreeformFields\Multilingual\Multilingual $multilingual;
 	private bool $booted = false;
 
 	/**
@@ -86,6 +87,7 @@ final class Plugin {
 		$this->blocks        = new BlockRegistry( $this );
 		$this->local_json    = new LocalJson();
 		$this->content_types = new ContentTypes();
+		$this->multilingual  = new \FreeformFields\Multilingual\Multilingual( $this );
 	}
 
 	/**
@@ -105,6 +107,7 @@ final class Plugin {
 		$this->blocks->register_hooks();
 		$this->local_json->register();
 		$this->content_types->register();
+		$this->multilingual->register();
 		( new \FreeformFields\Fields\Bidirectional( $this ) )->register();
 		( new RestFields( $this ) )->register();
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -381,6 +384,10 @@ final class Plugin {
 
 	public function content_types(): ContentTypes {
 		return $this->content_types;
+	}
+
+	public function multilingual(): \FreeformFields\Multilingual\Multilingual {
+		return $this->multilingual;
 	}
 
 	/**

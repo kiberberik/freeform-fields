@@ -33,6 +33,7 @@ import {
 	syncGroup,
 } from './api';
 import { describeLocation } from './LocationRules';
+import { modeLabels, multilingual } from './MultilingualSetup';
 import { EmptyState, PageHeader, Pill } from './ui';
 
 export default function GroupList() {
@@ -334,6 +335,14 @@ export default function GroupList() {
 									<th className="wpff-table__num">
 										{ __( 'Fields', 'freeform-fields' ) }
 									</th>
+									{ multilingual() && (
+										<th>
+											{ __(
+												'Translation',
+												'freeform-fields'
+											) }
+										</th>
+									) }
 									<th>
 										{ __( 'Status', 'freeform-fields' ) }
 									</th>
@@ -527,6 +536,9 @@ function GroupRow( { group, busy, actions } ) {
 				<LocationChips location={ group.location } />
 			</td>
 			<td className="wpff-table__num">{ group.field_count }</td>
+			{ multilingual() && (
+				<td>{ modeLabels()[ group.translation ] || '' }</td>
+			) }
 			<td>
 				{ group.sync && (
 					<Pill tone="warning">
