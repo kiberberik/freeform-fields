@@ -273,8 +273,7 @@ function RuleValue( { target, rule, onChange }: RuleValueProps ) {
 	return (
 		<TextControl
 			{ ...common }
-			// Rules always carry a value here (newRule() sets one); the type allows none.
-			value={ rule.value as string }
+			value={ rule.value ?? '' }
 			onChange={ onChange }
 		/>
 	);

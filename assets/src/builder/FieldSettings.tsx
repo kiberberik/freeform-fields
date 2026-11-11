@@ -290,7 +290,7 @@ export default function FieldSettings( {
 						) }
 						<NumberInput
 							label={ __( 'Width (%)', 'freeform-fields' ) }
-							value={ field.wrapper!.width }
+							value={ field.wrapper?.width ?? '' }
 							min={ 0 }
 							max={ 100 }
 							onChange={ ( width ) =>
@@ -308,7 +308,7 @@ export default function FieldSettings( {
 								'Wrapper CSS class',
 								'freeform-fields'
 							) }
-							value={ field.wrapper!.class as string }
+							value={ field.wrapper?.class ?? '' }
 							onChange={ ( cls ) =>
 								set( {
 									wrapper: { ...field.wrapper, class: cls },
@@ -319,7 +319,7 @@ export default function FieldSettings( {
 						/>
 						<TextControl
 							label={ __( 'Wrapper ID', 'freeform-fields' ) }
-							value={ field.wrapper!.id as string }
+							value={ field.wrapper?.id ?? '' }
 							onChange={ ( id ) =>
 								set( { wrapper: { ...field.wrapper, id } } )
 							}

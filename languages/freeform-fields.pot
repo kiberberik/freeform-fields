@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T07:25:25+00:00\n"
+"POT-Creation-Date: 2026-11-11T07:32:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: freeform-fields\n"
@@ -1714,6 +1714,10 @@ msgid "Validation failed."
 msgstr ""
 
 #: build/admin.js:1
+msgid "You are not allowed to choose files here."
+msgstr ""
+
+#: build/admin.js:1
 msgid "Select Image"
 msgstr ""
 
@@ -2672,6 +2676,10 @@ msgstr ""
 
 #: build/builder.js:16
 msgid "Options page deleted."
+msgstr ""
+
+#: build/builder.js:16
+msgid "This options page is read from ACF and cannot be edited here. Migrate it in Tools to edit it."
 msgstr ""
 
 #: build/builder.js:16

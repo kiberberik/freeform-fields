@@ -3193,3 +3193,11 @@ msgstr "Элемент %d — страница настроек без слаг�
 #: build/builder.js:1
 msgid "No option chosen yet: “Different fields across languages” applies, so nothing is kept in sync between translations."
 msgstr "Вариант ещё не выбран: действует «Разные поля в разных языках», поэтому между переводами ничего не синхронизируется."
+
+#: build/admin.js:1
+msgid "You are not allowed to choose files here."
+msgstr "Здесь нельзя выбирать файлы."
+
+#: build/builder.js:16
+msgid "This options page is read from ACF and cannot be edited here. Migrate it in Tools to edit it."
+msgstr "Эта страница настроек читается из ACF и не редактируется здесь. Чтобы её изменить, перенесите её в «Инструментах»."
