@@ -75,16 +75,73 @@ final class ImportExport {
 	}
 
 	/**
-	 * Imports groups from decoded JSON: one group or a list. Keys are kept; existing groups are updated.
+	 * Imports decoded JSON: one item or a list. Field groups are the usual content; an ACF 6 export
+	 * may also hold post types, taxonomies and options pages, which are imported first so that
+	 * location rules find their targets. Keys are kept; existing items are updated.
 	 *
 	 * @param mixed $data Decoded JSON.
 	 * @return array{imported: array<int, array{key: string, title: string}>, errors: array<string, string>, warnings: string[]}
 	 */
 	public function import( $data ): array {
-		$groups   = is_array( $data ) && isset( $data['key'] ) ? array( $data ) : ( is_array( $data ) ? $data : array() );
+		$items    = is_array( $data ) && isset( $data['key'] ) ? array( $data ) : ( is_array( $data ) ? $data : array() );
 		$imported = array();
 		$errors   = array();
 		$warnings = array();
+		$groups   = array();
+		$types    = array();
+		$pages    = array();
+		foreach ( $items as $i => $item ) {
+			$kind = is_array( $item ) ? self::acf_item_kind( $item ) : '';
+			if ( 'options_page' === $kind ) {
+				$pages[ $i ] = $item;
+			} elseif ( '' !== $kind ) {
+				$types[ $i ] = array( $kind, $item );
+			} else {
+				$groups[ $i ] = $item;
+			}
+		}
+
+		foreach ( $types as $i => list( $kind, $acf ) ) {
+			$item = self::acf_content_type_item( $kind, $acf, ! isset( $acf['active'] ) || ! empty( $acf['active'] ) );
+			if ( '' === $item['key'] ) {
+				/* translators: %d: position in the file. */
+				$errors[ 'item_' . $i ] = sprintf( __( 'Item %d has no post type or taxonomy key.', 'freeform-fields' ), $i + 1 );
+				continue;
+			}
+			$store    = $this->plugin->content_types();
+			$original = $store->find_post( $kind, sanitize_key( $item['key'] ) ) ? sanitize_key( $item['key'] ) : '';
+			$saved    = $store->save( $kind, $item, $original );
+			if ( is_wp_error( $saved ) ) {
+				$errors[ $kind . ':' . $item['key'] ] = $saved->get_error_message();
+				continue;
+			}
+			$imported[] = array(
+				'key'   => $saved['key'],
+				'title' => $saved['plural'],
+			);
+		}
+
+		foreach ( $pages as $i => $acf ) {
+			$page = self::acf_options_page_item( $acf, ! isset( $acf['active'] ) || ! empty( $acf['active'] ) );
+			if ( null === $page ) {
+				/* translators: %d: position in the file. */
+				$errors[ 'item_' . $i ] = sprintf( __( 'Item %d is an options page without a menu slug.', 'freeform-fields' ), $i + 1 );
+				continue;
+			}
+			$store    = $this->plugin->options_store();
+			$slug     = sanitize_title( $page['menu_slug'] );
+			$original = $store->find_post( $slug ) ? $slug : '';
+			$saved    = $store->save( $page, $original );
+			if ( is_wp_error( $saved ) ) {
+				$errors[ 'options_page:' . $page['menu_slug'] ] = $saved->get_error_message();
+				continue;
+			}
+			$imported[] = array(
+				'key'   => $saved['menu_slug'],
+				'title' => $saved['page_title'],
+			);
+		}
+
 		foreach ( $groups as $i => $group ) {
 			if ( ! is_array( $group ) || empty( $group['key'] ) || empty( $group['title'] ) ) {
 				/* translators: %d: position in the file. */
@@ -108,6 +165,26 @@ final class ImportExport {
 			'errors'   => $errors,
 			'warnings' => $warnings,
 		);
+	}
+
+	/**
+	 * What a non-group item of an ACF 6 export is, by its key prefix: 'post_type', 'taxonomy',
+	 * 'options_page', or '' for anything else (a field group).
+	 *
+	 * @param array<string, mixed> $item Item.
+	 */
+	private static function acf_item_kind( array $item ): string {
+		$key = (string) ( $item['key'] ?? '' );
+		foreach ( array(
+			'post_type_'       => 'post_type',
+			'taxonomy_'        => 'taxonomy',
+			'ui_options_page_' => 'options_page',
+		) as $prefix => $kind ) {
+			if ( str_starts_with( $key, $prefix ) ) {
+				return $kind;
+			}
+		}
+		return '';
 	}
 
 	/**
@@ -250,38 +327,50 @@ final class ImportExport {
 				if ( ! is_array( $acf ) ) {
 					continue;
 				}
-				$labels = (array) ( $acf['labels'] ?? array() );
-				$icon   = $acf['menu_icon'] ?? '';
-				$item   = array(
-					'key'          => (string) ( $acf[ $kind ] ?? '' ),
-					'singular'     => (string) ( $labels['singular_name'] ?? '' ),
-					'plural'       => (string) ( $labels['name'] ?? '' ),
-					'description'  => (string) ( $acf['description'] ?? '' ),
-					'public'       => ! empty( $acf['public'] ),
-					'hierarchical' => ! empty( $acf['hierarchical'] ),
-					'show_in_rest' => ! empty( $acf['show_in_rest'] ),
-					'rewrite_slug' => (string) ( $acf['rewrite']['slug'] ?? '' ),
-					'active'       => 'publish' === $row->post_status,
-				);
-				if ( 'post_type' === $kind ) {
-					$item += array(
-						'menu_icon'           => is_array( $icon ) ? (string) ( $icon['value'] ?? '' ) : (string) $icon,
-						'menu_position'       => $acf['menu_position'] ?? null,
-						'supports'            => (array) ( $acf['supports'] ?? array() ),
-						'taxonomies'          => (array) ( $acf['taxonomies'] ?? array() ),
-						'has_archive'         => ! empty( $acf['has_archive'] ),
-						'exclude_from_search' => ! empty( $acf['exclude_from_search'] ),
-					);
-				} else {
-					$item += array(
-						'object_type'       => (array) ( $acf['object_type'] ?? array() ),
-						'show_admin_column' => ! empty( $acf['show_admin_column'] ),
-					);
-				}
-				$out[ $kind ][] = $item;
+				$out[ $kind ][] = self::acf_content_type_item( $kind, $acf, 'publish' === $row->post_status );
 			}
 		}
 		return $out;
+	}
+
+	/**
+	 * Converts one ACF post type or taxonomy (database settings or export item) to WP Freeform Fields' shape.
+	 *
+	 * @param string               $kind   'post_type' or 'taxonomy'.
+	 * @param array<string, mixed> $acf    ACF settings.
+	 * @param bool                 $active Whether it is active.
+	 * @return array<string, mixed>
+	 */
+	private static function acf_content_type_item( string $kind, array $acf, bool $active ): array {
+		$labels = (array) ( $acf['labels'] ?? array() );
+		$icon   = $acf['menu_icon'] ?? '';
+		$item   = array(
+			'key'          => (string) ( $acf[ $kind ] ?? '' ),
+			'singular'     => (string) ( $labels['singular_name'] ?? '' ),
+			'plural'       => (string) ( $labels['name'] ?? '' ),
+			'description'  => (string) ( $acf['description'] ?? '' ),
+			'public'       => ! empty( $acf['public'] ),
+			'hierarchical' => ! empty( $acf['hierarchical'] ),
+			'show_in_rest' => ! empty( $acf['show_in_rest'] ),
+			'rewrite_slug' => (string) ( $acf['rewrite']['slug'] ?? '' ),
+			'active'       => $active,
+		);
+		if ( 'post_type' === $kind ) {
+			$item += array(
+				'menu_icon'           => is_array( $icon ) ? (string) ( $icon['value'] ?? '' ) : (string) $icon,
+				'menu_position'       => $acf['menu_position'] ?? null,
+				'supports'            => (array) ( $acf['supports'] ?? array() ),
+				'taxonomies'          => (array) ( $acf['taxonomies'] ?? array() ),
+				'has_archive'         => ! empty( $acf['has_archive'] ),
+				'exclude_from_search' => ! empty( $acf['exclude_from_search'] ),
+			);
+		} else {
+			$item += array(
+				'object_type'       => (array) ( $acf['object_type'] ?? array() ),
+				'show_admin_column' => ! empty( $acf['show_admin_column'] ),
+			);
+		}
+		return $item;
 	}
 
 	/**
@@ -328,27 +417,41 @@ final class ImportExport {
 			if ( ! is_array( $acf ) || empty( $acf['menu_slug'] ) ) {
 				continue;
 			}
-			$icon    = $acf['menu_icon'] ?? ( $acf['icon_url'] ?? '' );
-			$parent  = (string) ( $acf['parent_slug'] ?? '' );
-			$storage = (string) ( $acf['data_storage'] ?? '' );
-			$out[]   = array(
-				'page_title'      => (string) ( $acf['page_title'] ?? '' ),
-				'menu_title'      => (string) ( $acf['menu_title'] ?? '' ),
-				'menu_slug'       => (string) $acf['menu_slug'],
-				'parent_slug'     => 'none' === $parent ? '' : $parent,
-				'capability'      => (string) ( $acf['capability'] ?? 'edit_posts' ),
-				'position'        => $acf['position'] ?? null,
-				'icon_url'        => is_array( $icon ) ? (string) ( $icon['value'] ?? '' ) : (string) $icon,
-				'redirect'        => ! empty( $acf['redirect'] ),
-				'post_id'         => 'custom_storage' === $storage ? (string) ( $acf['custom_storage'] ?? 'options' ) : (string) ( $acf['post_id'] ?? 'options' ),
-				'autoload'        => ! empty( $acf['autoload'] ),
-				'update_button'   => (string) ( $acf['update_button'] ?? '' ),
-				'updated_message' => (string) ( $acf['updated_message'] ?? '' ),
-				'description'     => (string) ( $acf['description'] ?? '' ),
-				'active'          => 'publish' === $row->post_status,
-			);
+			$out[] = self::acf_options_page_item( $acf, 'publish' === $row->post_status );
 		}
 		return $out;
+	}
+
+	/**
+	 * Converts one ACF UI options page (database settings or export item) to WP Freeform Fields' shape.
+	 *
+	 * @param array<string, mixed> $acf    ACF settings.
+	 * @param bool                 $active Whether it is active.
+	 * @return array<string, mixed>|null Null when the page has no menu slug.
+	 */
+	private static function acf_options_page_item( array $acf, bool $active ): ?array {
+		if ( empty( $acf['menu_slug'] ) ) {
+			return null;
+		}
+		$icon    = $acf['menu_icon'] ?? ( $acf['icon_url'] ?? '' );
+		$parent  = (string) ( $acf['parent_slug'] ?? '' );
+		$storage = (string) ( $acf['data_storage'] ?? '' );
+		return array(
+			'page_title'      => (string) ( $acf['page_title'] ?? '' ),
+			'menu_title'      => (string) ( $acf['menu_title'] ?? '' ),
+			'menu_slug'       => (string) $acf['menu_slug'],
+			'parent_slug'     => 'none' === $parent ? '' : $parent,
+			'capability'      => (string) ( $acf['capability'] ?? 'edit_posts' ),
+			'position'        => $acf['position'] ?? null,
+			'icon_url'        => is_array( $icon ) ? (string) ( $icon['value'] ?? '' ) : (string) $icon,
+			'redirect'        => ! empty( $acf['redirect'] ),
+			'post_id'         => 'custom_storage' === $storage ? (string) ( $acf['custom_storage'] ?? 'options' ) : (string) ( $acf['post_id'] ?? 'options' ),
+			'autoload'        => ! empty( $acf['autoload'] ),
+			'update_button'   => (string) ( $acf['update_button'] ?? '' ),
+			'updated_message' => (string) ( $acf['updated_message'] ?? '' ),
+			'description'     => (string) ( $acf['description'] ?? '' ),
+			'active'          => $active,
+		);
 	}
 
 	/**
@@ -407,7 +510,7 @@ final class ImportExport {
 	}
 
 	/**
-	 * Smooths over ACF export details: layouts keyed by layout key, choices as objects, etc.
+	 * Smooths over ACF export details: layouts keyed by layout key, choices as objects, empty labels, etc.
 	 *
 	 * @param array<string, mixed> $group Group.
 	 * @return array<string, mixed>
@@ -426,7 +529,14 @@ final class ImportExport {
 					$field['layouts'] = array_values( $field['layouts'] );
 					foreach ( $field['layouts'] as $i => $layout ) {
 						$field['layouts'][ $i ]['sub_fields'] = $fix( (array) ( $layout['sub_fields'] ?? array() ) );
+						if ( is_array( $layout ) && '' === trim( (string) ( $layout['label'] ?? '' ) ) ) {
+							$field['layouts'][ $i ]['label'] = (string) ( $layout['name'] ?? '' );
+						}
 					}
+				}
+				// ACF allows an empty label; fields that store a value fall back to their name.
+				if ( '' === trim( (string) ( $field['label'] ?? '' ) ) && ! in_array( $field['type'] ?? '', array( 'tab', 'message', 'accordion' ), true ) ) {
+					$field['label'] = (string) ( $field['name'] ?? '' );
 				}
 				// ACF stores the post type filter as a list or a single string.
 				if ( isset( $field['post_type'] ) && is_string( $field['post_type'] ) ) {

@@ -199,7 +199,94 @@ final class ContentAndRelationsTest extends TestCase {
 		wp_delete_post( $post->ID, true );
 	}
 
-	public function test_bidirectional_relationship(): void {
+	public function test_import_acf_json_with_post_types_taxonomies_and_options_pages(): void {
+		// An ACF 6.2 export lists post types, taxonomies and options pages next to field groups.
+		$export = array(
+			array(
+				'key'      => 'group_acf_export_movie',
+				'title'    => 'Movie details',
+				'fields'   => array(
+					array(
+						'key'   => 'field_acf_export_year',
+						'label' => 'Year',
+						'name'  => 'year',
+						'type'  => 'number',
+					),
+				),
+				'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'acf_movie' ) ) ),
+			),
+			array(
+				'key'          => 'post_type_65a1b2c3d4e5f',
+				'title'        => 'Movies',
+				'post_type'    => 'acf_movie',
+				'labels'       => array(
+					'name'          => 'Movies',
+					'singular_name' => 'Movie',
+				),
+				'public'       => true,
+				'show_in_rest' => true,
+				'menu_icon'    => array(
+					'type'  => 'dashicons',
+					'value' => 'dashicons-video-alt',
+				),
+				'active'       => true,
+			),
+			array(
+				'key'         => 'taxonomy_65a1b2c3d4e60',
+				'title'       => 'Studios',
+				'taxonomy'    => 'acf_studio',
+				'object_type' => array( 'acf_movie' ),
+				'labels'      => array(
+					'name'          => 'Studios',
+					'singular_name' => 'Studio',
+				),
+				'active'      => false,
+			),
+			array(
+				'key'            => 'ui_options_page_65a1b2c3d4e61',
+				'title'          => 'Site settings',
+				'page_title'     => 'Site settings',
+				'menu_slug'      => 'acf-json-site-settings',
+				'parent_slug'    => 'none',
+				'data_storage'   => 'custom_storage',
+				'custom_storage' => 'site_settings',
+				'active'         => true,
+			),
+		);
+		$tools  = new ImportExport( $this->plugin() );
+		$result = $tools->import( $export );
+		$this->assertSame( array(), $result['errors'] );
+		$this->assertSame(
+			array( 'acf_movie', 'acf_studio', 'acf-json-site-settings', 'group_acf_export_movie' ),
+			array_column( $result['imported'], 'key' ),
+			'Post types, taxonomies and options pages come first, then field groups.'
+		);
+		$groups = get_posts(
+			array(
+				'post_type'      => \FreeformFields\Plugin::GROUP_POST_TYPE,
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+			)
+		);
+		$this->assertSame( array( 'group_acf_export_movie' ), wp_list_pluck( $groups, 'post_name' ), 'No empty groups for non-group items.' );
+
+		$types = $this->plugin()->content_types();
+		$this->assertSame( 'dashicons-video-alt', $types->get( 'post_type', 'acf_movie' )['menu_icon'] );
+		$this->assertSame( array( 'acf_movie' ), $types->get( 'taxonomy', 'acf_studio' )['object_type'] );
+		$this->assertFalse( $types->get( 'taxonomy', 'acf_studio' )['active'] );
+
+		$post = $this->plugin()->options_store()->find_post( 'acf-json-site-settings' );
+		$this->assertNotNull( $post );
+		$this->assertSame( 'site_settings', json_decode( $post->post_content, true )['post_id'] );
+
+		// Importing the same file again updates the items instead of failing.
+		$again = $tools->import( $export );
+		$this->assertSame( array(), $again['errors'] );
+		$this->assertCount( 4, $again['imported'] );
+		wp_delete_post( $post->ID, true );
+	}
+
+		public function test_bidirectional_relationship(): void {
 		$this->make_group(
 			array(
 				array(

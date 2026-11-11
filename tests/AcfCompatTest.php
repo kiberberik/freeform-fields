@@ -324,7 +324,55 @@ final class AcfCompatTest extends TestCase {
 		$this->assertSame( array(), $result['errors'] );
 	}
 
-	public function test_reads_acf_groups_before_migration(): void {
+	public function test_import_accepts_fields_without_label(): void {
+		// ACF allows an empty label: tabs and messages keep it empty, value fields fall back to their name.
+		$tools  = new \FreeformFields\Tools\ImportExport( $this->plugin() );
+		$result = $tools->import(
+			array(
+				array(
+					'key'      => 'group_no_labels',
+					'title'    => 'No labels',
+					'fields'   => array(
+						array( 'key' => 'field_nl_tab', 'name' => '', 'label' => '', 'type' => 'tab' ),
+						array( 'key' => 'field_nl_msg', 'name' => '', 'label' => '', 'type' => 'message', 'message' => 'Hello' ),
+						array( 'key' => 'field_nl_text', 'name' => 'subtitle', 'label' => '', 'type' => 'text' ),
+						array(
+							'key'     => 'field_nl_flex',
+							'name'    => 'sections',
+							'label'   => 'Sections',
+							'type'    => 'flexible_content',
+							'layouts' => array(
+								'layout_nl_hero' => array(
+									'key'        => 'layout_nl_hero',
+									'name'       => 'hero',
+									'label'      => '',
+									'sub_fields' => array(),
+								),
+							),
+						),
+					),
+					'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ) ),
+				),
+			)
+		);
+		$this->assertSame( array(), $result['errors'] );
+		$this->assertSame( array( 'group_no_labels' ), array_column( $result['imported'], 'key' ) );
+		$fields = $this->plugin()->fields()->get_group( 'group_no_labels' )['fields'];
+		$this->assertSame( array( '', '', 'subtitle', 'Sections' ), array_column( $fields, 'label' ) );
+		$this->assertSame( 'hero', $fields[3]['layouts'][0]['label'] );
+
+		// The builder still requires a label on fields that store a value.
+		$invalid = $this->plugin()->groups()->sanitize(
+			array(
+				'key'    => 'group_no_labels_builder',
+				'title'  => 'Builder',
+				'fields' => array( array( 'key' => 'field_nlb_text', 'name' => 'subtitle', 'label' => '', 'type' => 'text' ) ),
+			)
+		);
+		$this->assertInstanceOf( \WP_Error::class, $invalid );
+	}
+
+		public function test_reads_acf_groups_before_migration(): void {
 		$group = wp_insert_post(
 			array(
 				'post_type'    => 'acf-field-group',

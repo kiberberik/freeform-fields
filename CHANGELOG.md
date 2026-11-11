@@ -17,6 +17,8 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ### Fixed
 - `get_field_object()` returned settings that had not been through `load_field` filters; ACF applies them.
+- Importing an ACF 6 JSON export: post types, taxonomies and options pages in the file are imported as such (before the field groups) instead of becoming empty field groups. Importing the same file again updates them.
+- Importing an ACF group no longer fails on a field without a label. Tabs, messages and accordions keep an empty label (the builder now allows that too); other fields and flexible content layouts take their name as the label.
 
 ## [1.3.0] — 2026-11-10
 
