@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,10 @@ Yes. Each field group has a translation option (same fields, different fields, o
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.4.4 =
+* Security: editors can no longer change field groups, options pages and post types over XML-RPC (this could make them administrators); nested Password fields, password-protected linked posts and media of private posts are no longer revealed through REST or the block form.
+* Faster pages: field values and field groups are cached, removed rows are deleted in one query, and unreadable posts are left out of field values.
 
 = 1.4.3 =
 * Security: front-end forms can no longer change posts the visitor may not edit, and their settings are tied to the visitor and expire; block data from authors is validated like the block's form; the "ACF to REST API" output and Password fields no longer reveal private data.

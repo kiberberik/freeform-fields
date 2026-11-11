@@ -2,7 +2,7 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.4.4] — 2026-11-11
 
 ### Security
 - Field groups, options pages and post type/taxonomy definitions can now be read, edited or deleted only with the plugin's admin capability (`wpff/capability`, default `manage_options`), and are refused over XML-RPC. Before, they used ordinary post capabilities, so an Editor could rewrite them with `wp.editPost` — for example point an options page at core options and set `default_role` to `administrator`.
