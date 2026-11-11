@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,9 @@ Yes. Each field group has a translation option (same fields, different fields, o
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.4.2 =
+* "Check again" on the Updates screen finds a new version right away (it could take up to 12 hours).
 
 = 1.4.1 =
 * Safer update on sites that already have translations: field groups without a translation option keep each language's values apart until you choose an option.

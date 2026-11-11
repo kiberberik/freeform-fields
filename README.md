@@ -121,7 +121,7 @@ These services are contacted only from admin screens that show a Map field, and 
 
 ## Updates
 
-New versions show up on the Plugins and Updates screens, like updates from wordpress.org. The plugin reads `update.json` from its [latest GitHub release](https://github.com/kiberberik/freeform-fields/releases/latest) with the regular WordPress update check, twice a day, and installs that release's zip. No site data is sent. To turn the check off:
+New versions show up on the Plugins and Updates screens, like updates from wordpress.org. The plugin reads `update.json` from its [latest GitHub release](https://github.com/kiberberik/freeform-fields/releases/latest) with the regular WordPress update check, twice a day, and installs that release's zip. No site data is sent. **Dashboard → Updates → Check again** checks right away (from 1.4.2; in older versions a new release could take up to 12 hours to appear). To turn the check off:
 
 ```php
 add_filter( 'wpff/updates/enabled', '__return_false' );
