@@ -48,7 +48,31 @@ final class FieldRegistry {
 	 */
 	private array $fields = array();
 
-	public function __construct( private FieldTypeRegistry $types ) {}
+	/**
+	 * Bumped whenever the field list changes in this request; value caches compare it.
+	 *
+	 * @var int
+	 */
+	private int $revision = 0;
+
+	/**
+	 * Object cache group of the stored groups.
+	 */
+	public const CACHE_GROUP = 'wpff';
+
+	public function __construct( private FieldTypeRegistry $types ) {
+		// Saving, trashing, restoring or deleting a group post cleans its cache: start over.
+		add_action(
+			'clean_post_cache',
+			static function ( $post_id, $post ): void {
+				if ( $post instanceof \WP_Post && Plugin::GROUP_POST_TYPE === $post->post_type ) {
+					wp_cache_set_last_changed( self::CACHE_GROUP );
+				}
+			},
+			10,
+			2
+		);
+	}
 
 	/**
 	 * Registers a field group from PHP.
@@ -62,6 +86,7 @@ final class FieldRegistry {
 		}
 		$this->local[ $group['key'] ] = $group;
 		$this->groups                 = null;
+		++$this->revision;
 		return $group['key'];
 	}
 
@@ -78,6 +103,7 @@ final class FieldRegistry {
 		$this->local[ $parent ]['fields']   = (array) ( $this->local[ $parent ]['fields'] ?? array() );
 		$this->local[ $parent ]['fields'][] = $field;
 		$this->groups                       = null;
+		++$this->revision;
 		return true;
 	}
 
@@ -89,6 +115,7 @@ final class FieldRegistry {
 	public function remove_local_group( string $key ): void {
 		unset( $this->local[ $key ] );
 		$this->groups = null;
+		++$this->revision;
 	}
 
 	/**
@@ -101,11 +128,19 @@ final class FieldRegistry {
 	}
 
 	/**
+	 * Changes with every change of the field list in this request.
+	 */
+	public function revision(): int {
+		return $this->revision;
+	}
+
+	/**
 	 * Drops cached groups so the next read rebuilds them (e.g. after a DB group is saved).
 	 */
 	public function flush(): void {
 		$this->groups      = null;
 		$this->definitions = null;
+		++$this->revision;
 	}
 
 	/**
@@ -456,6 +491,33 @@ final class FieldRegistry {
 		if ( ! did_action( 'init' ) || ! post_type_exists( Plugin::GROUP_POST_TYPE ) ) {
 			return array();
 		}
+		/**
+		 * Filters whether groups saved in the admin are kept in the object cache between requests.
+		 * Only useful with a persistent object cache (Redis, Memcached).
+		 *
+		 * @param bool $cache Default true.
+		 */
+		$use_cache = (bool) apply_filters( 'wpff/cache_field_groups', true );
+		$cache_key = 'db_groups:' . wp_cache_get_last_changed( self::CACHE_GROUP );
+		if ( $use_cache ) {
+			$cached = wp_cache_get( $cache_key, self::CACHE_GROUP );
+			if ( is_array( $cached ) ) {
+				return $cached;
+			}
+		}
+		$groups = $this->query_db_groups();
+		if ( $use_cache ) {
+			wp_cache_set( $cache_key, $groups, self::CACHE_GROUP, DAY_IN_SECONDS );
+		}
+		return $groups;
+	}
+
+	/**
+	 * load_db_groups() without the cache.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	private function query_db_groups(): array {
 		$posts = get_posts(
 			array(
 				'post_type'              => Plugin::GROUP_POST_TYPE,

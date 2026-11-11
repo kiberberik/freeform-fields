@@ -142,7 +142,7 @@ class PostObject extends RelationalField {
 		}
 		foreach ( $ids as $id ) {
 			$post = get_post( $id );
-			if ( $post && 'trash' !== $post->post_status ) {
+			if ( $post && 'trash' !== $post->post_status && self::can_show_post( $post, $field ) ) {
 				$out[] = $this->format_post( $post, $field );
 			}
 		}
