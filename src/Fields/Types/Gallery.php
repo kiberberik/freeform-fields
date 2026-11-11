@@ -143,7 +143,8 @@ class Gallery extends AbstractField {
 			_prime_post_caches( $ids, false, true ); // One query for all images instead of two per image.
 		}
 		foreach ( $ids as $id ) {
-			if ( 'attachment' !== get_post_type( $id ) ) {
+			$post = get_post( $id );
+			if ( ! $post || 'attachment' !== $post->post_type || ! self::can_show_post( $post, $field ) ) {
 				continue;
 			}
 			switch ( $field['return_format'] ) {
