@@ -1,18 +1,30 @@
 {
 	"name": "freeform-fields",
-	"version": "1.4.2",
+	"version": "1.4.3",
 	"private": true,
 	"description": "Field group builder for WP Freeform Fields.",
 	"license": "GPL-2.0-or-later",
 	"author": "kiberberik (https://kiberberik.link)",
 	"scripts": {
-		"build": "wp-scripts build builder=./assets/src/builder/index.js blocks=./assets/src/blocks/index.js map=./assets/src/map/index.js --output-path=build",
-		"start": "wp-scripts start builder=./assets/src/builder/index.js blocks=./assets/src/blocks/index.js map=./assets/src/map/index.js --output-path=build",
-		"lint:js": "wp-scripts lint-js assets/src assets/js",
+		"build": "wp-scripts build builder=./assets/src/builder/index.tsx blocks=./assets/src/blocks/index.tsx map=./assets/src/map/index.ts admin=./assets/src/admin/index.ts --output-path=build",
+		"start": "wp-scripts start builder=./assets/src/builder/index.tsx blocks=./assets/src/blocks/index.tsx map=./assets/src/map/index.ts admin=./assets/src/admin/index.ts --output-path=build",
+		"lint:js": "wp-scripts lint-js assets/src",
+		"typecheck": "tsc",
 		"i18n": "wp i18n make-pot . languages/freeform-fields.pot --slug=freeform-fields --domain=freeform-fields --exclude=.dev,vendor,node_modules,tests,assets/src && wp i18n update-po languages/freeform-fields.pot languages && wp i18n make-mo languages && wp i18n make-json languages --no-purge"
 	},
 	"devDependencies": {
+		"@types/jquery": "^3.5.34",
+		"@types/leaflet": "^1.9.22",
+		"@types/react": "^19.3.0",
+		"@types/react-dom": "^19.3.0",
+		"@wordpress/api-fetch": "^8.1.0",
+		"@wordpress/block-editor": "^20.0.0",
+		"@wordpress/blocks": "^17.1.0",
+		"@wordpress/components": "^44.0.0",
+		"@wordpress/compose": "^9.1.0",
+		"@wordpress/data": "^11.1.0",
 		"@wordpress/scripts": "^37.1.0",
+		"@wordpress/server-side-render": "^7.1.0",
 		"typescript": "^5.9.3"
 	},
 	"dependencies": {

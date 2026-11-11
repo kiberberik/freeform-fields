@@ -420,6 +420,7 @@ final class AcfCompatTest extends TestCase {
 			global $wpdb;
 			$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN ('acf-field-group','acf-field')" );
 			delete_option( 'wpff_acf_migrated' );
+			\FreeformFields\Registry\AcfStamp::flush(); // Direct SQL skips the hooks that clear it.
 			$this->plugin()->fields()->remove_local_group( 'group_from_acf' );
 			$this->plugin()->fields()->flush();
 		}

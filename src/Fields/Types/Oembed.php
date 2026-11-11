@@ -51,7 +51,27 @@ class Oembed extends Url {
 				'height' => (int) $field['height'],
 			)
 		);
-		$html = wp_oembed_get( $value, $args );
+		$html = self::embed( $value, $args );
 		return $html ? $html : $value;
+	}
+
+	/**
+	 * Embed HTML through WP_Embed, which caches the provider's answer (in the post's meta, or in
+	 * an oembed_cache post outside the loop), so only the first view waits on the remote request.
+	 *
+	 * @param string               $url  URL.
+	 * @param array<string, mixed> $args Size.
+	 * @return string|false
+	 */
+	private static function embed( string $url, array $args ) {
+		global $wp_embed;
+		if ( ! $wp_embed instanceof \WP_Embed ) {
+			return wp_oembed_get( $url, $args );
+		}
+		$previous                       = $wp_embed->return_false_on_fail;
+		$wp_embed->return_false_on_fail = true;
+		$html                           = $wp_embed->shortcode( $args, $url );
+		$wp_embed->return_false_on_fail = $previous;
+		return is_string( $html ) && '' !== $html ? $html : false;
 	}
 }

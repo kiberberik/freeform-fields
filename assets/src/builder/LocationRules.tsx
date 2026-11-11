@@ -5,17 +5,26 @@ import { __, sprintf } from '@wordpress/i18n';
 import { Button, TextControl } from '@wordpress/components';
 import { closeSmall, plus } from '@wordpress/icons';
 import Select from './Select';
+import type { Location, LocationParam, LocationRule } from '../types';
+import type { SelectOption } from './types';
 
-const params = () => window.wpffBuilder.location;
-const findParam = ( name ) => params().find( ( p ) => p.name === name );
+interface LocationRulesProps {
+	location: Location;
+	onChange: ( location: Location ) => void;
+}
+
+const params = () => window.wpffBuilder!.location;
+const findParam = ( name: string ) => params().find( ( p ) => p.name === name );
 
 /**
  * One-line human summary, e.g. "Post Type is Post or Page Template is Home".
  *
- * @param {Array} location Rules.
- * @return {string} Summary.
+ * @param location Rules.
+ * @return Summary.
  */
-export function describeLocation( location ) {
+export function describeLocation(
+	location: Location | null | undefined
+): string {
 	return ( location || [] )
 		.map( ( rules ) =>
 			rules
@@ -43,7 +52,7 @@ export function describeLocation( location ) {
 		.join( ` ${ __( 'or', 'freeform-fields' ) } ` );
 }
 
-function firstValue( param ) {
+function firstValue( param: LocationParam | undefined ): string {
 	if ( ! param || ! param.values ) {
 		return '';
 	}
@@ -51,7 +60,7 @@ function firstValue( param ) {
 	return keys.length ? keys[ 0 ] : '';
 }
 
-function paramOptions() {
+function paramOptions(): SelectOption[] {
 	// Grouped <optgroup>-like list: "Post › Post Type".
 	return params().map( ( p ) => ( {
 		value: p.name,
@@ -60,8 +69,15 @@ function paramOptions() {
 	} ) );
 }
 
-export default function LocationRules( { location, onChange } ) {
-	const setRule = ( gi, ri, patch ) => {
+export default function LocationRules( {
+	location,
+	onChange,
+}: LocationRulesProps ) {
+	const setRule = (
+		gi: number,
+		ri: number,
+		patch: Partial< LocationRule >
+	) => {
 		const next = location.map( ( rules, g ) =>
 			g === gi
 				? rules.map( ( rule, r ) =>
@@ -72,7 +88,7 @@ export default function LocationRules( { location, onChange } ) {
 		onChange( next );
 	};
 
-	const addRule = ( gi, ri ) => {
+	const addRule = ( gi: number, ri: number ) => {
 		const next = location.map( ( rules, g ) => {
 			if ( g !== gi ) {
 				return rules;
@@ -84,7 +100,7 @@ export default function LocationRules( { location, onChange } ) {
 		onChange( next );
 	};
 
-	const removeRule = ( gi, ri ) => {
+	const removeRule = ( gi: number, ri: number ) => {
 		const next = location
 			.map( ( rules, g ) =>
 				g === gi ? rules.filter( ( _, r ) => r !== ri ) : rules
@@ -248,12 +264,12 @@ export default function LocationRules( { location, onChange } ) {
 	);
 }
 
-function valueOptions( param, current ) {
-	const options = Object.entries( param.values ).map(
+function valueOptions( param: LocationParam, current: string ): SelectOption[] {
+	const options = Object.entries( param.values! ).map(
 		( [ value, label ] ) => ( { value, label } )
 	);
 	// Keep a saved value visible even if it is no longer in the list (e.g. a deleted page).
-	if ( current && ! ( current in param.values ) ) {
+	if ( current && ! ( current in param.values! ) ) {
 		options.unshift( { value: current, label: current } );
 	}
 	if ( 0 === options.length ) {

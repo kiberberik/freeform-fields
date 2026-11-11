@@ -12,10 +12,41 @@ import {
 	Spinner,
 	TextareaControl,
 } from '@wordpress/components';
+import type { ChangeEvent, ReactNode } from 'react';
+import type { GroupSummary } from '../types';
 
-const base = () => window.wpffBuilder.restPath;
+/** Outcome of an import (ImportExport::import(), import_acf_all()). */
+interface ImportResult {
+	imported: Array< { key: string; title: string } >;
+	/** Item => message; an empty PHP array arrives as []. */
+	errors?: Record< string, string > | [];
+	warnings?: string[];
+}
 
-function ResultNotice( { result, onClose } ) {
+/** An ACF item that can be migrated (ToolsController::acf_preview()). */
+interface AcfItem {
+	key: string;
+	title: string;
+	/** Number of fields; null for post types, taxonomies and options pages. */
+	fields: number | null;
+	exists: boolean;
+}
+
+/** ACF use found in the theme (Tools\ThemeCheck::run()): name => locations. */
+interface ThemeReport {
+	functions?: Record< string, string[] > | [];
+	hooks?: Record< string, string[] > | [];
+	files: number;
+}
+
+const base = () => window.wpffBuilder!.restPath;
+
+interface ResultNoticeProps {
+	result: ImportResult | null;
+	onClose: () => void;
+}
+
+function ResultNotice( { result, onClose }: ResultNoticeProps ) {
 	if ( ! result ) {
 		return null;
 	}
@@ -53,12 +84,14 @@ function ResultNotice( { result, onClose } ) {
 }
 
 function Export() {
-	const [ groups, setGroups ] = useState( null );
-	const [ selected, setSelected ] = useState( [] );
+	const [ groups, setGroups ] = useState< GroupSummary[] | null >( null );
+	const [ selected, setSelected ] = useState< string[] >( [] );
 	const [ php, setPhp ] = useState( '' );
 
 	useEffect( () => {
-		apiFetch( { path: `${ base() }/field-groups` } ).then( setGroups );
+		apiFetch< GroupSummary[] >( { path: `${ base() }/field-groups` } ).then(
+			setGroups
+		);
 	}, [] );
 
 	const query = () =>
@@ -67,7 +100,7 @@ function Export() {
 			.join( '&' );
 
 	const download = () =>
-		apiFetch( {
+		apiFetch< { json: unknown } >( {
 			path: `${ base() }/tools/export?format=json&${ query() }`,
 		} ).then( ( data ) => {
 			const blob = new window.Blob(
@@ -84,7 +117,7 @@ function Export() {
 		} );
 
 	const showPhp = () =>
-		apiFetch( {
+		apiFetch< { php: string } >( {
 			path: `${ base() }/tools/export?format=php&${ query() }`,
 		} ).then( ( data ) => setPhp( data.php ) );
 
@@ -159,18 +192,19 @@ function Export() {
 }
 
 function Import() {
-	const [ result, setResult ] = useState( null );
+	const [ result, setResult ] = useState< ImportResult | null >( null );
 	const [ error, setError ] = useState( '' );
 	const [ busy, setBusy ] = useState( false );
 
-	const onFile = ( event ) => {
-		const file = event.target.files[ 0 ];
+	const onFile = ( event: ChangeEvent< HTMLInputElement > ) => {
+		// A file input always has a FileList.
+		const file = event.target.files![ 0 ];
 		if ( ! file ) {
 			return;
 		}
 		setError( '' );
 		file.text().then( ( text ) => {
-			let groups;
+			let groups: unknown;
 			try {
 				groups = JSON.parse( text );
 			} catch {
@@ -180,7 +214,7 @@ function Import() {
 				return;
 			}
 			setBusy( true );
-			apiFetch( {
+			apiFetch< ImportResult >( {
 				path: `${ base() }/tools/import`,
 				method: 'POST',
 				data: { groups },
@@ -224,9 +258,11 @@ function Import() {
 }
 
 function ThemeCheck() {
-	const [ report, setReport ] = useState( null );
+	const [ report, setReport ] = useState< ThemeReport | null | false >(
+		null
+	);
 	useEffect( () => {
-		apiFetch( { path: `${ base() }/tools/acf-check` } )
+		apiFetch< ThemeReport >( { path: `${ base() }/tools/acf-check` } )
 			.then( setReport )
 			.catch( () => setReport( false ) );
 	}, [] );
@@ -252,7 +288,7 @@ function ThemeCheck() {
 			</Notice>
 		);
 	}
-	const list = ( items ) => (
+	const list = ( items: Array< [ string, string[] ] > ) => (
 		<ul className="wpff-tools__acf">
 			{ items.map( ( [ name, where ] ) => (
 				<li key={ name }>
@@ -298,19 +334,24 @@ function ThemeCheck() {
 }
 
 function AcfMigration() {
-	const [ groups, setGroups ] = useState( null );
-	const [ result, setResult ] = useState( null );
+	const [ groups, setGroups ] = useState< AcfItem[] | null >( null );
+	const [ result, setResult ] = useState< ImportResult | null >( null );
 	const [ busy, setBusy ] = useState( false );
 
 	const load = () =>
-		apiFetch( { path: `${ base() }/tools/acf` } ).then( setGroups );
+		apiFetch< AcfItem[] >( { path: `${ base() }/tools/acf` } ).then(
+			setGroups
+		);
 	useEffect( () => {
 		load();
 	}, [] );
 
 	const run = () => {
 		setBusy( true );
-		apiFetch( { path: `${ base() }/tools/acf`, method: 'POST' } )
+		apiFetch< ImportResult >( {
+			path: `${ base() }/tools/acf`,
+			method: 'POST',
+		} )
 			.then( ( data ) => {
 				setResult( data );
 				load();
@@ -383,7 +424,7 @@ function AcfMigration() {
 }
 
 function LocalJsonStatus() {
-	const info = window.wpffBuilder.localJson;
+	const info = window.wpffBuilder!.localJson;
 	return (
 		<>
 			{ info.savePath ? (
@@ -422,7 +463,7 @@ function LocalJsonStatus() {
 }
 
 export default function Tools() {
-	const section = ( title, body ) => (
+	const section = ( title: string, body: ReactNode ) => (
 		<section className="wpff-panel">
 			<div className="wpff-panel__header">
 				<h2>{ title }</h2>
