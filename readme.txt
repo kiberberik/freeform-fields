@@ -28,6 +28,7 @@ It stores values in the same format as Advanced Custom Fields and provides the s
 * A Block Bindings source for showing field values in core blocks.
 * Local JSON, JSON and PHP export and import, and migration from ACF: field groups, post types, taxonomies and options pages.
 * REST API fields, WP-CLI commands, Abilities API support and a `wp.data` store.
+* Multilingual sites with WPML or Polylang: translation options per field group (compatible with ACFML), options pages per language, picked posts and media follow translations, translatable field labels.
 * Translation-ready, with a full Russian translation included.
 
 = Moving from ACF =
@@ -72,6 +73,10 @@ Both can be active, but then ACF's function names (`get_field()`, …) belong to
 = Will my theme's get_field() calls keep working after switching? =
 
 Yes. Values are read from the same meta keys, and the functions return the same formats.
+
+= Does it work with WPML or Polylang? =
+
+Yes. Each field group has a translation option (same fields, different fields, or expert per field) with the same settings ACFML uses, options pages keep values per language, and IDs in relational, image and file fields point at translations in each language.
 
 = Do I need a Google Maps API key? =
 

@@ -152,7 +152,13 @@ final class OptionsScreen {
 		if ( array() !== $errors ) {
 			set_transient( FormSupport::errors_transient( 'options_' . $slug ), $errors, MINUTE_IN_SECONDS * 5 );
 		}
-		wp_safe_redirect( add_query_arg( 'wpff-updated', array() === $errors ? '1' : '0', self::page_url( $slug ) ) );
+		$args = array( 'wpff-updated' => array() === $errors ? '1' : '0' );
+		// Stay in the language whose values were saved (WPML's admin language switcher).
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified in save_request().
+		if ( isset( $_GET['lang'] ) ) {
+			$args['lang'] = sanitize_key( wp_unslash( $_GET['lang'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+		wp_safe_redirect( add_query_arg( $args, self::page_url( $slug ) ) );
 		exit;
 	}
 
@@ -174,6 +180,8 @@ final class OptionsScreen {
 		if ( '' !== $page['description'] ) {
 			echo '<p class="description">' . esc_html( $page['description'] ) . '</p>';
 		}
+
+		self::print_language_notice( $ref );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display only.
 		if ( isset( $_GET['wpff-updated'] ) && '1' === $_GET['wpff-updated'] ) {
@@ -211,6 +219,32 @@ final class OptionsScreen {
 	}
 
 	/**
+	 * On multilingual sites, says which language's values the page edits.
+	 *
+	 * @param ObjectRef|null $ref Where values are stored.
+	 */
+	private static function print_language_notice( ?ObjectRef $ref ): void {
+		$provider = \FreeformFields\Multilingual\Multilingual::provider();
+		if ( ! $provider || ! $ref || 'option' !== $ref->type ) {
+			return;
+		}
+		$lang = \FreeformFields\Multilingual\Multilingual::current_language();
+		if ( null === $lang ) {
+			return;
+		}
+		$names = $provider->languages();
+		$text  = sprintf(
+			/* translators: %s: language name. */
+			__( 'You are editing the values for %s. Switch the language in the admin bar to edit another language.', 'freeform-fields' ),
+			$names[ $lang ] ?? $lang
+		);
+		if ( $ref->fallback ) {
+			$text .= ' ' . __( 'Fields without a value in this language show the default language\'s value until you save.', 'freeform-fields' );
+		}
+		echo '<div class="notice notice-info inline wpff-language-notice"><p>' . esc_html( $text ) . '</p></div>';
+	}
+
+	/**
 	 * Prints groups of one column as boxes.
 	 *
 	 * @param array<string, array<string, mixed>> $groups Groups.
@@ -233,7 +267,7 @@ final class OptionsScreen {
 			printf(
 				'<div class="postbox" id="wpff-%s"><div class="postbox-header"><h2 class="hndle">%s</h2></div><div class="inside">',
 				esc_attr( $group['key'] ),
-				esc_html( $group['title'] )
+				esc_html( \FreeformFields\Multilingual\Multilingual::group_title( $group ) )
 			);
 			$renderer->render_group( $group, $ref );
 			echo '</div></div>';

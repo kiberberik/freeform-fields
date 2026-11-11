@@ -10,6 +10,7 @@ namespace FreeformFields\Registry;
 use FreeformFields\Fields\FieldTypeRegistry;
 use FreeformFields\Fields\Types\ChoiceField;
 use FreeformFields\Location\LocationRules;
+use FreeformFields\Multilingual\Preferences;
 use FreeformFields\Plugin;
 
 defined( 'ABSPATH' ) || exit;
@@ -74,7 +75,7 @@ final class GroupStore {
 			);
 		}
 
-		return array(
+		$group = array(
 			'key'                   => $key,
 			'title'                 => $title,
 			'fields'                => $fields,
@@ -90,6 +91,12 @@ final class GroupStore {
 			'show_in_rest'          => empty( $input['show_in_rest'] ) ? 0 : 1,
 			'modified'              => time(),
 		);
+		// Translation mode on multilingual sites (ACFML's setting name, so groups move between the plugins).
+		$mode = (string) ( $input[ Preferences::GROUP_SETTING ] ?? '' );
+		if ( in_array( $mode, Preferences::MODES, true ) ) {
+			$group[ Preferences::GROUP_SETTING ] = $mode;
+		}
+		return $group;
 	}
 
 	/**
@@ -443,7 +450,7 @@ final class GroupStore {
 		$wrapper = (array) ( $raw['wrapper'] ?? array() );
 		$width   = isset( $wrapper['width'] ) && '' !== $wrapper['width'] ? max( 0, min( 100, (int) $wrapper['width'] ) ) : '';
 
-		$field = array(
+		$field      = array(
 			'key'               => $key,
 			'label'             => $label,
 			'name'              => $name,
@@ -460,6 +467,10 @@ final class GroupStore {
 			),
 			'default_value'     => '',
 		);
+		$preference = Preferences::sanitize( $raw[ Preferences::FIELD_SETTING ] ?? null );
+		if ( null !== $preference ) {
+			$field[ Preferences::FIELD_SETTING ] = $preference;
+		}
 
 		if ( $handler ) {
 			$defaults = $handler->defaults();

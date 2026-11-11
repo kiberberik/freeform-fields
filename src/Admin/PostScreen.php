@@ -82,7 +82,7 @@ final class PostScreen {
 
 			add_meta_box(
 				'wpff-' . $group['key'],
-				esc_html( $group['title'] ),
+				esc_html( \FreeformFields\Multilingual\Multilingual::group_title( $group ) ),
 				array( $this, 'render_meta_box' ),
 				$post_type,
 				$context,

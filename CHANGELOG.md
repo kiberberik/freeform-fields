@@ -2,6 +2,22 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Multilingual sites with WPML or Polylang, compatible with ACFML's settings:
+  - "Multilingual setup" panel in the field group editor: same fields across languages, different fields across languages, or expert (`acfml_field_group_mode`). In the expert option each field has a "Translation" setting: translate, copy, copy once or don't translate (`wpml_cf_preferences`). A "Translation" column in the field group list.
+  - WPML: the translation preference of every stored meta key (repeater rows included) is written to WPML's settings, so WPML copies, synchronizes and translates fields. Polylang: `pll_copy_post_metas` / `pll_copy_term_metas` copy every field except "don't translate" into a new translation and keep only "copy" fields in sync.
+  - IDs in Image, File, Gallery, Post Object, Page Link, Relationship and Taxonomy values are replaced by their translations when copied, and on display in the current language.
+  - Options pages store values per language like ACF (`options_{lang}_{name}`); a language without its own value shows the default language's value. The options screen says which language is being edited.
+  - Group titles, field labels, instructions, placeholders, choices and layout labels are registered with WPML String Translation / Polylang and shown translated.
+  - Location rules on a post, page or page parent match the translations of that post.
+  - `wpml-config.xml` keeps field groups, options pages, post types and taxonomies made in the admin out of translation.
+- Filters: `wpff/multilingual/provider`, `wpff/multilingual/text_types`, `wpff/multilingual/field_preference`, `wpff/multilingual/id_types`, `wpff/multilingual/translate_ids_on_display`, `wpff/multilingual/localize_options`, `wpff/multilingual/options_fallback`.
+
+### Fixed
+- `get_field_object()` returned settings that had not been through `load_field` filters; ACF applies them.
+
 ## [1.3.0] — 2026-11-10
 
 ### Added

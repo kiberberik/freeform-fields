@@ -469,7 +469,9 @@ final class FieldRegistry {
 				'posts_per_page'         => -1,
 				'orderby'                => 'menu_order title',
 				'order'                  => 'ASC',
+				// Filters stay on for other plugins, but groups are never limited to a language.
 				'suppress_filters'       => false,
+				'lang'                   => '',
 				'update_post_term_cache' => false,
 			)
 		);
