@@ -11,6 +11,7 @@ use FreeformFields\Admin\FormSupport;
 use FreeformFields\Plugin;
 use FreeformFields\Storage\MetaStore;
 use FreeformFields\Storage\ObjectRef;
+use FreeformFields\Storage\ValueManager;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -89,7 +90,7 @@ final class BlockRegistry {
 	private function sanitize_block_list( array $blocks, bool &$changed ): array {
 		foreach ( $blocks as $i => $block ) {
 			if ( isset( $this->blocks[ $block['blockName'] ?? '' ] ) && is_array( $block['attrs']['data'] ?? null ) ) {
-				$clean = self::kses_deep( $block['attrs']['data'] );
+				$clean = $this->clean_data( (string) $block['blockName'], self::kses_deep( $block['attrs']['data'] ) );
 				if ( $clean !== $block['attrs']['data'] ) {
 					$blocks[ $i ]['attrs']['data'] = $clean;
 					$changed                       = true;
@@ -100,6 +101,100 @@ final class BlockRegistry {
 			}
 		}
 		return $blocks;
+	}
+
+	/**
+	 * Runs saved block data through the same sanitizing and validation as the block's form:
+	 * values outside a field's choices or format, links to posts the author may not read and
+	 * `_name` references to fields outside the block are dropped.
+	 *
+	 * @param string               $name Block name.
+	 * @param array<string, mixed> $data Flat block data.
+	 * @return array<string, mixed>
+	 */
+	private function clean_data( string $name, array $data ): array {
+		$source = 'block_clean_' . ( ++$this->counter );
+		$ref    = new ObjectRef( 'block', $source );
+		MetaStore::set_block_data( $source, $data );
+		$submitted = array();
+		$names     = array();
+		foreach ( $this->groups_for( $name ) as $group ) {
+			foreach ( $group['fields'] as $field ) {
+				$names[] = (string) $field['name'];
+				$handler = $this->plugin->types()->get( $field['type'] );
+				// Simple fields only when stored, so missing ones keep falling back to their default.
+				$present = $handler && ( null !== $handler->compound() || null !== $this->plugin->values()->store()->get( $ref, $field['name'] ) );
+				if ( $present && $handler->has_value() && '' !== $field['name'] ) {
+					$submitted[ $field['key'] ] = $this->to_submitted( $this->plugin->values()->load( $field, $ref ), $field );
+				}
+			}
+		}
+		MetaStore::forget_block( $source );
+		$clean = $this->data_from_form( $name, $submitted )['data'];
+
+		// Keys no field of the block owns stay (filtered by kses), as templates may read them
+		// directly; their `_name` references go, so they are never formatted as another field.
+		foreach ( $data as $key => $value ) {
+			$key   = (string) $key;
+			$owned = false;
+			foreach ( $names as $field_name ) {
+				$bare = ltrim( $key, '_' );
+				if ( '' !== $field_name && ( $bare === $field_name || str_starts_with( $bare, $field_name . '_' ) ) ) {
+					$owned = true;
+					break;
+				}
+			}
+			if ( ! $owned && ! str_starts_with( $key, '_' ) ) {
+				$clean[ $key ] = $value;
+			}
+		}
+		return $clean;
+	}
+
+	/**
+	 * Turns a loaded value (keyed by sub field name) into form input (keyed by sub field key).
+	 *
+	 * @param mixed                $value Loaded value.
+	 * @param array<string, mixed> $field Field.
+	 * @return mixed
+	 */
+	private function to_submitted( $value, array $field ) {
+		$kind = $this->plugin->values()->kind_of( $field );
+		if ( 'group' === $kind ) {
+			$out = array();
+			foreach ( $field['sub_fields'] as $sub ) {
+				if ( is_array( $value ) && array_key_exists( $sub['name'], $value ) ) {
+					$out[ $sub['key'] ] = $this->to_submitted( $value[ $sub['name'] ], $sub );
+				}
+			}
+			return $out;
+		}
+		if ( 'rows' === $kind || 'layouts' === $kind ) {
+			$out = array();
+			foreach ( is_array( $value ) ? array_values( $value ) : array() as $i => $row ) {
+				if ( ! is_array( $row ) ) {
+					continue;
+				}
+				$subs = $field['sub_fields'] ?? array();
+				$item = array();
+				if ( 'layouts' === $kind ) {
+					$layout = ValueManager::find_layout( $field, (string) ( $row['acf_fc_layout'] ?? '' ) );
+					if ( ! $layout ) {
+						continue;
+					}
+					$subs                  = $layout['sub_fields'];
+					$item['acf_fc_layout'] = $layout['name'];
+				}
+				foreach ( $subs as $sub ) {
+					if ( array_key_exists( $sub['name'], $row ) ) {
+						$item[ $sub['key'] ] = $this->to_submitted( $row[ $sub['name'] ], $sub );
+					}
+				}
+				$out[ 'row' . $i ] = $item;
+			}
+			return $out;
+		}
+		return $value;
 	}
 
 	/**

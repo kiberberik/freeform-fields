@@ -25,7 +25,29 @@ final class Bidirectional {
 
 	private static bool $syncing = false;
 
+	/**
+	 * Depth of saves started by visitors (front-end forms). While above zero, a logged-out
+	 * request is held to the same edit checks as a logged-in one.
+	 */
+	private static int $untrusted = 0;
+
 	public function __construct( private Plugin $plugin ) {}
+
+	/**
+	 * Runs a save on behalf of a visitor: every other-side change then needs edit rights.
+	 *
+	 * @template T
+	 * @param callable(): T $save Save to run.
+	 * @return T
+	 */
+	public static function as_visitor( callable $save ) {
+		++self::$untrusted;
+		try {
+			return $save();
+		} finally {
+			--self::$untrusted;
+		}
+	}
 
 	public function register(): void {
 		add_filter( 'wpff/update_value', array( $this, 'sync' ), 20, 3 );
@@ -93,8 +115,8 @@ final class Bidirectional {
 	 * @param bool                 $add    Add (true) or remove.
 	 */
 	private function change( array $target, ObjectRef $ref, int $id, bool $add ): void {
-		// A logged-in user only changes objects they may edit; code and cron (no user) may change any.
-		if ( is_user_logged_in() && ! current_user_can( 'edit_' . $ref->type, (int) $ref->id ) ) {
+		// Users and visitors only change objects they may edit; code, cron and CLI (no user) may change any.
+		if ( ( is_user_logged_in() || self::$untrusted > 0 ) && ! current_user_can( 'edit_' . $ref->type, (int) $ref->id ) ) {
 			return;
 		}
 		$current  = self::ids( $this->plugin->values()->store()->get( $ref, $target['name'] ) );

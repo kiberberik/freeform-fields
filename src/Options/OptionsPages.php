@@ -181,13 +181,11 @@ final class OptionsPages {
 		if ( ! did_action( 'init' ) || \FreeformFields\Plugin::acf_active() || ! apply_filters( 'wpff/read_acf_groups', true ) ) {
 			return array();
 		}
-		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- one cheap fingerprint query; the pages are cached below.
-		$stamp = $wpdb->get_row( "SELECT COUNT(*) AS n, MAX(post_modified_gmt) AS m FROM {$wpdb->posts} WHERE post_type = 'acf-ui-options-page'" );
-		if ( ! $stamp || ! (int) $stamp->n ) {
+		$hash = \FreeformFields\Registry\AcfStamp::get( 'pages' );
+		if ( '' === $hash ) {
 			return array();
 		}
-		$cache_key = 'wpff_acf_pages_' . md5( $stamp->n . '|' . $stamp->m );
+		$cache_key = 'wpff_acf_pages_' . $hash;
 		$pages     = get_transient( $cache_key );
 		if ( is_array( $pages ) ) {
 			return $pages;
