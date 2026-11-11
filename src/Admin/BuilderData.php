@@ -171,6 +171,8 @@ final class BuilderData {
 			'field_count' => self::count_fields( $group['fields'] ),
 			'location'    => $group['location'],
 			'menu_order'  => $group['menu_order'],
+			// Translation mode, shown on multilingual sites.
+			'translation' => \FreeformFields\Multilingual\Preferences::mode( $group ),
 		);
 	}
 

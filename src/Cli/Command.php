@@ -99,7 +99,7 @@ final class Command {
 	}
 
 	/**
-	 * Imports field groups from a JSON export (WP Freeform Fields or ACF). Existing groups with the same key are updated.
+	 * Imports field groups from a JSON export (WP Freeform Fields or ACF), plus the post types, taxonomies and options pages of an ACF 6 export. Existing items with the same key are updated.
 	 *
 	 * ## OPTIONS
 	 *

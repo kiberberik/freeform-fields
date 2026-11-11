@@ -1,0 +1,9 @@
+<wpml-config>
+	<!-- Field groups and options pages are settings, not content: they are never translated. -->
+	<custom-types>
+		<custom-type translate="0">wpff-field-group</custom-type>
+		<custom-type translate="0">wpff-options-page</custom-type>
+		<custom-type translate="0">wpff-post-type</custom-type>
+		<custom-type translate="0">wpff-taxonomy</custom-type>
+	</custom-types>
+</wpml-config>

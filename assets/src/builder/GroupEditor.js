@@ -44,6 +44,7 @@ import {
 	validateGroup,
 } from './utils';
 import Select from './Select';
+import { MultilingualSetup, modeOf, multilingual } from './MultilingualSetup';
 
 /**
  * Pointer collisions, innermost droppable first, so nested lists win over their parents.
@@ -667,6 +668,10 @@ export default function GroupEditor( { groupKey } ) {
 								/>
 							</div>
 						</section>
+
+						{ multilingual() && (
+							<MultilingualSetup group={ group } set={ set } />
+						) }
 					</fieldset>
 
 					<aside
@@ -714,6 +719,11 @@ export default function GroupEditor( { groupKey } ) {
 												group,
 												current.listPath
 											) }
+											translationMode={
+												multilingual()
+													? modeOf( group )
+													: null
+											}
 											onChange={ ( f ) =>
 												update(
 													replaceField(

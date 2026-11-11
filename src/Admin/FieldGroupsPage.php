@@ -226,22 +226,29 @@ final class FieldGroupsPage {
 
 		$data = new BuilderData( $this->plugin );
 		$init = array(
-			'route'      => self::route( $page, $group, $options ),
-			'groupKey'   => $group,
-			'optionsKey' => $options,
-			'optionsUrl' => admin_url( 'admin.php?page=' . self::OPTIONS_SLUG ),
-			'options'    => $this->options_builder_data(),
-			'content'    => $this->content_builder_data( $page ),
-			'localJson'  => array(
+			'route'        => self::route( $page, $group, $options ),
+			'groupKey'     => $group,
+			'optionsKey'   => $options,
+			'optionsUrl'   => admin_url( 'admin.php?page=' . self::OPTIONS_SLUG ),
+			'options'      => $this->options_builder_data(),
+			'content'      => $this->content_builder_data( $page ),
+			'localJson'    => array(
 				'savePath'  => $this->plugin->local_json()->save_path(),
 				'loadPaths' => $this->plugin->local_json()->load_paths(),
 				'suggested' => get_stylesheet_directory() . '/wpff-json',
 			),
-			'listUrl'    => admin_url( 'admin.php?page=' . self::SLUG ),
-			'newUrl'     => admin_url( 'admin.php?page=' . self::NEW_SLUG ),
-			'restPath'   => '/' . FieldGroupsController::NAMESPACE,
-			'fieldTypes' => $data->field_types(),
-			'location'   => $data->location_params(),
+			'listUrl'      => admin_url( 'admin.php?page=' . self::SLUG ),
+			'newUrl'       => admin_url( 'admin.php?page=' . self::NEW_SLUG ),
+			'restPath'     => '/' . FieldGroupsController::NAMESPACE,
+			'fieldTypes'   => $data->field_types(),
+			'location'     => $data->location_params(),
+			// Translation setup of groups; null when no multilingual plugin is active.
+			'multilingual' => \FreeformFields\Multilingual\Multilingual::active()
+				? array(
+					'provider'  => \FreeformFields\Multilingual\Multilingual::provider()->name(),
+					'textTypes' => \FreeformFields\Multilingual\Preferences::text_types(),
+				)
+				: null,
 		);
 		wp_add_inline_script( self::HANDLE, 'window.wpffBuilder = ' . wp_json_encode( $init ) . ';', 'before' );
 	}

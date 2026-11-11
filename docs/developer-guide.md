@@ -296,6 +296,42 @@ wp wpff import-acf [--dry-run]
 
 `import-acf` imports what ACF stored in the database, in this order: post types, taxonomies, options pages, then field groups.
 
+## Multilingual sites (WPML, Polylang)
+
+When WPML or Polylang is active, fields follow translations the way ACF does with ACFML. Nothing needs to be set up in code. Settings use ACFML's names, so field groups and values move between the plugins unchanged.
+
+**Translation option of a field group.** The field group editor shows a "Multilingual setup" panel with three options (group setting `acfml_field_group_mode`):
+
+| Option | Value | Text fields (`text`, `textarea`, `wysiwyg`) | Other fields |
+|---|---|---|---|
+| Same fields across languages | `translation` | Translate | Copy (kept in sync) |
+| Different fields across languages | `localization` | Translate | Copy once |
+| Expert | `advanced` | The field's own choice | The field's own choice |
+
+In the expert option each field has a "Translation" setting (field setting `wpml_cf_preferences`): `0` don't translate, `1` copy, `2` translate, `3` copy once. A group without an option uses "Expert" when its fields have preferences (groups from older ACFML), otherwise "Same fields". New groups start with "Same fields".
+
+- **Copy:** the original's value goes to every translation and stays in sync. The number of rows of a repeater or flexible content field is copied too, so translations have the same structure.
+- **Copy once:** copied when a translation is created, then each language keeps its own value.
+- **Translate:** with WPML, sent to the translation editor and automatic translation. With Polylang, copied when a translation is created as a starting point, then edited per language.
+- **Don't translate:** never copied.
+
+How it works with each plugin:
+
+- **WPML** keeps a translation preference per meta key. The plugin writes the preference of every meta key it stores (`cards_0_title`, `_cards_0_title`, …) into WPML's settings when values are saved, when a group is saved, and once after groups change. WPML then copies, synchronizes and sends fields to translation as usual.
+- **Polylang** asks which meta keys to copy (`pll_copy_post_metas`, `pll_copy_term_metas`). The plugin answers with its own keys: all except "don't translate" when a translation is created, only "copy" keys when translations are synchronized.
+
+**IDs follow translations.** When an Image, File, Gallery, Post Object, Page Link, Relationship or Taxonomy value is copied, each ID is replaced by its translation in the target language, if there is one. `get_field()` does the same on display: a value that points at a post in another language returns that post's translation in the current language. Filters: `wpff/multilingual/id_types` (field types holding IDs), `wpff/multilingual/translate_ids_on_display` (return false to keep stored IDs).
+
+**Options pages** keep one set of values per language, in ACF's layout: the default language uses `options_{name}`, other languages `options_{lang}_{name}`. The language is the one selected in the admin bar; "All languages" edits the default language. A language with no value of its own shows the default language's value (`wpff/multilingual/options_fallback` to turn that off). As in ACF, only the `options` storage key is per language; `wpff/multilingual/localize_options` decides it for other keys.
+
+**Labels.** Group titles, field labels, instructions, placeholders, choices and layout labels are registered as strings (WPML String Translation, Polylang's "Strings translations") in the context `WP Freeform Fields: {group key}`, and shown translated on edit screens.
+
+**Location rules** on a post, page or page parent also match the translations of that post.
+
+Other filters: `wpff/multilingual/provider` (return `null` to turn multilingual support off, or your own `FreeformFields\Multilingual\Provider`), `wpff/multilingual/text_types` (types translated as text), `wpff/multilingual/field_preference` (preference of one field).
+
+WPML keeps one preference per meta key for the whole site. If two field groups use the same field name with different options, the group saved last decides for that meta key. ACFML has the same limit. Give such fields different names, or use the same option in both groups.
+
 ## Performance
 
 These numbers come from `bin/benchmark.php`: 100 fields plus a repeater with 1,000 rows × 3 sub fields, on the SQLite emulation of the dev environment. MySQL writes faster.

@@ -76,7 +76,7 @@ final class UserScreen {
 		FormSupport::nonce_field();
 		$renderer = new FieldRenderer( $this->plugin->types(), $this->plugin->values() );
 		foreach ( $groups as $group ) {
-			printf( '<h2 class="wpff-user-group-title">%s</h2>', esc_html( $group['title'] ) );
+			printf( '<h2 class="wpff-user-group-title">%s</h2>', esc_html( \FreeformFields\Multilingual\Multilingual::group_title( $group ) ) );
 			echo '<table class="form-table wpff-user-fields" role="presentation"><tbody>';
 			$renderer->render_group( $group, $ref, 'table' );
 			echo '</tbody></table>';

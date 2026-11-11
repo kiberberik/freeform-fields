@@ -57,6 +57,7 @@ It stores values in the same format as Advanced Custom Fields and offers the sam
 - **Abilities API** (WordPress 6.9+): AI agents and other tools can read field groups and values with the user's permissions.
 - A `wp.data` store `wpff/fields` for reading and changing form values in JavaScript.
 - **Migration from ACF**, from Tools or WP-CLI. It moves field groups, post types, taxonomies and options pages from the database. Field keys are kept, so existing values stay linked.
+- **Multilingual sites** with WPML or Polylang: per-group translation options (same fields / different fields / expert, ACFML-compatible), options pages per language, IDs that follow translations, translatable labels. See the [developer guide](docs/developer-guide.md#multilingual-sites-wpml-polylang).
 
 ### Quality
 - **Security:**
