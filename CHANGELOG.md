@@ -2,7 +2,7 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.4.3] — 2026-11-11
 
 ### Security
 - Front-end forms: two-way relationships no longer write the form's post into posts the visitor cannot edit. Before, a logged-out visitor could link their submission to any published post.
@@ -15,6 +15,17 @@ All notable changes to this project are listed here. The format follows [Keep a 
 - The check for ACF's own field groups and options pages no longer queries the posts table on every request: its result is kept in one autoloaded option, cleared when ACF's posts change and refreshed daily.
 - oEmbed fields use WordPress's embed cache instead of asking the provider on every page view.
 - Images, files and posts picked inside repeater and flexible content rows are loaded in one query for all rows. Posts picked in Post Object and Relationship fields are loaded with their fields.
+- The field form script is minified (69 KB → 38 KB).
+
+### Fixed
+- Image, File and Gallery fields set to "Uploaded to post" no longer filter the media library by a non-existent post on term, user and new-post forms.
+- On front-end forms where the media library is not available, the image and file buttons say so instead of failing.
+- Nested flexible content fields count layout limits on their own rows only.
+- Options pages read from ACF are shown read-only (saving them failed); migrate them in Tools to edit them.
+- The field settings panel no longer breaks on fields saved without wrapper settings.
+
+### Changed
+- The plugin's scripts are written in TypeScript (for contributors: `npm run typecheck`). The field form script is now built to `build/admin.js` instead of `assets/js/admin.js`; its handle `wpff-admin` is unchanged.
 
 ## [1.4.2] — 2026-11-11
 

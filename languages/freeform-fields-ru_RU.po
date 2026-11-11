@@ -32,7 +32,7 @@ msgid "Basic"
 msgstr "Базовые"
 
 #: src/Admin/BuilderData.php:34
-#: src/Front/Forms.php:296
+#: src/Front/Forms.php:301
 msgid "Content"
 msgstr "Контент"
 
@@ -140,7 +140,7 @@ msgid "Block"
 msgstr "Блок"
 
 #: src/Admin/BuilderData.php:91
-#: src/Plugin.php:178
+#: src/Plugin.php:179
 msgid "Options Page"
 msgstr "Страница настроек"
 
@@ -212,8 +212,8 @@ msgstr "Суперадминистратор"
 
 #: src/Admin/FieldGroupsPage.php:48
 #: src/Admin/FieldGroupsPage.php:56
-#: src/Plugin.php:157
-#: src/Plugin.php:431
+#: src/Plugin.php:158
+#: src/Plugin.php:432
 #: build/builder.js:7
 #: build/builder.js:15
 msgid "Field Groups"
@@ -232,7 +232,7 @@ msgid "Add New"
 msgstr "Добавить"
 
 #: src/Admin/FieldGroupsPage.php:58
-#: src/Plugin.php:177
+#: src/Plugin.php:178
 #: build/builder.js:16
 msgid "Options Pages"
 msgstr "Страницы настроек"
@@ -286,7 +286,7 @@ msgid "Administrators (manage_options)"
 msgstr "Администраторы (manage_options)"
 
 #: src/Admin/FieldGroupsPage.php:150
-#: src/Front/Forms.php:287
+#: src/Front/Forms.php:292
 #: build/builder.js:16
 msgid "Title"
 msgstr "Заголовок"
@@ -388,7 +388,7 @@ msgid "Publish"
 msgstr "Опубликовать"
 
 #: src/Admin/OptionsScreen.php:208
-#: src/Front/Forms.php:74
+#: src/Front/Forms.php:75
 #: src/Options/OptionsPages.php:152
 msgid "Update"
 msgstr "Обновить"
@@ -398,7 +398,7 @@ msgid "Some fields were not saved:"
 msgstr "Некоторые поля не сохранены:"
 
 #. translators: %s: block name.
-#: src/Blocks/BlockRegistry.php:368
+#: src/Blocks/BlockRegistry.php:463
 msgid "Block \"%s\" has no render template."
 msgstr "У блока «%s» нет шаблона вывода."
 
@@ -458,19 +458,19 @@ msgstr "Не найдено: %s"
 msgid "No %s found in Trash"
 msgstr "В корзине не найдено: %s"
 
-#: src/Fields/Bidirectional.php:146
+#: src/Fields/Bidirectional.php:168
 msgid "Bidirectional"
 msgstr "Двусторонняя связь"
 
-#: src/Fields/Bidirectional.php:148
+#: src/Fields/Bidirectional.php:170
 msgid "Also update a field on the selected items, so both sides list each other."
 msgstr "Обновлять поле и у выбранных объектов, чтобы обе стороны ссылались друг на друга."
 
-#: src/Fields/Bidirectional.php:152
+#: src/Fields/Bidirectional.php:174
 msgid "Target Field"
 msgstr "Поле на другой стороне"
 
-#: src/Fields/Bidirectional.php:155
+#: src/Fields/Bidirectional.php:177
 msgid "The field on the other side that should list this item."
 msgstr "Поле на другой стороне, в котором должен появиться этот объект."
 
@@ -1363,11 +1363,11 @@ msgstr "Эта страница настроек зарегистрирован�
 msgid "Another options page already uses this menu slug."
 msgstr "Этот slug меню уже использует другая страница настроек."
 
-#: src/Plugin.php:158
+#: src/Plugin.php:159
 msgid "Field Group"
 msgstr "Группа полей"
 
-#: src/Plugin.php:196
+#: src/Plugin.php:197
 msgctxt "field group status"
 msgid "Inactive"
 msgstr "Неактивна"
@@ -1448,13 +1448,13 @@ msgstr "Поле не найдено."
 msgid "Options page not found."
 msgstr "Страница настроек не найдена."
 
-#: src/Integrations/AcfToRestApi.php:110
+#: src/Integrations/AcfToRestApi.php:113
 #: src/Rest/RestFields.php:49
 msgid "Custom field values."
 msgstr "Значения произвольных полей."
 
 #. translators: %s: field names.
-#: src/Rest/RestFields.php:351
+#: src/Rest/RestFields.php:382
 msgid "These fields cannot be updated here: %s"
 msgstr "Эти поля нельзя изменить здесь: %s"
 
@@ -2546,23 +2546,23 @@ msgstr "Пока он активен, WP Freeform Fields не трогает п�
 msgid "Tools → Migrate from ACF"
 msgstr "Инструменты → Перенос из ACF"
 
-#: src/Front/Forms.php:75
+#: src/Front/Forms.php:76
 msgid "Post updated"
 msgstr "Запись обновлена"
 
-#: src/Front/Forms.php:125
+#: src/Front/Forms.php:126
 msgid "Leave this field empty"
 msgstr "Оставьте это поле пустым"
 
-#: src/Front/Forms.php:131
+#: src/Front/Forms.php:132
 msgid "Please correct the highlighted fields."
 msgstr "Исправьте отмеченные поля."
 
-#: src/Front/Forms.php:171
+#: src/Front/Forms.php:172
 msgid "The form has expired. Please reload the page and try again."
 msgstr "Срок действия формы истёк. Обновите страницу и попробуйте снова."
 
-#: src/Front/Forms.php:175
+#: src/Front/Forms.php:176
 msgid "Invalid form."
 msgstr "Неверная форма."
 
@@ -2873,7 +2873,7 @@ msgstr "kiberberik"
 msgid "https://kiberberik.link"
 msgstr "https://kiberberik.link"
 
-#: src/Integrations/AcfToRestApi.php:127
+#: src/Integrations/AcfToRestApi.php:130
 msgid "No field with that name."
 msgstr "Поля с таким именем нет."
 
