@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,11 @@ Yes. Each field group has a translation option (same fields, different fields, o
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.4.0 =
+* Multilingual sites with WPML or Polylang: a translation option per field group (same fields, different fields, or expert per field), compatible with ACFML's settings.
+* Options pages keep values per language; picked posts, terms and media follow translations; field labels are translatable strings.
+* ACF JSON import brings post types, taxonomies and options pages along, and accepts fields without a label.
 
 = 1.3.0 =
 * Updates from the Plugins screen: new versions are offered from the plugin's GitHub releases and install like any other plugin update.

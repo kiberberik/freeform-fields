@@ -1409,26 +1409,26 @@ msgstr "Имя поля «%s» используется здесь нескол�
 msgid "Unknown field type \"%s\"."
 msgstr "Неизвестный тип поля «%s»."
 
-#: src/Registry/GroupStore.php:431
+#: src/Registry/GroupStore.php:432
 #: build/builder.js:13
 msgid "Field label is required."
 msgstr "Подпись поля обязательна."
 
-#: src/Registry/GroupStore.php:440
+#: src/Registry/GroupStore.php:441
 msgid "Field name is required and may contain only a-z, 0-9, _ and -."
 msgstr "Имя поля обязательно и может содержать только a–z, 0–9, _ и -."
 
-#: src/Registry/GroupStore.php:532
+#: src/Registry/GroupStore.php:533
 #: build/builder.js:13
 msgid "Layout label is required."
 msgstr "Подпись макета обязательна."
 
-#: src/Registry/GroupStore.php:538
+#: src/Registry/GroupStore.php:539
 msgid "Layout name is required and may contain only a-z, 0-9, _ and -."
 msgstr "Имя макета обязательно и может содержать только a–z, 0–9, _ и -."
 
 #. translators: %s: layout name.
-#: src/Registry/GroupStore.php:544
+#: src/Registry/GroupStore.php:545
 msgid "Layout name \"%s\" is used more than once."
 msgstr "Имя макета «%s» используется несколько раз."
 
@@ -1469,12 +1469,12 @@ msgid "Taxonomy: %s"
 msgstr "Таксономия: %s"
 
 #. translators: %d: position in the file.
-#: src/Tools/ImportExport.php:91
+#: src/Tools/ImportExport.php:148
 msgid "Item %d is not a field group."
 msgstr "Элемент %d не является группой полей."
 
 #. translators: 1: field label, 2: field type, 3: group title.
-#: src/Tools/ImportExport.php:129
+#: src/Tools/ImportExport.php:206
 msgid "Skipped field \"%1$s\" (type \"%2$s\" is not supported) in \"%3$s\"."
 msgstr "Поле «%1$s» пропущено (тип «%2$s» не поддерживается) в группе «%3$s»."
 
@@ -2470,7 +2470,7 @@ msgid "Unknown object."
 msgstr "Неизвестный объект."
 
 #. translators: %s: options page slug.
-#: src/Tools/ImportExport.php:369
+#: src/Tools/ImportExport.php:472
 msgid "Options page \"%s\" already exists and was skipped."
 msgstr "Страница настроек «%s» уже существует и пропущена."
 
@@ -3183,3 +3183,13 @@ msgstr "Копируется при создании перевода, даль�
 #: build/builder.js:1
 msgid "Sent to translators and translated for each language."
 msgstr "Отправляется переводчикам и переводится для каждого языка."
+
+#. translators: %d: position in the file.
+#: src/Tools/ImportExport.php:108
+msgid "Item %d has no post type or taxonomy key."
+msgstr "У элемента %d нет ключа типа записи или таксономии."
+
+#. translators: %d: position in the file.
+#: src/Tools/ImportExport.php:128
+msgid "Item %d is an options page without a menu slug."
+msgstr "Элемент %d — страница настроек без слага меню."
