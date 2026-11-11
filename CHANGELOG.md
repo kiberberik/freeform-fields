@@ -2,6 +2,11 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.4.1] — 2026-11-11
+
+### Changed
+- Field groups that have no translation option yet (groups made before 1.4.0) use "Different fields across languages" instead of "Same fields across languages". On a site that already has translations, saving a post no longer overwrites images, choices, relations or the number of repeater rows in its translations until you choose an option for the group. New groups still start with "Same fields", and groups with ACFML field preferences still use "Expert".
+
 ## [1.4.0] — 2026-11-11
 
 ### Added
