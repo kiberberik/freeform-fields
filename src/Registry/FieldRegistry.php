@@ -259,14 +259,8 @@ final class FieldRegistry {
 		if ( \FreeformFields\Plugin::acf_active() || ! apply_filters( 'wpff/read_acf_groups', true ) ) {
 			return $none;
 		}
-		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- one cheap fingerprint query; the result is cached below.
-		$stamp = $wpdb->get_row( "SELECT COUNT(*) AS n, MAX(post_modified_gmt) AS m FROM {$wpdb->posts} WHERE post_type IN ('acf-field-group','acf-field')" );
-		if ( ! $stamp || ! (int) $stamp->n ) {
-			return $none;
-		}
-		$hash = md5( $stamp->n . '|' . $stamp->m );
-		if ( get_option( 'wpff_acf_migrated' ) === $hash ) {
+		$hash = AcfStamp::get( 'groups' );
+		if ( '' === $hash || get_option( 'wpff_acf_migrated' ) === $hash ) {
 			return $none;
 		}
 		$cache_key = 'wpff_acf_groups_' . $hash;
@@ -462,7 +456,7 @@ final class FieldRegistry {
 		if ( ! did_action( 'init' ) || ! post_type_exists( Plugin::GROUP_POST_TYPE ) ) {
 			return array();
 		}
-		$posts  = get_posts(
+		$posts = get_posts(
 			array(
 				'post_type'              => Plugin::GROUP_POST_TYPE,
 				'post_status'            => array( 'publish', 'wpff-disabled' ),
