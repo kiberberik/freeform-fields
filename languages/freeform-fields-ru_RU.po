@@ -140,7 +140,7 @@ msgid "Block"
 msgstr "Блок"
 
 #: src/Admin/BuilderData.php:91
-#: src/Plugin.php:179
+#: src/Plugin.php:178
 msgid "Options Page"
 msgstr "Страница настроек"
 
@@ -212,8 +212,8 @@ msgstr "Суперадминистратор"
 
 #: src/Admin/FieldGroupsPage.php:48
 #: src/Admin/FieldGroupsPage.php:56
-#: src/Plugin.php:158
-#: src/Plugin.php:432
+#: src/Plugin.php:159
+#: src/Plugin.php:481
 #: build/builder.js:7
 #: build/builder.js:15
 msgid "Field Groups"
@@ -232,7 +232,7 @@ msgid "Add New"
 msgstr "Добавить"
 
 #: src/Admin/FieldGroupsPage.php:58
-#: src/Plugin.php:178
+#: src/Plugin.php:177
 #: build/builder.js:16
 msgid "Options Pages"
 msgstr "Страницы настроек"
@@ -1363,11 +1363,11 @@ msgstr "Эта страница настроек зарегистрирован�
 msgid "Another options page already uses this menu slug."
 msgstr "Этот slug меню уже использует другая страница настроек."
 
-#: src/Plugin.php:159
+#: src/Plugin.php:160
 msgid "Field Group"
 msgstr "Группа полей"
 
-#: src/Plugin.php:197
+#: src/Plugin.php:194
 msgctxt "field group status"
 msgid "Inactive"
 msgstr "Неактивна"
@@ -1454,7 +1454,7 @@ msgid "Custom field values."
 msgstr "Значения произвольных полей."
 
 #. translators: %s: field names.
-#: src/Rest/RestFields.php:382
+#: src/Rest/RestFields.php:403
 msgid "These fields cannot be updated here: %s"
 msgstr "Эти поля нельзя изменить здесь: %s"
 
