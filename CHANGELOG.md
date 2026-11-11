@@ -5,6 +5,7 @@ All notable changes to this project are listed here. The format follows [Keep a 
 ## [Unreleased]
 
 ### Security
+- Field groups, options pages and post type/taxonomy definitions can now be read, edited or deleted only with the plugin's admin capability (`wpff/capability`, default `manage_options`), and are refused over XML-RPC. Before, they used ordinary post capabilities, so an Editor could rewrite them with `wp.editPost` — for example point an options page at core options and set `default_role` to `administrator`.
 - Post Object, Relationship and Page Link fields no longer return drafts and private posts to users who cannot read them, and Image, File and Gallery fields leave out attachments of private posts. A contributor could put a private post's ID into a block's data and see its title in the preview. Raw values (`get_field( $name, $id, false )`) are unchanged. Filter: `wpff/format/readable_post`.
 
 ### Performance
