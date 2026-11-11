@@ -1,6 +1,6 @@
 {
 	"name": "freeform-fields",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"private": true,
 	"description": "Field group builder for WP Freeform Fields.",
 	"license": "GPL-2.0-or-later",

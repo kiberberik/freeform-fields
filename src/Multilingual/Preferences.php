@@ -60,7 +60,9 @@ final class Preferences {
 
 	/**
 	 * Mode of a group. A group without one uses the expert setup when its fields carry
-	 * preferences (groups made before modes existed), else "same fields across languages".
+	 * preferences (groups made before modes existed), else "different fields across languages":
+	 * on a site that already has translations nothing is synchronized (and overwritten)
+	 * until someone picks an option for the group.
 	 *
 	 * @param array<string, mixed> $group Group.
 	 */
@@ -69,7 +71,7 @@ final class Preferences {
 		if ( in_array( $mode, self::MODES, true ) ) {
 			return $mode;
 		}
-		return self::has_stored_preferences( (array) ( $group['fields'] ?? array() ) ) ? self::MODE_ADVANCED : self::MODE_TRANSLATION;
+		return self::has_stored_preferences( (array) ( $group['fields'] ?? array() ) ) ? self::MODE_ADVANCED : self::MODE_LOCALIZATION;
 	}
 
 	/**

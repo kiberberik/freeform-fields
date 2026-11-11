@@ -203,7 +203,8 @@ final class MultilingualTest extends TestCase {
 
 	public function test_group_mode_defaults(): void {
 		$this->assertSame( 'localization', Preferences::mode( array( 'acfml_field_group_mode' => 'localization' ) ) );
-		$this->assertSame( 'translation', Preferences::mode( array( 'fields' => array( array( 'type' => 'text' ) ) ) ) );
+		// Groups from before multilingual support: nothing is kept in sync until an option is chosen.
+		$this->assertSame( 'localization', Preferences::mode( array( 'fields' => array( array( 'type' => 'text' ) ) ) ) );
 		// Groups from before modes existed carry per-field preferences: expert mode.
 		$this->assertSame(
 			'advanced',
@@ -314,6 +315,34 @@ final class MultilingualTest extends TestCase {
 		$this->assertContains( 'title_text', $copy );
 		$this->assertContains( '_title_text', $copy );
 		$this->assertContains( 'cards_0_card_title', $copy );
+	}
+
+	public function test_group_without_option_keeps_translations_apart(): void {
+		// A group from before multilingual support (no option chosen yet).
+		$this->make_group(
+			array(
+				array(
+					'key'   => 'field_ml_legacy_photo',
+					'name'  => 'legacy_photo',
+					'label' => 'Photo',
+					'type'  => 'image',
+				),
+			)
+		);
+		$en = $this->make_post();
+		$ru = $this->make_post();
+		$this->provider->link_posts(
+			array(
+				'en' => $en,
+				'ru' => $ru,
+			)
+		);
+		update_field( 'legacy_photo', $this->make_image(), $en );
+
+		// Saving a post never overwrites its translations' values...
+		$this->assertNotContains( 'legacy_photo', apply_filters( 'pll_copy_post_metas', array( 'legacy_photo' ), true, $en, $ru, 'ru' ) );
+		// ...but a new translation still starts as a copy.
+		$this->assertContains( 'legacy_photo', apply_filters( 'pll_copy_post_metas', array(), false, $en, $ru, 'ru' ) );
 	}
 
 	public function test_polylang_translates_ids_in_copied_values(): void {
