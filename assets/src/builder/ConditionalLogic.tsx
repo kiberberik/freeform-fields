@@ -6,6 +6,23 @@ import { Button, TextControl, ToggleControl } from '@wordpress/components';
 import { closeSmall, plus } from '@wordpress/icons';
 import { parseChoices, typeOf } from './utils';
 import Select from './Select';
+import type {
+	Condition,
+	ConditionalLogic as ConditionalLogicValue,
+	Field,
+} from '../types';
+
+interface ConditionalLogicProps {
+	field: Field;
+	siblings: Field[];
+	onChange: ( conditionalLogic: ConditionalLogicValue ) => void;
+}
+
+interface RuleValueProps {
+	target: Field | undefined;
+	rule: Condition;
+	onChange: ( value: string ) => void;
+}
 
 const OPERATORS = () => [
 	{ value: '==', label: __( 'Value is equal to', 'freeform-fields' ) },
@@ -24,12 +41,16 @@ const OPERATORS = () => [
 const NO_VALUE = [ '==empty', '!=empty' ];
 
 /**
- * @param {Object}   props
- * @param {Object}   props.field    Field being edited.
- * @param {Array}    props.siblings Fields the rules may refer to.
- * @param {Function} props.onChange Receives the new conditional_logic (array or 0).
+ * @param props
+ * @param props.field    Field being edited.
+ * @param props.siblings Fields the rules may refer to.
+ * @param props.onChange Receives the new conditional_logic (array or 0).
  */
-export default function ConditionalLogic( { field, siblings, onChange } ) {
+export default function ConditionalLogic( {
+	field,
+	siblings,
+	onChange,
+}: ConditionalLogicProps ) {
 	const candidates = siblings.filter(
 		( f ) =>
 			f.key !== field.key &&
@@ -40,15 +61,15 @@ export default function ConditionalLogic( { field, siblings, onChange } ) {
 		? field.conditional_logic
 		: null;
 
-	const newRule = () => ( {
+	const newRule = (): Condition => ( {
 		field: candidates[ 0 ]?.key || '',
 		operator: '==',
 		value: firstValue( candidates[ 0 ] ),
 	} );
 
-	const setRule = ( gi, ri, patch ) =>
+	const setRule = ( gi: number, ri: number, patch: Partial< Condition > ) =>
 		onChange(
-			rules.map( ( group, g ) =>
+			rules!.map( ( group, g ) =>
 				g === gi
 					? group.map( ( r, i ) =>
 							i === ri ? { ...r, ...patch } : r
@@ -57,15 +78,15 @@ export default function ConditionalLogic( { field, siblings, onChange } ) {
 			)
 		);
 
-	const addRule = ( gi ) =>
+	const addRule = ( gi: number ) =>
 		onChange(
-			rules.map( ( group, g ) =>
+			rules!.map( ( group, g ) =>
 				g === gi ? [ ...group, newRule() ] : group
 			)
 		);
 
-	const removeRule = ( gi, ri ) => {
-		const next = rules
+	const removeRule = ( gi: number, ri: number ) => {
+		const next = rules!
 			.map( ( group, g ) =>
 				g === gi ? group.filter( ( _, i ) => i !== ri ) : group
 			)
@@ -194,10 +215,10 @@ export default function ConditionalLogic( { field, siblings, onChange } ) {
 /**
  * Sensible starting value for a rule on a field: its first choice, "checked", or empty.
  *
- * @param {Object|undefined} target Field.
- * @return {string} Value.
+ * @param target Field.
+ * @return Value.
  */
-function firstValue( target ) {
+function firstValue( target: Field | undefined ): string {
 	if ( ! target ) {
 		return '';
 	}
@@ -210,7 +231,7 @@ function firstValue( target ) {
 	return keys.length ? keys[ 0 ] : '';
 }
 
-function RuleValue( { target, rule, onChange } ) {
+function RuleValue( { target, rule, onChange }: RuleValueProps ) {
 	const common = {
 		label: __( 'Value', 'freeform-fields' ),
 		hideLabelFromVision: true,
@@ -250,6 +271,10 @@ function RuleValue( { target, rule, onChange } ) {
 		);
 	}
 	return (
-		<TextControl { ...common } value={ rule.value } onChange={ onChange } />
+		<TextControl
+			{ ...common }
+			value={ rule.value ?? '' }
+			onChange={ onChange }
+		/>
 	);
 }

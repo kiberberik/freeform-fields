@@ -6,15 +6,26 @@ import { __ } from '@wordpress/i18n';
 import { SearchControl } from '@wordpress/components';
 import { useDraggable } from '@dnd-kit/core';
 import { TypeIcon } from './ui';
+import type { FieldType } from '../types';
+import type { DragData } from './types';
+
+interface TypePaletteProps {
+	onAdd: ( type: FieldType ) => void;
+	disabled: boolean;
+}
+
+interface TileProps extends TypePaletteProps {
+	type: FieldType;
+}
 
 /**
- * @param {Object}   props
- * @param {Function} props.onAdd    Receives the type to add after the selected field.
- * @param {boolean}  props.disabled Read-only group.
+ * @param props
+ * @param props.onAdd    Receives the type to add after the selected field.
+ * @param props.disabled Read-only group.
  */
-export default function TypePalette( { onAdd, disabled } ) {
+export default function TypePalette( { onAdd, disabled }: TypePaletteProps ) {
 	const [ search, setSearch ] = useState( '' );
-	const types = window.wpffBuilder.fieldTypes;
+	const types = window.wpffBuilder!.fieldTypes;
 	const query = search.trim().toLowerCase();
 	const matching = types.filter(
 		( t ) =>
@@ -67,10 +78,10 @@ export default function TypePalette( { onAdd, disabled } ) {
 	);
 }
 
-function Tile( { type, onAdd, disabled } ) {
+function Tile( { type, onAdd, disabled }: TileProps ) {
 	const { setNodeRef, attributes, listeners, isDragging } = useDraggable( {
 		id: `type:${ type.name }`,
-		data: { kind: 'type', type },
+		data: { kind: 'type', type } satisfies DragData,
 		disabled,
 	} );
 	return (

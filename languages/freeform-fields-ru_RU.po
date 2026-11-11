@@ -803,12 +803,12 @@ msgid "Maximum Selection"
 msgstr "Максимум изображений"
 
 #: src/Fields/Types/Gallery.php:103
-#: assets/js/admin.js:1665
+#: build/admin.js:8
 msgid "Remove image"
 msgstr "Удалить изображение"
 
 #: src/Fields/Types/Gallery.php:107
-#: assets/js/admin.js:1626
+#: build/admin.js:8
 msgid "Add to gallery"
 msgstr "Добавить в галерею"
 
@@ -1029,13 +1029,13 @@ msgstr "Ползунок"
 #. translators: %s: item title.
 #. translators: %s: option label.
 #: src/Fields/Types/RelationalField.php:108
-#: assets/js/admin.js:580
-#: assets/js/admin.js:2013
+#: build/admin.js:3
+#: build/admin.js:9
 msgid "Remove %s"
 msgstr "Удалить %s"
 
 #: src/Fields/Types/RelationalField.php:116
-#: assets/js/admin.js:2076
+#: build/admin.js:9
 #: build/builder.js:1
 msgid "Search…"
 msgstr "Поиск…"
@@ -1481,7 +1481,7 @@ msgstr "Поле «%1$s» пропущено (тип «%2$s» не поддер�
 #. translators: %s: field label.
 #: src/Validation/Validator.php:83
 #: src/Validation/Validator.php:144
-#: assets/js/admin.js:905
+#: build/admin.js:4
 msgid "%s is required."
 msgstr "Поле «%s» обязательно."
 
@@ -1489,68 +1489,68 @@ msgstr "Поле «%s» обязательно."
 msgid "Validation failed."
 msgstr "Проверка не пройдена."
 
-#: assets/js/admin.js:320
+#: build/admin.js:1
 msgid "Select Image"
 msgstr "Выбрать изображение"
 
-#: assets/js/admin.js:321
+#: build/admin.js:1
 msgid "Select File"
 msgstr "Выбрать файл"
 
-#: assets/js/admin.js:325
+#: build/admin.js:1
 msgid "Use Image"
 msgstr "Использовать изображение"
 
-#: assets/js/admin.js:326
+#: build/admin.js:1
 msgid "Use File"
 msgstr "Использовать файл"
 
 #. translators: %d: maximum number of items.
-#: assets/js/admin.js:556
+#: build/admin.js:2
 msgid "You can select at most %d items."
 msgstr "Можно выбрать не более %d элементов."
 
-#: assets/js/admin.js:603
+#: build/admin.js:1
 #: build/map.js:1
 msgid "Searching…"
 msgstr "Поиск…"
 
-#: assets/js/admin.js:635
+#: build/admin.js:1
 msgid "No matches found."
 msgstr "Ничего не найдено."
 
-#: assets/js/admin.js:641
+#: build/admin.js:1
 msgid "Load more…"
 msgstr "Загрузить ещё…"
 
-#: assets/js/admin.js:652
+#: build/admin.js:1
 msgid "Could not load results."
 msgstr "Не удалось загрузить результаты."
 
-#: assets/js/admin.js:990
+#: build/admin.js:4
 msgid "Fill in the required fields to save."
 msgstr "Заполните обязательные поля, чтобы сохранить."
 
-#: assets/js/admin.js:1060
+#: build/admin.js:4
 msgid "Fix the highlighted fields to save."
 msgstr "Исправьте выделенные поля, чтобы сохранить."
 
 #. translators: %d: maximum number of rows.
-#: assets/js/admin.js:1239
+#: build/admin.js:5
 msgid "At most %d rows are allowed."
 msgstr "Допускается не более %d строк."
 
 #. translators: %d: maximum number of this layout.
-#: assets/js/admin.js:1259
+#: build/admin.js:6
 msgid "This layout can be used at most %d times."
 msgstr "Этот макет можно использовать не более %d раз."
 
 #. translators: %d: minimum number of rows.
-#: assets/js/admin.js:1363
+#: build/admin.js:8
 msgid "At least %d rows are required."
 msgstr "Нужно хотя бы %d строк."
 
-#: assets/js/admin.js:1625
+#: build/admin.js:8
 msgid "Add Image to Gallery"
 msgstr "Добавить изображение в галерею"
 
@@ -2352,7 +2352,7 @@ msgstr "Через WP-CLI: wp wpff sync, wp wpff export, wp wpff import <file>, 
 
 #. Description of the plugin
 #: freeform-fields.php
-#: src/Updates/Updater.php:122
+#: src/Updates/Updater.php:139
 msgid "Free custom fields for WordPress: field groups, repeaters, flexible content, options pages and PHP blocks. Compatible with ACF data and template functions."
 msgstr "Бесплатные произвольные поля для WordPress: группы полей, повторители, гибкое содержимое, страницы настроек и блоки на PHP. Совместим с данными и функциями шаблонов ACF."
 
@@ -2474,20 +2474,20 @@ msgstr "Неизвестный объект."
 msgid "Options page \"%s\" already exists and was skipped."
 msgstr "Страница настроек «%s» уже существует и пропущена."
 
-#: assets/js/admin.js:1455
+#: build/admin.js:6
 msgid "Rows pagination"
 msgstr "Страницы строк"
 
-#: assets/js/admin.js:1461
+#: build/admin.js:6
 msgid "Previous"
 msgstr "Назад"
 
-#: assets/js/admin.js:1462
+#: build/admin.js:6
 msgid "Next"
 msgstr "Вперёд"
 
 #. translators: 1: current page, 2: number of pages.
-#: assets/js/admin.js:1472
+#: build/admin.js:7
 msgid "Page %1$d of %2$d"
 msgstr "Страница %1$d из %2$d"
 
@@ -2511,7 +2511,7 @@ msgstr "Определяю адрес…"
 msgid "Choose a result with the arrow keys or the mouse."
 msgstr "Выберите результат стрелками или мышью."
 
-#: assets/js/admin.js:2170
+#: build/admin.js:9
 #: build/builder.js:1
 #: build/map.js:1
 msgid "Nothing found."
@@ -2825,11 +2825,11 @@ msgstr "Типов записей пока нет"
 msgid "No taxonomies yet"
 msgstr "Таксономий пока нет"
 
-#: assets/js/admin.js:2040
+#: build/admin.js:9
 msgid "Select…"
 msgstr "Выберите…"
 
-#: assets/js/admin.js:2079
+#: build/admin.js:9
 #: build/builder.js:1
 msgid "Search options"
 msgstr "Поиск вариантов"
@@ -3063,11 +3063,11 @@ msgstr[2] "%d иконок"
 msgid "https://wpff.kiberberik.link"
 msgstr ""
 
-#: src/Updates/Updater.php:107
+#: src/Updates/Updater.php:124
 msgid "Full changelog"
 msgstr "Полный список изменений"
 
-#: src/Updates/Updater.php:123
+#: src/Updates/Updater.php:140
 msgid "Documentation"
 msgstr "Документация"
 
@@ -3193,3 +3193,11 @@ msgstr "Элемент %d — страница настроек без слаг�
 #: build/builder.js:1
 msgid "No option chosen yet: “Different fields across languages” applies, so nothing is kept in sync between translations."
 msgstr "Вариант ещё не выбран: действует «Разные поля в разных языках», поэтому между переводами ничего не синхронизируется."
+
+#: build/admin.js:1
+msgid "You are not allowed to choose files here."
+msgstr "Здесь нельзя выбирать файлы."
+
+#: build/builder.js:16
+msgid "This options page is read from ACF and cannot be edited here. Migrate it in Tools to edit it."
+msgstr "Эта страница настроек читается из ACF и не редактируется здесь. Чтобы её изменить, перенесите её в «Инструментах»."

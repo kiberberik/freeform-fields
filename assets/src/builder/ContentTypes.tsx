@@ -26,25 +26,67 @@ import {
 	SideCard,
 	ToggleRows,
 } from './settings';
+import type { Choices } from '../types';
 
-const data = () => window.wpffBuilder.content;
+/**
+ * A post type or taxonomy as the REST API returns it (Content\ContentTypes).
+ * Which of the optional settings are present depends on the kind.
+ */
+interface ContentItem {
+	key: string;
+	singular: string;
+	plural: string;
+	description: string;
+	public: boolean;
+	hierarchical: boolean;
+	show_in_rest: boolean;
+	rewrite_slug: string;
+	active: boolean;
+	// Post types.
+	menu_icon?: string;
+	/** Number from the server (null when unset); '' or a string while editing. */
+	menu_position?: number | string | null;
+	supports?: string[];
+	taxonomies?: string[];
+	has_archive?: boolean;
+	exclude_from_search?: boolean;
+	// Taxonomies.
+	object_type?: string[];
+	show_admin_column?: boolean;
+}
+
+/** A row of the list: the item and its number of posts or terms. */
+interface ContentItemRow extends ContentItem {
+	count: number;
+}
+
+interface NoticeState {
+	status: 'success' | 'error';
+	text: string;
+}
+
+/** Settings edited with a plain text input. */
+type TextProp = 'plural' | 'singular' | 'key' | 'rewrite_slug';
+
+const data = () => window.wpffBuilder!.content;
 const path = ( key = '' ) =>
-	`${ window.wpffBuilder.restPath }/content-types/${ data().kind }${
+	`${ window.wpffBuilder!.restPath }/content-types/${ data().kind }${
 		key ? `/${ key }` : ''
 	}`;
 const isPostType = () => 'post_type' === data().kind;
 
 export function ContentTypeList() {
 	const cfg = data();
-	const [ items, setItems ] = useState( null );
-	const [ notice, setNotice ] = useState( null );
+	const [ items, setItems ] = useState< ContentItemRow[] | null >( null );
+	const [ notice, setNotice ] = useState< NoticeState | null >( null );
 
-	const load = () => apiFetch( { path: path() } ).then( setItems );
+	const load = () =>
+		apiFetch< ContentItemRow[] >( { path: path() } ).then( setItems );
 	useEffect( () => {
 		load();
 	}, [] );
 
-	const remove = ( item ) => {
+	const remove = ( item: ContentItemRow ) => {
 		const question = isPostType()
 			? /* translators: %s: label. */ __(
 					'Delete the post type "%s"? Its posts stay in the database but are hidden until it is registered again.',
@@ -199,8 +241,8 @@ export function ContentTypeList() {
 									</td>
 									<td>
 										{ ( isPostType()
-											? item.taxonomies
-											: item.object_type
+											? item.taxonomies!
+											: item.object_type!
 										).join( ', ' ) || '—' }
 									</td>
 									<td className="wpff-col-narrow">
@@ -228,7 +270,7 @@ export function ContentTypeList() {
 	);
 }
 
-const NEW_ITEM = () =>
+const NEW_ITEM = (): ContentItem =>
 	isPostType()
 		? {
 				key: '',
@@ -261,7 +303,14 @@ const NEW_ITEM = () =>
 				active: true,
 			};
 
-function Checklist( { label, options, value, onChange } ) {
+interface ChecklistProps {
+	label?: string;
+	options: Choices;
+	value: string[];
+	onChange: ( value: string[] ) => void;
+}
+
+function Checklist( { label, options, value, onChange }: ChecklistProps ) {
 	return (
 		<fieldset className="wpff-checklist">
 			{ label && (
@@ -288,7 +337,7 @@ function Checklist( { label, options, value, onChange } ) {
 	);
 }
 
-function editorTitle( current ) {
+function editorTitle( current: string ) {
 	if ( isPostType() ) {
 		return current
 			? __( 'Edit Post Type', 'freeform-fields' )
@@ -302,16 +351,18 @@ function editorTitle( current ) {
 export function ContentTypeEditor() {
 	const cfg = data();
 	const isNew = 'new' === cfg.item;
-	const [ item, setItem ] = useState( isNew ? NEW_ITEM() : null );
+	const [ item, setItem ] = useState< ContentItem | null >(
+		isNew ? NEW_ITEM() : null
+	);
 	const [ current, setCurrent ] = useState( isNew ? '' : cfg.item );
 	const [ keyTouched, setKeyTouched ] = useState( ! isNew );
-	const [ errors, setErrors ] = useState( {} );
-	const [ notice, setNotice ] = useState( null );
+	const [ errors, setErrors ] = useState< Record< string, string > >( {} );
+	const [ notice, setNotice ] = useState< NoticeState | null >( null );
 	const [ saving, setSaving ] = useState( false );
 
 	useEffect( () => {
 		if ( ! isNew ) {
-			apiFetch( { path: path( cfg.item ) } )
+			apiFetch< ContentItem >( { path: path( cfg.item ) } )
 				.then( ( loaded ) =>
 					setItem( {
 						...loaded,
@@ -331,15 +382,24 @@ export function ContentTypeEditor() {
 			<Spinner />
 		);
 	}
-	const set = ( patch ) => setItem( { ...item, ...patch } );
+	const set = ( patch: Partial< ContentItem > ) =>
+		setItem( { ...item, ...patch } );
 
 	const save = () => {
 		setSaving( true );
 		setErrors( {} );
 		setNotice( null );
 		const request = current
-			? apiFetch( { path: path( current ), method: 'PUT', data: item } )
-			: apiFetch( { path: path(), method: 'POST', data: item } );
+			? apiFetch< ContentItem >( {
+					path: path( current ),
+					method: 'PUT',
+					data: item,
+				} )
+			: apiFetch< ContentItem >( {
+					path: path(),
+					method: 'POST',
+					data: item,
+				} );
 		request
 			.then( ( saved ) => {
 				setItem( {
@@ -368,7 +428,12 @@ export function ContentTypeEditor() {
 			.finally( () => setSaving( false ) );
 	};
 
-	const text = ( label, prop, help, onChange ) => (
+	const text = (
+		label: string,
+		prop: TextProp,
+		help: string,
+		onChange?: ( value: string ) => void
+	) => (
 		<TextControl
 			label={ label }
 			value={ item[ prop ] ?? '' }
@@ -637,7 +702,7 @@ export function ContentTypeEditor() {
 							>
 								<Checklist
 									options={ cfg.supports }
-									value={ item.supports }
+									value={ item.supports! }
 									onChange={ ( v ) => set( { supports: v } ) }
 								/>
 							</SettingsSection>
@@ -650,7 +715,7 @@ export function ContentTypeEditor() {
 							>
 								<Checklist
 									options={ cfg.taxonomies }
-									value={ item.taxonomies }
+									value={ item.taxonomies! }
 									onChange={ ( v ) =>
 										set( { taxonomies: v } )
 									}
@@ -667,7 +732,7 @@ export function ContentTypeEditor() {
 						>
 							<Checklist
 								options={ cfg.postTypes }
-								value={ item.object_type }
+								value={ item.object_type! }
 								onChange={ ( v ) => set( { object_type: v } ) }
 							/>
 						</SettingsSection>
@@ -703,7 +768,7 @@ export function ContentTypeEditor() {
 								isPostType()
 									? ''
 									: cfg.menuNames?.[
-											item.object_type[ 0 ]
+											item.object_type![ 0 ]
 										] || __( 'Posts', 'freeform-fields' )
 							}
 						/>
