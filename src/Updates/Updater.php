@@ -34,8 +34,25 @@ final class Updater {
 	public function register(): void {
 		add_filter( 'update_plugins_' . self::HOST, array( $this, 'check' ), 10, 3 );
 		add_filter( 'plugins_api', array( $this, 'info' ), 20, 3 );
-		// "Check again" on the Updates screen and plugin installs clear WordPress's own cache; clear ours with it.
+		// Plugin installs and updates clear WordPress's own cache; clear ours with it.
 		add_action( 'delete_site_transient_update_plugins', array( $this, 'flush' ) );
+		// "Check again" on the Updates screen; before wp_update_plugins() runs on that screen (priority 10).
+		add_action( 'load-update-core.php', array( $this, 'check_again' ), 9 );
+	}
+
+	/**
+	 * "Check again" on the Updates screen (`update-core.php?force-check=1`): forgets the cached
+	 * manifest and WordPress's last plugin check, so the check that follows sees a new release.
+	 * Without it, a release stayed invisible until the cached manifest expired.
+	 */
+	public function check_again(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- a read-only flag, as in core's update-core.php.
+		if ( empty( $_GET['force-check'] ) || ! current_user_can( 'update_plugins' ) ) {
+			return;
+		}
+		$this->flush();
+		// WordPress checks plugins on this screen at most once a minute.
+		delete_site_transient( 'update_plugins' );
 	}
 
 	/**
@@ -127,7 +144,8 @@ final class Updater {
 	}
 
 	/**
-	 * The latest release's manifest, cached for 12 hours (1 hour after a failed request).
+	 * The latest release's manifest, cached for an hour. WordPress itself checks for updates
+	 * twice a day, so this only saves requests when several checks run close together.
 	 *
 	 * @return array|null Normalized manifest, or null when there is none.
 	 */
@@ -149,7 +167,7 @@ final class Updater {
 			$manifest = self::normalize( json_decode( wp_remote_retrieve_body( $response ), true ) );
 		}
 
-		set_site_transient( self::CACHE_KEY, array( 'manifest' => $manifest ), $manifest ? 12 * HOUR_IN_SECONDS : HOUR_IN_SECONDS );
+		set_site_transient( self::CACHE_KEY, array( 'manifest' => $manifest ), HOUR_IN_SECONDS );
 		return $manifest;
 	}
 

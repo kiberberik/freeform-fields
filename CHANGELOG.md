@@ -2,6 +2,11 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.4.2] — 2026-11-11
+
+### Fixed
+- "Check again" on the Updates screen did not see a new release: the release manifest stayed cached for up to 12 hours. It is now fetched again on "Check again", and otherwise cached for an hour.
+
 ## [1.4.1] — 2026-11-11
 
 ### Changed
