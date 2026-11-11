@@ -88,29 +88,53 @@ final class LocalJson {
 			return $this->files;
 		}
 		$this->files = array();
+		$found       = array();
+		clearstatcache();
 		foreach ( $this->load_paths() as $path ) {
 			foreach ( glob( $path . '/*.json' ) ?: array() as $file ) {
-				$group = json_decode( (string) file_get_contents( $file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-				// ACF also allows a file holding a list of groups (an export); take each.
-				$groups = isset( $group['key'] ) ? array( $group ) : ( is_array( $group ) ? $group : array() );
-				foreach ( $groups as $item ) {
-					if ( ! is_array( $item ) || empty( $item['key'] ) || ! str_starts_with( (string) $item['key'], 'group_' ) ) {
-						continue;
-					}
-					if ( ! isset( $this->files[ $item['key'] ] ) ) {
-						$this->files[ $item['key'] ] = array(
-							'file'  => $file,
-							'group' => $item,
-						);
-					}
+				$found[ $file ] = (int) filemtime( $file ) . ':' . (int) filesize( $file );
+			}
+		}
+		if ( array() === $found ) {
+			return $this->files;
+		}
+		// Reading and decoding every file is the slow part; the list of names and times is cheap.
+		$cache_key = 'json_files:' . md5( wp_cache_get_last_changed( \FreeformFields\Registry\FieldRegistry::CACHE_GROUP ) . (string) wp_json_encode( $found ) );
+		$cached    = wp_cache_get( $cache_key, \FreeformFields\Registry\FieldRegistry::CACHE_GROUP );
+		if ( is_array( $cached ) ) {
+			$this->files = $cached;
+			return $this->files;
+		}
+		foreach ( array_keys( $found ) as $file ) {
+			$group = json_decode( (string) file_get_contents( $file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			// ACF also allows a file holding a list of groups (an export); take each.
+			$groups = isset( $group['key'] ) ? array( $group ) : ( is_array( $group ) ? $group : array() );
+			foreach ( $groups as $item ) {
+				if ( ! is_array( $item ) || empty( $item['key'] ) || ! str_starts_with( (string) $item['key'], 'group_' ) ) {
+					continue;
+				}
+				if ( ! isset( $this->files[ $item['key'] ] ) ) {
+					$this->files[ $item['key'] ] = array(
+						'file'  => $file,
+						'group' => $item,
+					);
 				}
 			}
 		}
+		wp_cache_set( $cache_key, $this->files, \FreeformFields\Registry\FieldRegistry::CACHE_GROUP, DAY_IN_SECONDS );
 		return $this->files;
 	}
 
 	public function flush(): void {
 		$this->files = null;
+	}
+
+	/**
+	 * Forgets the files cached between requests too (after this plugin writes or removes one).
+	 */
+	private function changed(): void {
+		wp_cache_set_last_changed( \FreeformFields\Registry\FieldRegistry::CACHE_GROUP );
+		$this->flush();
 	}
 
 	/**
@@ -162,7 +186,7 @@ final class LocalJson {
 		}
 		$data = self::export_shape( $group );
 		$ok   = false !== file_put_contents( $path . '/' . $group['key'] . '.json', wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . "\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-		$this->flush();
+		$this->changed();
 		return $ok;
 	}
 
@@ -176,7 +200,7 @@ final class LocalJson {
 		if ( '' !== $path && file_exists( $path . '/' . $key . '.json' ) ) {
 			wp_delete_file( $path . '/' . $key . '.json' );
 		}
-		$this->flush();
+		$this->changed();
 	}
 
 	/**

@@ -96,9 +96,9 @@ final class ContentTypes {
 					'rewrite'         => false,
 					'query_var'       => false,
 					'supports'        => array( 'title' ),
-					'capability_type' => 'post',
+					'capability_type' => array( 'wpff_config', 'wpff_configs' ),
 					'map_meta_cap'    => true,
-					'capabilities'    => array( 'create_posts' => 'manage_options' ),
+					'capabilities'    => \FreeformFields\Plugin::config_capabilities(),
 				)
 			);
 		}

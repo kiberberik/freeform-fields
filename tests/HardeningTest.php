@@ -265,4 +265,83 @@ final class HardeningTest extends TestCase {
 		$this->assertStringContainsString( '<div class="wpff-input" role="group" aria-labelledby="wpff-field_h_check-label">', $html );
 		$this->assertStringNotContainsString( 'aria-labelledby="wpff-field_h_text-label"', $html, 'Single inputs use the plain label.' );
 	}
+
+	public function test_unreadable_posts_and_attachments_are_not_formatted(): void {
+		$this->make_group(
+			array(
+				array(
+					'key'           => 'field_h_related',
+					'name'          => 'h_related',
+					'type'          => 'relationship',
+					'return_format' => 'object',
+				),
+				array(
+					'key'           => 'field_h_one',
+					'name'          => 'h_one',
+					'type'          => 'post_object',
+					'return_format' => 'id',
+				),
+				array(
+					'key'           => 'field_h_image',
+					'name'          => 'h_image',
+					'type'          => 'image',
+					'return_format' => 'id',
+				),
+			)
+		);
+		$public  = $this->make_post( array( 'post_title' => 'Public' ) );
+		$private = $this->make_post(
+			array(
+				'post_title'  => 'Secret title',
+				'post_status' => 'private',
+			)
+		);
+		$draft   = $this->make_post(
+			array(
+				'post_title'  => 'Draft',
+				'post_status' => 'draft',
+			)
+		);
+		$image   = $this->make_image();
+		wp_update_post(
+			array(
+				'ID'          => $image,
+				'post_parent' => $private,
+			)
+		);
+		$holder = $this->make_post();
+		update_field( 'h_related', array( $public, $private, $draft ), $holder );
+		update_field( 'h_one', $private, $holder );
+		update_field( 'h_image', $image, $holder );
+
+		$contributor   = wp_insert_user(
+			array(
+				'user_login' => 'h_contrib_' . wp_generate_password( 4, false ),
+				'user_pass'  => wp_generate_password(),
+				'role'       => 'contributor',
+			)
+		);
+		$this->users[] = $contributor;
+		wp_set_current_user( $contributor );
+
+		$related = get_field( 'h_related', $holder );
+		$this->assertSame( array( $public ), wp_list_pluck( $related, 'ID' ), 'Private and draft posts are dropped.' );
+		$this->assertFalse( get_field( 'h_one', $holder ) );
+		$this->assertFalse( get_field( 'h_image', $holder ), 'Attachments of private posts are dropped.' );
+		wp_set_current_user( 1 );
+		wp_update_post(
+			array(
+				'ID'          => $image,
+				'post_parent' => $draft,
+			)
+		);
+		wp_set_current_user( $contributor );
+		$this->assertSame( $image, get_field( 'h_image', $holder ), 'Files uploaded to drafts still show.' );
+		$this->assertSame( (string) $private, (string) get_field( 'h_one', $holder, false ), 'Raw values are unchanged.' );
+
+		wp_set_current_user( 1 );
+		$this->assertCount( 3, get_field( 'h_related', $holder ), 'Users who can read them still get them.' );
+		$this->assertSame( $private, get_field( 'h_one', $holder ) );
+		$this->assertSame( $image, get_field( 'h_image', $holder ) );
+	}
 }

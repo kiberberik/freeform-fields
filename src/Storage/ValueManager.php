@@ -35,11 +35,100 @@ final class ValueManager {
 	 */
 	private int $priming = 0;
 
+	/**
+	 * Values read this request, by object ("post:5") then by read ("name|format|user|lang").
+	 *
+	 * @var array<string, array<string, mixed>>
+	 */
+	private array $cache = array();
+
+	/**
+	 * Field list revision the cache was filled with.
+	 *
+	 * @var int
+	 */
+	private int $cache_revision = -1;
+
+	/**
+	 * Objects kept in the cache before it starts over (long imports read many objects).
+	 */
+	private const CACHE_OBJECTS = 500;
+
 	public function __construct(
 		private FieldRegistry $fields,
 		private FieldTypeRegistry $types
 	) {
 		$this->store = new MetaStore();
+		$this->watch_writes();
+	}
+
+	/**
+	 * Forgets cached values when meta or options change, however they are written.
+	 */
+	private function watch_writes(): void {
+		foreach ( array( 'post', 'term', 'user', 'comment' ) as $type ) {
+			$forget = function ( $meta_ids, $object_id ) use ( $type ): void {
+				unset( $this->cache[ $type . ':' . (int) $object_id ] );
+			};
+			foreach ( array( 'added', 'updated', 'deleted' ) as $action ) {
+				add_action( "{$action}_{$type}_meta", $forget, 10, 2 );
+			}
+		}
+		$forget_options = function (): void {
+			foreach ( array_keys( $this->cache ) as $object ) {
+				if ( str_starts_with( $object, 'option:' ) ) {
+					unset( $this->cache[ $object ] );
+				}
+			}
+		};
+		foreach ( array( 'added_option', 'updated_option', 'deleted_option' ) as $action ) {
+			add_action( $action, $forget_options );
+		}
+		// A picked post, term or user that changed may format differently in any object's values.
+		foreach ( array( 'clean_post_cache', 'clean_term_cache', 'clean_user_cache', 'switch_locale', 'restore_previous_locale' ) as $action ) {
+			add_action( $action, array( $this, 'flush_cache' ) );
+		}
+	}
+
+	/**
+	 * Forgets all values cached this request.
+	 */
+	public function flush_cache(): void {
+		$this->cache = array();
+	}
+
+	/**
+	 * A value from the per-request cache, computed on the first read.
+	 *
+	 * Turn the cache off with `add_filter( 'wpff/cache_values', '__return_false' )` when code
+	 * changes stored values in ways WordPress's meta and option hooks do not report.
+	 *
+	 * @param ObjectRef $ref     Object.
+	 * @param string    $read    What is read (selector and format flag).
+	 * @param callable  $compute Computes the value.
+	 * @return mixed
+	 */
+	private function cached( ObjectRef $ref, string $read, callable $compute ) {
+		// Block data lives in memory and changes without hooks.
+		if ( 'block' === $ref->type || ! apply_filters( 'wpff/cache_values', true, $ref->to_string() ) ) {
+			return $compute();
+		}
+		if ( $this->fields->revision() !== $this->cache_revision ) {
+			$this->cache          = array();
+			$this->cache_revision = $this->fields->revision();
+		}
+		$object = $ref->type . ':' . $ref->id . ( $ref->fallback ? '>' . $ref->fallback->id : '' );
+		// Formatting depends on who reads (unreadable posts are dropped) and on the language.
+		$read .= '|' . get_current_user_id() . '|' . ( \FreeformFields\Multilingual\Multilingual::current_language() ?? '' );
+		if ( isset( $this->cache[ $object ] ) && array_key_exists( $read, $this->cache[ $object ] ) ) {
+			return $this->cache[ $object ][ $read ];
+		}
+		$value = $compute();
+		if ( ! isset( $this->cache[ $object ] ) && count( $this->cache ) >= self::CACHE_OBJECTS ) {
+			$this->cache = array();
+		}
+		$this->cache[ $object ][ $read ] = $value;
+		return $value;
 	}
 
 	public function store(): MetaStore {
@@ -99,13 +188,19 @@ final class ValueManager {
 		if ( ! $ref ) {
 			return null;
 		}
-		$field = $this->resolve_field( $selector, $ref );
-		if ( ! $field ) {
-			// Unknown field: behave like get_metadata() so plain meta is still readable.
-			return $this->store->get( $ref, $selector );
-		}
-		$value = $this->load( $field, $ref );
-		return $format ? $this->format( $value, $field, $ref ) : $this->acf_raw( $value, $field );
+		return $this->cached(
+			$ref,
+			$selector . '|' . (int) $format,
+			function () use ( $selector, $ref, $format ) {
+				$field = $this->resolve_field( $selector, $ref );
+				if ( ! $field ) {
+					// Unknown field: behave like get_metadata() so plain meta is still readable.
+					return $this->store->get( $ref, $selector );
+				}
+				$value = $this->load( $field, $ref );
+				return $format ? $this->format( $value, $field, $ref ) : $this->acf_raw( $value, $field );
+			}
+		);
 	}
 
 	/**
@@ -200,6 +295,17 @@ final class ValueManager {
 		if ( ! $ref ) {
 			return false;
 		}
+		return $this->cached( $ref, "\0all|" . (int) $format, fn() => $this->read_all( $ref, $format ) );
+	}
+
+	/**
+	 * get_all() without the cache.
+	 *
+	 * @param ObjectRef $ref    Object.
+	 * @param bool      $format Format the values.
+	 * @return array<string, mixed>|false
+	 */
+	private function read_all( ObjectRef $ref, bool $format ) {
 		$values = array();
 		foreach ( $this->store->references( $ref ) as $name => $key ) {
 			$field = $this->fields->get_field( $key );
@@ -350,13 +456,19 @@ final class ValueManager {
 			$subs = 'layouts' === $kind ? self::find_layout( $field, $layouts[ $i ] )['sub_fields'] : $field['sub_fields'];
 			// A row that switched layout leaves the old layout's values behind; remove them.
 			if ( 'layouts' === $kind && isset( $old_layouts[ $i ] ) && $old_layouts[ $i ] !== $layouts[ $i ] ) {
-				$this->delete_row( $field, $kind, $i, $old_layouts[ $i ], $ref );
+				// Deleted now: the new layout may store values under the same names.
+				$names = array();
+				$this->delete_row( $field, $kind, $i, $old_layouts[ $i ], $ref, $names );
+				$this->store->delete_many( $ref, $names );
 			}
 			$this->save_subs( self::row_parent( $field, $i ), $subs, $row, $ref );
 		}
+		// Rows that no longer exist go in one query.
+		$names = array();
 		for ( $i = count( $rows ), $old = count( $old_layouts ); $i < $old; $i++ ) {
-			$this->delete_row( $field, $kind, $i, $old_layouts[ $i ], $ref );
+			$this->delete_row( $field, $kind, $i, $old_layouts[ $i ], $ref, $names );
 		}
+		$this->store->delete_many( $ref, $names );
 
 		// No rows where ACF stored an empty string: keep it, nothing changed.
 		if ( array() === $rows && '' === $this->store->get( $ref, $field['name'] ) ) {
@@ -382,15 +494,16 @@ final class ValueManager {
 	}
 
 	/**
-	 * Deletes the stored values of one row.
+	 * Collects the storage names of one row's values (any depth) for deletion.
 	 *
 	 * @param array<string, mixed> $field  Field.
 	 * @param string               $kind   `rows` or `layouts`.
 	 * @param int                  $i      Row index.
 	 * @param string               $layout Layout name of the row (flexible content).
 	 * @param ObjectRef            $ref    Object.
+	 * @param string[]             $names  Names to delete (appended to).
 	 */
-	private function delete_row( array $field, string $kind, int $i, string $layout, ObjectRef $ref ): void {
+	private function delete_row( array $field, string $kind, int $i, string $layout, ObjectRef $ref, array &$names ): void {
 		$subs = $field['sub_fields'] ?? array();
 		if ( 'layouts' === $kind ) {
 			$found = self::find_layout( $field, $layout );
@@ -399,8 +512,8 @@ final class ValueManager {
 		$parent = self::row_parent( $field, $i );
 		foreach ( $subs as $sub ) {
 			$child = self::child( $parent, $sub );
-			$this->delete_children( $child, $ref );
-			$this->store->delete( $ref, $child['name'] );
+			$this->delete_children( $child, $ref, $names );
+			$names[] = $child['name'];
 		}
 	}
 
@@ -447,30 +560,33 @@ final class ValueManager {
 		if ( ! $field ) {
 			return $this->store->delete( $ref, $selector );
 		}
-		$this->delete_children( $field, $ref );
-		return $this->store->delete( $ref, $field['name'] );
+		$names = array();
+		$this->delete_children( $field, $ref, $names );
+		$names[] = $field['name'];
+		return $this->store->delete_many( $ref, $names );
 	}
 
 	/**
-	 * Deletes stored sub values of a compound field (any depth).
+	 * Collects the storage names of a compound field's sub values (any depth) for deletion.
 	 *
 	 * @param array<string, mixed> $field Field.
 	 * @param ObjectRef            $ref   Object.
+	 * @param string[]             $names Names to delete (appended to).
 	 */
-	private function delete_children( array $field, ObjectRef $ref ): void {
+	private function delete_children( array $field, ObjectRef $ref, array &$names ): void {
 		$handler = $this->types->get( $field['type'] );
 		$kind    = $handler ? $handler->compound() : null;
 		if ( 'rows' === $kind || 'layouts' === $kind ) {
 			foreach ( $this->stored_layouts( $field, $kind, $ref ) as $i => $layout ) {
-				$this->delete_row( $field, $kind, $i, $layout, $ref );
+				$this->delete_row( $field, $kind, $i, $layout, $ref, $names );
 			}
 			return;
 		}
 		if ( 'group' === $kind ) {
 			foreach ( $field['sub_fields'] as $sub ) {
 				$child = self::child( $field, $sub );
-				$this->delete_children( $child, $ref );
-				$this->store->delete( $ref, $child['name'] );
+				$this->delete_children( $child, $ref, $names );
+				$names[] = $child['name'];
 			}
 		}
 	}

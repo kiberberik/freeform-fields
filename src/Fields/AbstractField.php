@@ -191,6 +191,42 @@ abstract class AbstractField {
 	}
 
 	/**
+	 * Whether a picked post (or attachment) may be returned by format_value() to the current user:
+	 * published ones always, others only when the user can read them. Without it, a contributor
+	 * could put a private post's ID into a block's data and see its title in the preview.
+	 * Filter `wpff/format/readable_post` (bool, $post, $field) to change the answer.
+	 *
+	 * @param \WP_Post             $post  Post or attachment.
+	 * @param array<string, mixed> $field Field.
+	 */
+	protected static function can_show_post( \WP_Post $post, array $field ): bool {
+		if ( 'attachment' === $post->post_type ) {
+			// Media files are public anyway; only those of private posts are hidden. Files
+			// uploaded to drafts or to posts deleted since keep showing, as before.
+			$parent = $post->post_parent ? get_post( $post->post_parent ) : null;
+			$hidden = 'private' === $post->post_status || ( $parent && 'private' === $parent->post_status );
+		} else {
+			$hidden = 'publish' !== $post->post_status;
+		}
+		$readable = ! $hidden || current_user_can( 'read_post', $post->ID );
+		return (bool) apply_filters( 'wpff/format/readable_post', $readable, $post, $field );
+	}
+
+	/**
+	 * Attachment ID to show in an input, or 0 when it is not an attachment the user may see.
+	 * Inputs can be rendered from unvalidated data (the block form endpoint), so the URL of
+	 * a media file must not be printed for an ID the user could not have selected.
+	 *
+	 * @param mixed                $id    Value.
+	 * @param array<string, mixed> $field Field.
+	 */
+	protected static function shown_attachment( $id, array $field ): int {
+		$id   = absint( is_scalar( $id ) ? $id : 0 );
+		$post = $id ? get_post( $id ) : null;
+		return $post && 'attachment' === $post->post_type && self::can_show_post( $post, $field ) ? $id : 0;
+	}
+
+	/**
 	 * Builds one settings() item.
 	 *
 	 * @param string               $name    Setting key.

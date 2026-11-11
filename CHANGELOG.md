@@ -2,6 +2,21 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.4.4] — 2026-11-11
+
+### Security
+- Field groups, options pages and post type/taxonomy definitions can now be read, edited or deleted only with the plugin's admin capability (`wpff/capability`, default `manage_options`), and are refused over XML-RPC. Before, they used ordinary post capabilities, so an Editor could rewrite them with `wp.editPost` — for example point an options page at core options and set `default_role` to `administrator`.
+- Password fields inside Group, Repeater and Flexible Content fields are no longer returned by the REST `acf` property or the acf/v3 emulation. Before, only top-level Password fields were left out, so nested ones were readable by anyone who could read the object.
+- REST output no longer includes password-protected posts linked from relational fields unless the requester can edit them. With the acf/v3 emulation, a subscriber received the linked post's full content and its password.
+- File, Image and Gallery inputs no longer print the URL of attachments the user may not see. Any contributor could pass an attachment ID to the block form endpoint (`/wpff/v1/blocks/form`) and get the URL of media attached to a private post.
+- Post Object, Relationship and Page Link fields no longer return drafts and private posts to users who cannot read them, and Image, File and Gallery fields leave out attachments of private posts. A contributor could put a private post's ID into a block's data and see its title in the preview. Raw values (`get_field( $name, $id, false )`) are unchanged. Filter: `wpff/format/readable_post`.
+
+### Performance
+- Values read with `get_field()` and `get_fields()` are kept for the rest of the request: reading the same field again costs nothing. They are cleared when meta or options change, also when written by other code. Filter: `wpff/cache_values`.
+- Field groups saved in the admin and Local JSON files are kept in the object cache between requests, and read again after a group is saved, trashed, restored or deleted, or a JSON file changes. Filter: `wpff/cache_field_groups`.
+- Removed repeater and flexible content rows are deleted in one query per object (removing 100 rows of three fields: 1,204 → 4 queries). WordPress's delete meta hooks still run for each key.
+- `update_field()` in a loop no longer reads all meta of the object again on every call (100 fields: 301 → 202 queries).
+
 ## [1.4.3] — 2026-11-11
 
 ### Security

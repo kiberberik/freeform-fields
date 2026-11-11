@@ -103,6 +103,7 @@ final class Plugin {
 		// and a theme that bundles its own ACF can be detected before it declares the same functions.
 		add_action( 'setup_theme', array( $this, 'load_compat_layer' ), 1 );
 		add_action( 'init', array( $this, 'init' ), 5 );
+		add_filter( 'xmlrpc_allow_post_type_writes', array( self::class, 'block_xmlrpc_config_writes' ), 10, 2 );
 		add_filter( 'wpff/options_autoload', array( $this, 'options_autoload' ), 10, 2 );
 		$this->blocks->register_hooks();
 		\FreeformFields\Registry\AcfStamp::register();
@@ -163,11 +164,9 @@ final class Plugin {
 				'rewrite'         => false,
 				'query_var'       => false,
 				'supports'        => array( 'title' ),
-				'capability_type' => 'post',
+				'capability_type' => array( 'wpff_config', 'wpff_configs' ),
 				'map_meta_cap'    => true,
-				'capabilities'    => array(
-					'create_posts' => 'manage_options',
-				),
+				'capabilities'    => self::config_capabilities(),
 			)
 		);
 
@@ -183,11 +182,9 @@ final class Plugin {
 				'rewrite'         => false,
 				'query_var'       => false,
 				'supports'        => array( 'title' ),
-				'capability_type' => 'post',
+				'capability_type' => array( 'wpff_config', 'wpff_configs' ),
 				'map_meta_cap'    => true,
-				'capabilities'    => array(
-					'create_posts' => 'manage_options',
-				),
+				'capabilities'    => self::config_capabilities(),
 			)
 		);
 
@@ -405,6 +402,58 @@ final class Plugin {
 			}
 		}
 		return (bool) $autoload;
+	}
+
+	/**
+	 * Primitive capabilities for the internal config post types (field groups, options pages,
+	 * post type/taxonomy definitions). Every one of them maps to admin_capability(), so no core
+	 * path (XML-RPC, quick edit, trash/delete) lets a role with ordinary post capabilities
+	 * (e.g. Editor) read, edit or delete configuration. Meta capabilities (edit_post, etc.)
+	 * keep their default names: renaming them to a real capability would register that
+	 * capability as a post meta cap site-wide.
+	 *
+	 * @return array<string, string>
+	 */
+	public static function config_capabilities(): array {
+		return array_fill_keys(
+			array(
+				'read',
+				'edit_posts',
+				'edit_others_posts',
+				'edit_private_posts',
+				'edit_published_posts',
+				'publish_posts',
+				'read_private_posts',
+				'delete_posts',
+				'delete_private_posts',
+				'delete_published_posts',
+				'delete_others_posts',
+				'create_posts',
+			),
+			self::admin_capability()
+		);
+	}
+
+	/**
+	 * Post types that store plugin configuration.
+	 *
+	 * @return string[]
+	 */
+	public static function config_post_types(): array {
+		return array_merge( array( self::GROUP_POST_TYPE, OptionsPages::POST_TYPE ), array_values( ContentTypes::POST_TYPES ) );
+	}
+
+	/**
+	 * Refuses XML-RPC writes to the config post types (the REST/admin UI is the only writer).
+	 *
+	 * @param bool          $allowed   Whether the post type accepts XML-RPC writes.
+	 * @param \WP_Post_Type $post_type Post type object.
+	 */
+	public static function block_xmlrpc_config_writes( $allowed, $post_type ): bool {
+		if ( $post_type instanceof \WP_Post_Type && in_array( $post_type->name, self::config_post_types(), true ) ) {
+			return false;
+		}
+		return (bool) $allowed;
 	}
 
 	/**
