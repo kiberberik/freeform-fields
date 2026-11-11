@@ -4,6 +4,7 @@
  *
  * Keyboard: ↑/↓ or typing a letter opens it; ↑/↓, Home/End move, Enter picks, Esc closes.
  */
+import type { KeyboardEvent, ReactNode } from 'react';
 import {
 	useEffect,
 	useLayoutEffect,
@@ -15,21 +16,41 @@ import { useInstanceId } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 import { BaseControl, Icon, Popover } from '@wordpress/components';
 import { check, chevronDown } from '@wordpress/icons';
+import type { SelectOption } from './types';
+
+export type { SelectOption };
+
+interface SelectProps {
+	label: string;
+	hideLabelFromVision?: boolean;
+	value: string | number | null | undefined;
+	options?: SelectOption[];
+	onChange: ( value: string ) => void;
+	help?: ReactNode;
+	className?: string;
+	placeholder?: string;
+	disabled?: boolean;
+	searchable?: boolean;
+	/** Accepted for SelectControl compatibility; the control always renders at this size. */
+	__next40pxDefaultSize?: boolean;
+	/** Accepted for SelectControl compatibility; the control always renders without a margin. */
+	__nextHasNoMarginBottom?: boolean;
+}
 
 const SEARCH_FROM = 9;
 
 /**
- * @param {Object}   props
- * @param {string}   props.label                 Label.
- * @param {boolean}  [props.hideLabelFromVision] Visually hidden label.
- * @param {string}   props.value                 Selected value.
- * @param {Array}    props.options               [{ value, label, group?, icon?, hint?, disabled? }].
- * @param {Function} props.onChange              Receives the new value.
- * @param {*}        [props.help]                Help text.
- * @param {string}   [props.className]           Extra class.
- * @param {string}   [props.placeholder]         Shown when no option matches the value.
- * @param {boolean}  [props.disabled]            Disabled.
- * @param {boolean}  [props.searchable]          Force the search box on or off.
+ * @param props
+ * @param props.label               Label.
+ * @param props.hideLabelFromVision Visually hidden label.
+ * @param props.value               Selected value.
+ * @param props.options             [{ value, label, group?, icon?, hint?, disabled? }].
+ * @param props.onChange            Receives the new value.
+ * @param props.help                Help text.
+ * @param props.className           Extra class.
+ * @param props.placeholder         Shown when no option matches the value.
+ * @param props.disabled            Disabled.
+ * @param props.searchable          Force the search box on or off.
  */
 export default function Select( {
 	label,
@@ -42,11 +63,11 @@ export default function Select( {
 	placeholder,
 	disabled,
 	searchable,
-} ) {
+}: SelectProps ) {
 	const id = useInstanceId( Select, 'wpff-select' );
-	const buttonRef = useRef();
-	const listRef = useRef();
-	const searchRef = useRef();
+	const buttonRef = useRef< HTMLButtonElement >( null );
+	const listRef = useRef< HTMLUListElement >( null );
+	const searchRef = useRef< HTMLInputElement >( null );
 	const [ open, setOpen ] = useState( false );
 	const [ query, setQuery ] = useState( '' );
 	const [ active, setActive ] = useState( -1 );
@@ -60,7 +81,7 @@ export default function Select( {
 	const visible = useMemo( () => {
 		const q = query.trim().toLowerCase();
 		// Keep each group together, in the order groups first appear.
-		const order = [];
+		const order: Array< string | undefined > = [];
 		options.forEach( ( o ) => {
 			if ( ! order.includes( o.group ) ) {
 				order.push( o.group );
@@ -104,7 +125,7 @@ export default function Select( {
 		}
 	};
 
-	const pick = ( option ) => {
+	const pick = ( option: SelectOption | undefined ) => {
 		if ( ! option || option.disabled ) {
 			return;
 		}
@@ -147,7 +168,7 @@ export default function Select( {
 		// eslint-disable-next-line react-hooks/exhaustive-deps -- recompute on open and on search.
 	}, [ open, query ] );
 
-	const step = ( from, delta ) => {
+	const step = ( from: number, delta: number ) => {
 		let i = from;
 		for ( let n = 0; n < visible.length; n++ ) {
 			i = ( i + delta + visible.length ) % visible.length;
@@ -158,7 +179,7 @@ export default function Select( {
 		return from;
 	};
 
-	const onListKey = ( e ) => {
+	const onListKey = ( e: KeyboardEvent ) => {
 		switch ( e.key ) {
 			case 'ArrowDown':
 				e.preventDefault();
@@ -213,7 +234,7 @@ export default function Select( {
 		}
 	};
 
-	const onButtonKey = ( e ) => {
+	const onButtonKey = ( e: KeyboardEvent ) => {
 		if ( [ 'ArrowDown', 'ArrowUp', 'Enter', ' ' ].includes( e.key ) ) {
 			e.preventDefault();
 			openList();
@@ -225,7 +246,7 @@ export default function Select( {
 		}
 	};
 
-	let lastGroup = null;
+	let lastGroup: string | null = null;
 	const listId = `${ id }-list`;
 
 	return (

@@ -7,30 +7,51 @@
  */
 import { __ } from '@wordpress/i18n';
 import Select from './Select';
+import type { ReactElement } from 'react';
+import type { Field } from '../types';
 
 export const IGNORE = 0;
 export const COPY = 1;
 export const TRANSLATE = 2;
 export const COPY_ONCE = 3;
 
-export const MODES = [ 'translation', 'localization', 'advanced' ];
+export type Mode = 'translation' | 'localization' | 'advanced';
+
+export const MODES: Mode[] = [ 'translation', 'localization', 'advanced' ];
+
+/** What the translation setup reads from a group. */
+export interface TranslatableGroup {
+	fields: Field[];
+	acfml_field_group_mode?: unknown;
+}
+
+/** Patch the setup panel hands to `set`. */
+export interface GroupPatch {
+	acfml_field_group_mode: Mode;
+	fields?: Field[];
+}
+
+const isMode = ( value: unknown ): value is Mode =>
+	MODES.includes( value as Mode );
 
 /**
  * Multilingual settings from the server, or null when no multilingual plugin is active.
  *
- * @return {Object|null} Settings.
+ * @return Settings.
  */
-export function multilingual() {
+export function multilingual(): NonNullable<
+	Window[ 'wpffBuilder' ]
+>[ 'multilingual' ] {
 	return window.wpffBuilder?.multilingual || null;
 }
 
 /**
  * Whether any field (at any depth) has a stored preference.
  *
- * @param {Array} fields Fields.
- * @return {boolean} Found.
+ * @param fields Fields.
+ * @return Found.
  */
-function hasPreferences( fields = [] ) {
+function hasPreferences( fields: Field[] = [] ): boolean {
 	return fields.some(
 		( field ) =>
 			( undefined !== field.wpml_cf_preferences &&
@@ -46,11 +67,11 @@ function hasPreferences( fields = [] ) {
 /**
  * Mode of a group, as the server decides it.
  *
- * @param {Object} group Group.
- * @return {string} Mode.
+ * @param group Group.
+ * @return Mode.
  */
-export function modeOf( group ) {
-	if ( MODES.includes( group.acfml_field_group_mode ) ) {
+export function modeOf( group: TranslatableGroup ): Mode {
+	if ( isMode( group.acfml_field_group_mode ) ) {
 		return group.acfml_field_group_mode;
 	}
 	// Same default as the server: nothing is kept in sync until an option is chosen.
@@ -60,11 +81,11 @@ export function modeOf( group ) {
 /**
  * Preference a field gets from its type in a mode.
  *
- * @param {Object} field Field.
- * @param {string} mode  Group mode.
- * @return {number} Preference.
+ * @param field Field.
+ * @param mode  Group mode.
+ * @return Preference.
  */
-export function defaultPreference( field, mode ) {
+export function defaultPreference( field: Field, mode: string ): number {
 	const textTypes = multilingual()?.textTypes || [
 		'text',
 		'textarea',
@@ -79,11 +100,11 @@ export function defaultPreference( field, mode ) {
 /**
  * Preference that applies to a field.
  *
- * @param {Object} field Field.
- * @param {string} mode  Group mode.
- * @return {number} Preference.
+ * @param field Field.
+ * @param mode  Group mode.
+ * @return Preference.
  */
-export function preferenceOf( field, mode ) {
+export function preferenceOf( field: Field, mode: string ): number {
 	const stored = Number( field.wpml_cf_preferences );
 	if (
 		'advanced' === mode &&
@@ -99,9 +120,9 @@ export function preferenceOf( field, mode ) {
 /**
  * Preference labels.
  *
- * @return {Object} Preference => label.
+ * @return Preference => label.
  */
-export function preferenceLabels() {
+export function preferenceLabels(): Record< number, string > {
 	return {
 		[ IGNORE ]: __( 'Don’t translate', 'freeform-fields' ),
 		[ COPY ]: __( 'Copy', 'freeform-fields' ),
@@ -113,9 +134,9 @@ export function preferenceLabels() {
 /**
  * Mode labels for lists.
  *
- * @return {Object} Mode => label.
+ * @return Mode => label.
  */
-export function modeLabels() {
+export function modeLabels(): Record< string, string > {
 	return {
 		translation: __( 'Same fields across languages', 'freeform-fields' ),
 		localization: __(
@@ -129,13 +150,13 @@ export function modeLabels() {
 /**
  * Sets every field's stored preference (any depth) to what it gets in `mode`, keeping those already set.
  *
- * @param {Array}  fields Fields.
- * @param {string} mode   Mode whose defaults fill missing preferences.
- * @return {Array} Fields.
+ * @param fields Fields.
+ * @param mode   Mode whose defaults fill missing preferences.
+ * @return Fields.
  */
-function fillPreferences( fields = [], mode ) {
+function fillPreferences( fields: Field[] = [], mode: string ): Field[] {
 	return fields.map( ( field ) => {
-		const next = {
+		const next: Field = {
 			...field,
 			wpml_cf_preferences: preferenceOf( field, mode ),
 		};
@@ -152,7 +173,11 @@ function fillPreferences( fields = [], mode ) {
 	} );
 }
 
-function Pages( { variant } ) {
+interface PagesProps {
+	variant: 'same' | 'different';
+}
+
+function Pages( { variant }: PagesProps ) {
 	const colors =
 		'different' === variant
 			? [ '#e8f3ef', '#fdf2e3', '#fbe9e7' ]
@@ -232,18 +257,25 @@ function Gear() {
 	);
 }
 
+interface MultilingualSetupProps {
+	/** Group. */
+	group: TranslatableGroup;
+	/** Receives a patch for the group. */
+	set: ( patch: GroupPatch ) => void;
+}
+
 /**
  * Panel with the three translation modes.
  *
- * @param {Object}   props       Props.
- * @param {Object}   props.group Group.
- * @param {Function} props.set   Receives a patch for the group.
+ * @param props       Props.
+ * @param props.group Group.
+ * @param props.set   Receives a patch for the group.
  */
-export function MultilingualSetup( { group, set } ) {
+export function MultilingualSetup( { group, set }: MultilingualSetupProps ) {
 	const mode = modeOf( group );
-	const chosen = MODES.includes( group.acfml_field_group_mode );
-	const choose = ( next ) => {
-		const patch = { acfml_field_group_mode: next };
+	const chosen = isMode( group.acfml_field_group_mode );
+	const choose = ( next: Mode ) => {
+		const patch: GroupPatch = { acfml_field_group_mode: next };
 		// Entering the expert mode keeps what each field did so far.
 		if ( 'advanced' === next && 'advanced' !== mode ) {
 			patch.fields = fillPreferences( group.fields, mode );
@@ -251,7 +283,12 @@ export function MultilingualSetup( { group, set } ) {
 		set( patch );
 	};
 
-	const options = [
+	const options: Array< {
+		value: Mode;
+		art: ReactElement;
+		title: string;
+		text: string[];
+	} > = [
 		{
 			value: 'translation',
 			art: <Pages variant="same" />,
@@ -373,15 +410,28 @@ export function MultilingualSetup( { group, set } ) {
 	);
 }
 
+interface FieldTranslationProps {
+	/** Field. */
+	field: Field;
+	/** Group mode. */
+	mode: string;
+	/** Receives the new preference. */
+	onChange: ( preference: number ) => void;
+}
+
 /**
  * Translation preference of one field (field settings).
  *
- * @param {Object}   props          Props.
- * @param {Object}   props.field    Field.
- * @param {string}   props.mode     Group mode.
- * @param {Function} props.onChange Receives the new preference.
+ * @param props          Props.
+ * @param props.field    Field.
+ * @param props.mode     Group mode.
+ * @param props.onChange Receives the new preference.
  */
-export function FieldTranslation( { field, mode, onChange } ) {
+export function FieldTranslation( {
+	field,
+	mode,
+	onChange,
+}: FieldTranslationProps ) {
 	const labels = preferenceLabels();
 	const current = preferenceOf( field, mode );
 	if ( 'advanced' !== mode ) {
@@ -400,7 +450,7 @@ export function FieldTranslation( { field, mode, onChange } ) {
 			</p>
 		);
 	}
-	const help = {
+	const help: Record< number, string > = {
 		[ IGNORE ]: __(
 			'Translations keep their own value; nothing is copied.',
 			'freeform-fields'
