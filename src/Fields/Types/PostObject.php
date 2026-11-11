@@ -137,7 +137,8 @@ class PostObject extends RelationalField {
 		$ids = self::ids( $value );
 		$out = array();
 		if ( count( $ids ) > 1 ) {
-			_prime_post_caches( $ids, false, false );
+			// With meta: templates usually read fields of the picked posts next.
+			_prime_post_caches( $ids, false, true );
 		}
 		foreach ( $ids as $id ) {
 			$post = get_post( $id );

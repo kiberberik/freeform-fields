@@ -2,6 +2,20 @@
 
 All notable changes to this project are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Security
+- Front-end forms: two-way relationships no longer write the form's post into posts the visitor cannot edit. Before, a logged-out visitor could link their submission to any published post.
+- Front-end form settings are now valid only for the user they were shown to and for two days (filter `wpff/form_lifetime`). A form shown only to editors can no longer be replayed by someone else.
+- Block data saved by users without `unfiltered_html` goes through each field type's sanitizing and validation, like the block's form: values outside a select's choices, links to posts the author cannot read and `_name` references to fields outside the block are dropped.
+- "ACF to REST API" emulation: linked drafts and private posts are left out, and users are returned without e-mail and registration date unless the requester may list users. A User field returning objects no longer exposes `WP_User` (whose data holds the password hash).
+- Password fields are never returned by the REST API, even in groups shown in REST.
+
+### Performance
+- The check for ACF's own field groups and options pages no longer queries the posts table on every request: its result is kept in one autoloaded option, cleared when ACF's posts change and refreshed daily.
+- oEmbed fields use WordPress's embed cache instead of asking the provider on every page view.
+- Images, files and posts picked inside repeater and flexible content rows are loaded in one query for all rows. Posts picked in Post Object and Relationship fields are loaded with their fields.
+
 ## [1.4.2] — 2026-11-11
 
 ### Fixed

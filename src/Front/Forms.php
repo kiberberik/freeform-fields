@@ -10,6 +10,7 @@ namespace FreeformFields\Front;
 use FreeformFields\Admin\Assets;
 use FreeformFields\Admin\FieldRenderer;
 use FreeformFields\Admin\FormSupport;
+use FreeformFields\Fields\Bidirectional;
 use FreeformFields\Hooks;
 use FreeformFields\Plugin;
 use FreeformFields\Storage\ObjectRef;
@@ -196,11 +197,15 @@ final class Forms {
 			return;
 		}
 		$ref = ObjectRef::parse( $post_id );
-		foreach ( $result['values'] as $key => $value ) {
-			if ( isset( $fields[ $key ] ) && $ref ) {
-				Plugin::instance()->values()->save( $fields[ $key ], $value, $ref );
+		Bidirectional::as_visitor(
+			function () use ( $result, $fields, $ref ) {
+				foreach ( $result['values'] as $key => $value ) {
+					if ( isset( $fields[ $key ] ) && $ref ) {
+						Plugin::instance()->values()->save( $fields[ $key ], $value, $ref );
+					}
+				}
 			}
-		}
+		);
 
 		$fake_acf = Plugin::compat_enabled() && ! isset( $_POST['acf'] );
 		if ( $fake_acf ) {
@@ -408,7 +413,10 @@ final class Forms {
 	 */
 	private static function sign( array $args ): string {
 		$keep = array_intersect_key( $args, array_flip( array( 'id', 'post_id', 'new_post', 'field_groups', 'fields', 'post_title', 'post_content', 'return', 'honeypot', 'kses' ) ) );
-		$json = (string) wp_json_encode( $keep );
+		// Only the visitor the form was shown to may submit it, and only for a while.
+		$keep['_uid'] = get_current_user_id();
+		$keep['_exp'] = time() + (int) apply_filters( 'wpff/form_lifetime', 2 * DAY_IN_SECONDS );
+		$json         = (string) wp_json_encode( $keep );
 		return base64_encode( $json ) . '.' . hash_hmac( 'sha256', $json, wp_salt( 'nonce' ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- transport encoding.
 	}
 
@@ -426,6 +434,10 @@ final class Forms {
 			return null;
 		}
 		$args = json_decode( $json, true );
-		return is_array( $args ) ? wp_parse_args( $args, self::defaults() ) : null;
+		if ( ! is_array( $args ) || ( $args['_uid'] ?? null ) !== get_current_user_id() || (int) ( $args['_exp'] ?? 0 ) < time() ) {
+			return null;
+		}
+		unset( $args['_uid'], $args['_exp'] );
+		return wp_parse_args( $args, self::defaults() );
 	}
 }
