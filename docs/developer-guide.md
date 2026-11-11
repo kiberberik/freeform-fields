@@ -308,7 +308,7 @@ When WPML or Polylang is active, fields follow translations the way ACF does wit
 | Different fields across languages | `localization` | Translate | Copy once |
 | Expert | `advanced` | The field's own choice | The field's own choice |
 
-In the expert option each field has a "Translation" setting (field setting `wpml_cf_preferences`): `0` don't translate, `1` copy, `2` translate, `3` copy once. A group without an option uses "Expert" when its fields have preferences (groups from older ACFML), otherwise "Same fields". New groups start with "Same fields".
+In the expert option each field has a "Translation" setting (field setting `wpml_cf_preferences`): `0` don't translate, `1` copy, `2` translate, `3` copy once. A group without an option uses "Expert" when its fields have preferences (groups from older ACFML), otherwise "Different fields across languages", so groups that existed before multilingual support never overwrite values in existing translations until you choose an option. New groups start with "Same fields".
 
 - **Copy:** the original's value goes to every translation and stays in sync. The number of rows of a repeater or flexible content field is copied too, so translations have the same structure.
 - **Copy once:** copied when a translation is created, then each language keeps its own value.

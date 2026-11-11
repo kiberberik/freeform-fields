@@ -53,7 +53,8 @@ export function modeOf( group ) {
 	if ( MODES.includes( group.acfml_field_group_mode ) ) {
 		return group.acfml_field_group_mode;
 	}
-	return hasPreferences( group.fields ) ? 'advanced' : 'translation';
+	// Same default as the server: nothing is kept in sync until an option is chosen.
+	return hasPreferences( group.fields ) ? 'advanced' : 'localization';
 }
 
 /**
@@ -362,7 +363,7 @@ export function MultilingualSetup( { group, set } ) {
 									'freeform-fields'
 								)
 							: __(
-									'No option chosen yet: “Same fields across languages” applies.',
+									'No option chosen yet: “Different fields across languages” applies, so nothing is kept in sync between translations.',
 									'freeform-fields'
 								) }
 					</p>

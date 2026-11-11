@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T05:37:09+00:00\n"
+"POT-Creation-Date: 2026-11-11T05:45:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: freeform-fields\n"
@@ -1943,7 +1943,7 @@ msgid "No option chosen yet: the preferences set on each field apply."
 msgstr ""
 
 #: build/builder.js:1
-msgid "No option chosen yet: “Same fields across languages” applies."
+msgid "No option chosen yet: “Different fields across languages” applies, so nothing is kept in sync between translations."
 msgstr ""
 
 #: build/builder.js:1

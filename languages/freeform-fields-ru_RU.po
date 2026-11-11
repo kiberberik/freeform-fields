@@ -3140,10 +3140,6 @@ msgid "No option chosen yet: the preferences set on each field apply."
 msgstr "Вариант ещё не выбран: действуют настройки, заданные у каждого поля."
 
 #: build/builder.js:1
-msgid "No option chosen yet: “Same fields across languages” applies."
-msgstr "Вариант ещё не выбран: действует «Одинаковые поля во всех языках»."
-
-#: build/builder.js:1
 msgid "Don’t translate"
 msgstr "Не переводить"
 
@@ -3193,3 +3189,7 @@ msgstr "У элемента %d нет ключа типа записи или т
 #: src/Tools/ImportExport.php:128
 msgid "Item %d is an options page without a menu slug."
 msgstr "Элемент %d — страница настроек без слага меню."
+
+#: build/builder.js:1
+msgid "No option chosen yet: “Different fields across languages” applies, so nothing is kept in sync between translations."
+msgstr "Вариант ещё не выбран: действует «Разные поля в разных языках», поэтому между переводами ничего не синхронизируется."

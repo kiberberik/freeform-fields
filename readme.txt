@@ -4,7 +4,7 @@ Tags: custom fields, meta box, repeater, options page, blocks
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,9 @@ Yes. Each field group has a translation option (same fields, different fields, o
 No. Without a key the Map field uses OpenStreetMap. Add a key only if you prefer Google Maps.
 
 == Changelog ==
+
+= 1.4.1 =
+* Safer update on sites that already have translations: field groups without a translation option keep each language's values apart until you choose an option.
 
 = 1.4.0 =
 * Multilingual sites with WPML or Polylang: a translation option per field group (same fields, different fields, or expert per field), compatible with ACFML's settings.
